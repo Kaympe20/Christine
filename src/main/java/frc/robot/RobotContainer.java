@@ -4,17 +4,24 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.utility.IO;
 
 public class RobotContainer {
+  SendableChooser<Runnable> bindings = new SendableChooser<Runnable>();
+  SendableChooser<Command> autos = new SendableChooser<Command>();
+
+  public IO io = new IO(bindings, autos);
+
   public RobotContainer() {
-    configureBindings();
+    io.configGlobal();
+    io.configTesting();
   }
 
-  private void configureBindings() {}
+  public void addAutos(){}
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command configured");
+    return autos.getSelected();
   }
 }
