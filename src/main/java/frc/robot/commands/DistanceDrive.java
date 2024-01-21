@@ -24,12 +24,12 @@ public class DistanceDrive extends Command {
 
   @Override
   public void execute() {
-    io.chassis.drive(new ChassisSpeeds(0, 0.5, 0));
+    io.chassis.drive(new ChassisSpeeds(1.25, 0, 0));
   }
 
   @Override
   public void end(boolean interrupted) {
-    io.chassis.drive(new ChassisSpeeds(0, 0, 0));
+    io.chassis.stop();
   }
 
   @Override

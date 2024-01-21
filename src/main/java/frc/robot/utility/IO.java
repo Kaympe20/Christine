@@ -29,10 +29,11 @@ public class IO {
     }
 
     public void configTesting(){
-        driveController.a().onTrue(new InstantCommand(chassis::resetOdometry));
+        driveController.a().onTrue(new Aimbot(this));
         driveController.b().onTrue(new InstantCommand(chassis::resetSteerPositions));
         driveController.x().onTrue(new InstantCommand(chassis::syncEncoders));
-        driveController.y().onTrue(autoSelector.getSelected());
+        driveController.y().toggleOnTrue(new DistanceDrive(this, 2.3));
+        //driveController.y().onTrue(autoSelector.getSelected());
 
         driveController.leftBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = 0));
         driveController.rightBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Field_Oriented));
@@ -42,5 +43,6 @@ public class IO {
         driveController.povDownLeft().onTrue(new InstantCommand(chassis::resetAbsolute));
         driveController.povUpLeft().onTrue(new InstantCommand(chassis::disableChassis));
         driveController.povDownRight().onTrue(new InstantCommand(chassis::activeChassis));
+        driveController.back().onTrue(new InstantCommand(chassis::resetOdometry));
     }
 }

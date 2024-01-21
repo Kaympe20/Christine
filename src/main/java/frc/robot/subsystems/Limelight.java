@@ -8,16 +8,22 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Limelight extends SubsystemBase {
     
-  public final static double LIMELIGHT_HEIGHT = 0; // TODO: Measure and note height in cm
-  public final static double LIMELIGHT_ANGLE = 0; // TODO: Measure and note the angle in degrees
+  public final static double LIMELIGHT_HEIGHT = 0.228; // TODO: Measure and note height in cm
+  public final static double LIMELIGHT_ANGLE = 28; // TODO: Measure and note the angle in degrees
+
+  public ShuffleboardTab tab = Shuffleboard.getTab("Targeting");
 
   public Limelight() {
     setLedMode(0);
     setStreamMode(0);
+    tab.addDouble("Distance", this::distance);
+    tab.addDouble("Vertical Offset", () -> targetData.verticalOffset);
   }
 
   public class TargetData {
@@ -35,16 +41,14 @@ public class Limelight extends SubsystemBase {
 
   private TargetData targetData = new TargetData();
 
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  public NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
   @Override
   public void periodic() {
-    table = NetworkTableInstance.getDefault().getTable("limelight");
-    
     SmartDashboard.putString("Stream Mode", (streamMode() == 0) ? "Main" : "Secondary");
-    SmartDashboard.putNumber("Distance", distance());
 
     updateTargetData(table);
+    
     
     SmartDashboard.putNumberArray("TargetPose", tagPose());
   }
@@ -68,7 +72,7 @@ public class Limelight extends SubsystemBase {
     double a2 = targetData.verticalOffset;
     double a1 = LIMELIGHT_ANGLE;
     double h1 = LIMELIGHT_HEIGHT;
-    double h2 = tagPose()[1]; // [X,Y,Z,Roll,Pitch,Yaw]
+    double h2 = 2.05; // CURRENTLY A TEST LOCATION
 
     double result = h2 - h1;
     double radians = Math.toRadians(a1 + a2);
@@ -126,17 +130,17 @@ public class Limelight extends SubsystemBase {
       default:
       return table.getEntry("targetpose_robotspace").getDoubleArray( new double[] {-1,-1,-1, -1,-1,-1}); // TODO: Check if it returns [X,Y,Z,Roll,Pitch,Yaw]
       
-      case 4,3: // Red Alliance
-      return new double[]{0,0,0, 0,0,0}; // TODO: PLACEHOLDER
+      // case 4,3: // Red Alliance
+      // return new double[]{0,0,0, 0,0,0}; // TODO: PLACEHOLDER
 
-      case 7,8: // Blue Alliance
-      return new double[]{0,0,0, 0,0,0}; // TODO: PLACEHOLDER
+      // case 7,8: // Blue Alliance
+      // return new double[]{0,0,0, 0,0,0}; // TODO: PLACEHOLDER
 
-      case 5: // Red Alliance
-      return new double[]{0,0,0, 0,0,0}; // TODO: PLACEHOLDER
+      // case 5: // Red Alliance
+      // return new double[]{0,0,0, 0,0,0}; // TODO: PLACEHOLDER
 
-      case 6: // Blue Alliance
-      return new double[]{0,0,0, 0,0,0}; // TODO: PLACEHOLDER
+      // case 6: // Blue Alliance
+      // return new double[]{0,0,0, 0,0,0}; // TODO: PLACEHOLDER
 
     }
   }

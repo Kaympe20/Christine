@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.hardware.Pigeon2;
+
+import com.ctre.phoenix.sensors.Pigeon2;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -95,16 +96,16 @@ public class DriveSubsystem extends SubsystemBase {
         zeroGyro();
     }
 
-    public void zeroGyro() {
-        pigeon2.setYaw(0);
-    }
+     public void zeroGyro() {
+         pigeon2.setYaw(0);
+     }
 
     public Rotation2d rotation() {
-        return pigeon2.getRotation2d();
+        return new Rotation2d(pigeon2.getYaw());
     }
 
     public double absoluteRotation() {
-        double rot = Math.abs(pigeon2.getYaw().getValue()) % 360.0 * ((pigeon2.getYaw().getValue() < 0.0) ? -1.0 : 1.0);
+        double rot = Math.abs(pigeon2.getYaw()) % 360.0 * ((pigeon2.getYaw() < 0.0) ? -1.0 : 1.0);
         return (rot < 0.0) ? rot + 360.0 : rot; 
     }
 
@@ -219,14 +220,13 @@ public class DriveSubsystem extends SubsystemBase {
         Pose2d pose = odometry.update(rotation(), getModulePositions());
 
         // TODO: Wrap This Into A List, auto-order it too
-        SmartDashboard.putData(pigeon2);
         SmartDashboard.putNumber("X position", pose.getX());
         SmartDashboard.putNumber("Y position", pose.getY());
 
         SmartDashboard.putNumber("Odometry rotation", rotation().getDegrees());
-        SmartDashboard.putNumber("Pigeon Yaw", pigeon2.getYaw().getValue());
-        SmartDashboard.putNumber("Pigeon Pitch", pigeon2.getPitch().getValue());
-        SmartDashboard.putNumber("Pigeon Roll", pigeon2.getRoll().getValue());
+        SmartDashboard.putNumber("Pigeon Yaw", pigeon2.getYaw());
+        SmartDashboard.putNumber("Pigeon Pitch", pigeon2.getPitch());
+        SmartDashboard.putNumber("Pigeon Roll", pigeon2.getRoll());
 
         var drive_mode_display = "";
         switch(drive_mode){
