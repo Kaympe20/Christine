@@ -130,8 +130,8 @@ public class Limelight extends SubsystemBase {
       default:
       return table.getEntry("targetpose_robotspace").getDoubleArray( new double[] {-1,-1,-1, -1,-1,-1}); // TODO: Check if it returns [X,Y,Z,Roll,Pitch,Yaw]
       
-      // case 4,3: // Red Alliance
-      // return new double[]{0,0,0, 0,0,0}; // TODO: PLACEHOLDER
+      case 4,3: // Red Alliance
+      return new double[]{0,2.05,0, 0,0,0}; // TODO: PLACEHOLDER
 
       // case 7,8: // Blue Alliance
       // return new double[]{0,0,0, 0,0,0}; // TODO: PLACEHOLDER

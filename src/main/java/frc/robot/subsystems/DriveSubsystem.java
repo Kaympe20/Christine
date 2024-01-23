@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveSubsystem extends SubsystemBase {
     
-    public static double MAX_VOLTAGE = 5;
+    public static double MAX_VOLTAGE = 7;
     public int drive_mode = 0;
 
     public static final double MAX_VELOCITY_METERS_PER_SECOND = 3;
@@ -101,12 +101,13 @@ public class DriveSubsystem extends SubsystemBase {
      }
 
     public Rotation2d rotation() {
-        return new Rotation2d(pigeon2.getYaw());
+        return new Rotation2d(absoluteRotation());
     }
 
     public double absoluteRotation() {
-        double rot = Math.abs(pigeon2.getYaw()) % 360.0 * ((pigeon2.getYaw() < 0.0) ? -1.0 : 1.0);
-        return (rot < 0.0) ? rot + 360.0 : rot; 
+        // double rot = Math.abs(pigeon2.getYaw()) % 360.0 * ((pigeon2.getYaw() < 0.0) ? -1.0 : 1.0);
+        // return (rot < 0.0) ? rot + 360.0 : rot; 
+        return Math.toRadians(pigeon2.getYaw() %360);
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
@@ -218,6 +219,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void periodic() {
         if (active) setModuleStates(kinematics.toSwerveModuleStates(chassisSpeeds));
         Pose2d pose = odometry.update(rotation(), getModulePositions());
+        SmartDashboard.putNumber("YAW!!!", absoluteRotation());
 
         // TODO: Wrap This Into A List, auto-order it too
         SmartDashboard.putNumber("X position", pose.getX());

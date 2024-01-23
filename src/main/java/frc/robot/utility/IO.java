@@ -23,7 +23,7 @@ public class IO {
     }
 
     public void configGlobal(){
-        chassis.setDefaultCommand(new DefaultDrive(chassis, driveController));
+        chassis.setDefaultCommand(new DefaultDrive(this, driveController));
         
         DriverStation.silenceJoystickConnectionWarning(true);
     }

@@ -9,45 +9,47 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.utility.IO;
 
 import java.util.function.DoubleSupplier;
 
 public class DefaultDrive extends Command {
 
-    private final DriveSubsystem chassis;
+    private final IO io;
     private final DoubleSupplier x_supplier;
     private final DoubleSupplier y_supplier;
     private final DoubleSupplier rotation_supplier;
     private final SlewRateLimiter xLimiter = new SlewRateLimiter(4);
     private final SlewRateLimiter yLimiter = new SlewRateLimiter(4);
 
-    public DefaultDrive(DriveSubsystem chassis, ChassisSpeeds chassisSpeeds) {
-        this(chassis, () -> chassisSpeeds.vxMetersPerSecond, () -> chassisSpeeds.vyMetersPerSecond, () -> chassisSpeeds.omegaRadiansPerSecond);
+
+    public DefaultDrive(IO io, ChassisSpeeds chassisSpeeds) {
+        this(io, () -> chassisSpeeds.vxMetersPerSecond, () -> chassisSpeeds.vyMetersPerSecond, () -> chassisSpeeds.omegaRadiansPerSecond);
     }
 
-    public DefaultDrive(DriveSubsystem chassis, CommandXboxController controller) {
-        this(chassis, () -> -modifyAxis(controller.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+    public DefaultDrive(IO io, CommandXboxController controller) {
+        this(io, () -> -modifyAxis(controller.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> -modifyAxis(controller.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(controller.getRightX())* DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+        () -> modifyAxis(controller.getRightX())* DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
     }
   
-    public DefaultDrive(DriveSubsystem driveSubsystem,
+    public DefaultDrive(IO io,
         DoubleSupplier translationXSupplier,
         DoubleSupplier translationYSupplier,
         DoubleSupplier rotationSupplier) {
         
-        this.chassis = driveSubsystem;
+        this.io = io;
         this.x_supplier = translationXSupplier;
         this.y_supplier = translationYSupplier;
         this.rotation_supplier = rotationSupplier;
 
-        addRequirements(driveSubsystem);
+        addRequirements(io.chassis);
     }
     
     @Override
     public void execute() {
-        double xSpeed = xLimiter.calculate(x_supplier.getAsDouble());
-        double ySpeed = yLimiter.calculate(y_supplier.getAsDouble());
+        double xSpeed = x_supplier.getAsDouble() * 0.7;
+        double ySpeed = y_supplier.getAsDouble() * 0.7;
         double rotationSpeed = rotation_supplier.getAsDouble() * 0.7;
         
         ChassisSpeeds output = new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed);
@@ -59,14 +61,18 @@ public class DefaultDrive extends Command {
         Translation2d dist2d;
         Rotation2d adjustmentAngle;
 
-        switch (chassis.drive_mode) {
+        // if (!io.limelight.targetData().hasTargets && io.chassis.drive_mode > 1)
+        //     io.chassis.drive_mode = 1;
+
+        switch (io.chassis.drive_mode) {
             case 1: // Field-Oriented
-            output = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, chassis.rotation());
+            output = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, io.chassis.rotation());
             break;
             
             case 2: // Fixed-Point Tracking
-            point = SmartDashboard.getNumberArray("TargetPose", (double[]) null);
-            pose = chassis.getPose();
+            
+            point = io.limelight.tagPose();
+            pose = io.chassis.getPose();
             dist2d = pose.getTranslation().minus(new Translation2d(point[0], point[1]));
             distAngle = new Rotation2d(Math.atan2(dist2d.getY(), dist2d.getX()));
             adjustmentAngle = pose.getRotation().plus(distAngle);
@@ -75,22 +81,22 @@ public class DefaultDrive extends Command {
             break;
 
             case 3: // Fixed Alignment
-            point = SmartDashboard.getNumberArray("TargetPose", (double[]) null);
-            pose = chassis.getPose();
+            point = io.limelight.tagPose();
+            pose = io.chassis.getPose();
             dist2d = pose.getTranslation().minus(new Translation2d(point[0], point[1]));
             distAngle = new Rotation2d(Math.atan2(dist2d.getY(), dist2d.getX()));
             adjustmentAngle = pose.getRotation().plus(distAngle);
-            tr = new Translation2d(0, ySpeed).rotateBy(adjustmentAngle.unaryMinus());
+            tr = new Translation2d(0, xSpeed).rotateBy(adjustmentAngle.unaryMinus());
             output = new ChassisSpeeds(tr.getX(), tr.getY(), 0);
             break;
         }
 
-        chassis.drive(output);
+        io.chassis.drive(output);
     }
 
     @Override
     public void end(boolean interrupted) {
-        chassis.stop();
+        io.chassis.stop();
     }
 
     private static double deadband(double value, double deadband) {
