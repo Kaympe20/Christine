@@ -21,18 +21,22 @@ public final class Constants {
     public static final int FRONT_LEFT_DRIVE_MOTOR = 4;
     public static final int FRONT_LEFT_TURN_MOTOR = 5;
     public static final int FRONT_LEFT_ENCODER = 11;
+    public static double FRONT_LEFT_ENCODER_OFFSET;
 
     public static final int FRONT_RIGHT_DRIVE_MOTOR = 2;
     public static final int FRONT_RIGHT_TURN_MOTOR = 3;
     public static final int FRONT_RIGHT_ENCODER = 10;
+    public static double FRONT_RIGHT_ENCODER_OFFSET;
 
     public static final int BACK_LEFT_DRIVE_MOTOR = 6;
     public static final int BACK_LEFT_TURN_MOTOR = 7;
     public static final int BACK_LEFT_ENCODER = 12;
+    public static double BACK_LEFT_ENCODER_OFFSET;
 
     public static final int BACK_RIGHT_DRIVE_MOTOR = 8;
     public static final int BACK_RIGHT_TURN_MOTOR = 9;
     public static final int BACK_RIGHT_ENCODER = 13;
+    public static double BACK_RIGHT_ENCODER_OFFSET;
 
     public static final int PIGEON_ID = 14;
 
@@ -44,6 +48,13 @@ public final class Constants {
     public static final int Field_Oriented = 1;
     public static final int Fixed_Point_Tracking = 2;
     public static final int Fixed_Alignment = 3;
+    
+    public static final void setOffsets() {
+        FRONT_LEFT_ENCODER_OFFSET = -297;
+        FRONT_RIGHT_ENCODER_OFFSET = -100;
+        BACK_LEFT_ENCODER_OFFSET = -164;
+        BACK_RIGHT_ENCODER_OFFSET = -53;
+    }
 }
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = 0.2;
