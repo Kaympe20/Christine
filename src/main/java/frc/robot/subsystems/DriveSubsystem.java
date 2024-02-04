@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import frc.robot.modules.HeliumSwerveModule;
+import frc.robot.modules.KrakenSwerveModule;
 import frc.robot.modules.SwerveModule;
 import frc.robot.utility.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -58,7 +59,7 @@ public class DriveSubsystem extends SubsystemBase {
     public DriveSubsystem() {
         DriveConstants.setOffsets();
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
-        frontLeftModule = new HeliumSwerveModule(
+        frontLeftModule = new KrakenSwerveModule(
                 tab.getLayout("Front Left Module", BuiltInLayouts.kList)
                         .withSize(2, 4)
                         .withPosition(0, 0),
@@ -66,7 +67,7 @@ public class DriveSubsystem extends SubsystemBase {
                 DriveConstants.FRONT_LEFT_TURN_MOTOR,
                 DriveConstants.FRONT_LEFT_ENCODER,
                 DriveConstants.FRONT_LEFT_ENCODER_OFFSET);
-        frontRightModule = new HeliumSwerveModule(
+        frontRightModule = new KrakenSwerveModule(
                 tab.getLayout("Front Right Module", BuiltInLayouts.kList)
                         .withSize(2, 4)
                         .withPosition(2, 0),
@@ -74,7 +75,7 @@ public class DriveSubsystem extends SubsystemBase {
                 DriveConstants.FRONT_RIGHT_TURN_MOTOR,
                 DriveConstants.FRONT_RIGHT_ENCODER,
                 DriveConstants.FRONT_RIGHT_ENCODER_OFFSET);
-        backLeftModule = new HeliumSwerveModule(
+        backLeftModule = new KrakenSwerveModule(
                 tab.getLayout("Back Left Module", BuiltInLayouts.kList)
                         .withSize(2, 4)
                         .withPosition(4, 0),
@@ -82,7 +83,7 @@ public class DriveSubsystem extends SubsystemBase {
                 DriveConstants.BACK_LEFT_TURN_MOTOR,
                 DriveConstants.BACK_LEFT_ENCODER,
                 DriveConstants.BACK_LEFT_ENCODER_OFFSET);
-        backRightModule = new HeliumSwerveModule(
+        backRightModule = new KrakenSwerveModule(
                 tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                         .withSize(2, 4)
                         .withPosition(6, 0),
@@ -219,7 +220,6 @@ public class DriveSubsystem extends SubsystemBase {
     public void periodic() {
         if (active) setModuleStates(kinematics.toSwerveModuleStates(chassisSpeeds));
         Pose2d pose = odometry.update(rotation(), getModulePositions());
-        SmartDashboard.putNumber("YAW!!!", absoluteRotation());
 
         // TODO: Wrap This Into A List, auto-order it too
         SmartDashboard.putNumber("X position", pose.getX());
