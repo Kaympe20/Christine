@@ -41,8 +41,8 @@ public class IO {
         driveController.y().toggleOnTrue(new DistanceDrive(this, 2.3));
         // //driveController.y().onTrue(autoSelector.getSelected());
 
-        // driveController.leftBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = 0));
-        // driveController.rightBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Field_Oriented));
+        driveController.leftBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = 0));
+        driveController.rightBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Field_Oriented));
         // driveController.leftTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Fixed_Point_Tracking));
         // driveController.rightTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Fixed_Alignment));
 

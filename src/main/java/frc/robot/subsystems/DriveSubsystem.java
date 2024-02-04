@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveSubsystem extends SubsystemBase {
     
-    public static double MAX_VOLTAGE = 7;
+    public static double MAX_VOLTAGE = 5;
     public int drive_mode = 0;
 
     public static final double MAX_VELOCITY_METERS_PER_SECOND = 3;
