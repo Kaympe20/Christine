@@ -40,11 +40,10 @@ public class KrakenSwerveModule implements SwerveModule {
 
         TalonFXConfiguration configs = new TalonFXConfiguration();
 
-        CurrentLimitsConfigs currentConfigs = new CurrentLimitsConfigs();
-        configs.withCurrentLimits(currentConfigs.withSupplyCurrentLimit(40));//driveMotor.configSupplyCurrentLimit();
+        configs.CurrentLimits.SupplyCurrentLimit = 40;
+        configs.CurrentLimits.SupplyCurrentLimitEnable = true;
 
         driveMotor.getConfigurator().apply(configs);
-        driveMotor.setInverted(true);
         steerMotor.setSmartCurrentLimit(20);
 
         steerMotor.setIdleMode(IdleMode.kBrake);
@@ -78,7 +77,7 @@ public class KrakenSwerveModule implements SwerveModule {
         }
 
         public void resetSteerPosition() {
-            driveMotor.setPosition(steerAngle());
+            steerMotor.getEncoder().setPosition(steerAngle());
         }
 
         public void resetAbsolute() {
