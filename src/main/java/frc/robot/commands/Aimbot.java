@@ -26,7 +26,7 @@ public class Aimbot extends PIDCommand {
         () -> io.limelight.targetData().horizontalOffset,
         () -> 0,
         output -> {
-          io.chassis.drive(new ChassisSpeeds(0, 0, -1 * output * AimbotSpeed * Constants.DRIVE_MAX_VELOCITY_METERS_PER_SECOND));
+          io.chassis.drive(new ChassisSpeeds(0, 0, output * AimbotSpeed * Constants.DRIVE_MAX_VELOCITY_METERS_PER_SECOND));
         });
         this.io = io;
         addRequirements(io.chassis, io.limelight);

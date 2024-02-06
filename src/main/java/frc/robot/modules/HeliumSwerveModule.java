@@ -42,6 +42,7 @@ public class HeliumSwerveModule implements SwerveModule {
         steerMotor.getEncoder().setPositionConversionFactor(Math.PI * DriveConstants.STEER_REDUCTION);
         steerMotor.getEncoder().setVelocityConversionFactor(Math.PI * DriveConstants.STEER_REDUCTION / 60);
         steerMotor.getEncoder().setPosition(steerAngle());
+        
         driveMotor.setInverted(true);
         steerMotor.setInverted(false);
 
