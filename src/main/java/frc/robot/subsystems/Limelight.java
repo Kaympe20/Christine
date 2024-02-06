@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Limelight extends SubsystemBase {
-    
+
   public final static double LIMELIGHT_HEIGHT = 0.228; // TODO: Measure and note height in cm
   public final static double LIMELIGHT_ANGLE = 28; // TODO: Measure and note the angle in degrees
 
@@ -130,17 +130,33 @@ public class Limelight extends SubsystemBase {
       default:
       return table.getEntry("targetpose_robotspace").getDoubleArray( new double[] {-1,-1,-1, -1,-1,-1}); // TODO: Check if it returns [X,Y,Z,Roll,Pitch,Yaw]
       
-      case 4,3: // Red Alliance
-      return new double[]{0,2.05,0, 0,0,0}; // TODO: PLACEHOLDER
 
-      // case 7,8: // Blue Alliance
-      // return new double[]{0,0,0, 0,0,0}; // TODO: PLACEHOLDER
+      case 1:
+      return new double[]{15.36, 1.22, 0.44};
 
-      // case 5: // Red Alliance
-      // return new double[]{0,0,0, 0,0,0}; // TODO: PLACEHOLDER
+      case 2:
+      return new double[]{15.85, 1.22, 0.85};
 
-      // case 6: // Blue Alliance
-      // return new double[]{0,0,0, 0,0,0}; // TODO: PLACEHOLDER
+      case 3,4: // Red Alliance
+      return new double[]{16.27, 1.32, 5.60};
+
+      case 5:
+      return new double[]{14.64, 1.22, 8.01};
+
+      case 6:
+      return new double[]{1.89, 1.22, 8.00};
+
+      case 7, 8:
+      return new double[]{0.41, 1.32,  5.50};
+
+      case 9:
+      return new double[]{0.64, 1.22, 0.82};
+
+      case 10:
+      return new double[]{1.21, 1.22, 0.50};
+
+      // NEED TO ADD CASES 11-16
+
 
     }
   }

@@ -54,11 +54,7 @@ public class DefaultDrive extends Command {
         
         ChassisSpeeds output = new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed);
 
-        Pose2d pose;
-        double[] point;
         Translation2d tr;
-        Rotation2d distAngle;
-        Translation2d dist2d;
         Rotation2d adjustmentAngle;
 
         // if (!io.limelight.targetData().hasTargets && io.chassis.drive_mode > 1)
@@ -76,7 +72,8 @@ public class DefaultDrive extends Command {
             break;
 
             case 3: // Fixed Alignment
-            adjustmentAngle = io.chassis.getPose().getRotation().plus(new Rotation2d(io.limelight.targetData().horizontalOffset));
+            Pose2d pose = io.chassis.getPose();
+            adjustmentAngle = pose.getRotation().plus(new Rotation2d(io.limelight.targetData().horizontalOffset));
             tr = new Translation2d(0, xSpeed).rotateBy(adjustmentAngle.unaryMinus());
             output = new ChassisSpeeds(tr.getX(), tr.getY(), 0);
             break;

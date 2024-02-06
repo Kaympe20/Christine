@@ -219,7 +219,6 @@ public class DriveSubsystem extends SubsystemBase {
     public void periodic() {
         if (active) setModuleStates(kinematics.toSwerveModuleStates(chassisSpeeds));
         Pose2d pose = odometry.update(rotation(), getModulePositions());
-        SmartDashboard.putNumber("YAW!!!", absoluteRotation());
 
         // TODO: Wrap This Into A List, auto-order it too
         SmartDashboard.putNumber("X position", pose.getX());
@@ -230,7 +229,7 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Pigeon Pitch", pigeon2.getPitch());
         SmartDashboard.putNumber("Pigeon Roll", pigeon2.getRoll());
 
-        var drive_mode_display = "";
+        String drive_mode_display = "";
         switch(drive_mode){
             case 0: drive_mode_display = "Robot-Oriented";
             break;

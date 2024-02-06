@@ -11,7 +11,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public final class Constants {
-  public static final double DRIVE_MAX_VELOCITY_METERS_PER_SECOND = 0.2;
+  public static final double DRIVE_MAX_VELOCITY_METERS_PER_SECOND = 0.5;
   public static final double DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 0.2;
 
   public static final class DriveConstants {
@@ -40,7 +40,7 @@ public final class Constants {
 
     public static final int PIGEON_ID = 19;
 
-    public static final double WHEEL_DIAMETER = 0.10033; // Metres
+    public static final double WHEEL_DIAMETER = 0.1016; // Metres
     public static final double DRIVE_REDUCTION = (15.0 / 32.0) * (10.0 / 60.0);
     public static final double STEER_REDUCTION = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0);
     public static final double DRIVE_CONVERSION_FACTOR = Math.PI * WHEEL_DIAMETER * DRIVE_REDUCTION;
