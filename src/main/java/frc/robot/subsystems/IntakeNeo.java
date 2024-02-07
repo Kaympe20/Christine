@@ -8,13 +8,15 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeNeo extends SubsystemBase {
-   public CANSparkMax pivot = new CANSparkMax(10, MotorType.kBrushless);
-   public CANSparkMax intake = new CANSparkMax(9, MotorType.kBrushless);
-   public DigitalInput beam_break = new DigitalInput(0); // TODO: Replace ID
+   public CANSparkMax pivot = new CANSparkMax(14, MotorType.kBrushless);
+   public CANSparkMax intake = new CANSparkMax(15, MotorType.kBrushless);
+   public DigitalInput beam_break = new DigitalInput(0);
+   public DutyCycleEncoder encoder = new DutyCycleEncoder(2);
    public boolean intakeOpen;
 
   public IntakeNeo() {
@@ -58,5 +60,7 @@ public class IntakeNeo extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Beam Break", loaded());
+    SmartDashboard.putNumber("Intake Angle", (encoder.getAbsolutePosition()) * 360);
+    SmartDashboard.putNumber("Intake Absolute Angle", encoder.getAbsolutePosition());
   }
 }
