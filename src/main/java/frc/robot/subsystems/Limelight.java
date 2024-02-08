@@ -131,32 +131,47 @@ public class Limelight extends SubsystemBase {
       return table.getEntry("targetpose_robotspace").getDoubleArray( new double[] {-1,-1,-1, -1,-1,-1}); // TODO: Check if it returns [X,Y,Z,Roll,Pitch,Yaw]
       
 
-      case 1:
+      case 1: // Blue Alliance Player Station
       return new double[]{15.36, 1.22, 0.44};
 
-      case 2:
+      case 2: // Blue Alliance Player Station
       return new double[]{15.85, 1.22, 0.85};
 
-      case 3,4: // Red Alliance
+      case 3,4: // Red Alliance Speaker
       return new double[]{16.27, 1.32, 5.60};
 
-      case 5:
+      case 5: // Red Alliance AMP
       return new double[]{14.64, 1.22, 8.01};
 
-      case 6:
+      case 6: // Blue Alliance AMP
       return new double[]{1.89, 1.22, 8.00};
 
-      case 7, 8:
+      case 7, 8: // Blue Alliance Speaker
       return new double[]{0.41, 1.32,  5.50};
 
-      case 9:
+      case 9: // Red Alliance Player Station
       return new double[]{0.64, 1.22, 0.82};
 
-      case 10:
+      case 10: // Red Alliance Playe Station
       return new double[]{1.21, 1.22, 0.50};
 
-      // NEED TO ADD CASES 11-16
+      case 11: // Red Alliance Stage
+      return new double[]{11.90, 1.21, 3.73};
+      
+      case 12: // Red Alliance Stage
+      return new double[]{11.90, 1.21, 4.53};
 
+      case 13: // Red Alliance Stage
+      return new double[]{11.20, 1.21, 4.15};
+
+      case 14: // Blue Alliance Stage
+      return new double[]{5.32, 1.21, 4.15};
+
+      case 15: // Blue Alliance Stage
+      return new double[]{4.66, 1.21, 4.54};
+
+      case 16: // Blue Alliance Stage
+      return new double[]{4.66, 1.21, 3.71};
 
     }
   }
