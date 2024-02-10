@@ -5,6 +5,8 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
+
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import frc.robot.utility.Constants.DriveConstants;
 
@@ -83,7 +85,7 @@ public class KrakenSwerveModule implements SwerveModule {
     }
 
     public double drivePosition(){
-        return driveMotor.getPosition().getValueAsDouble() * Math.PI * DriveConstants.DRIVE_REDUCTION;
+        return driveMotor.getPosition().getValueAsDouble() * 0.01 * ((DriveConstants.WHEEL_DIAMETER * Math.PI) / DriveConstants.DRIVE_REDUCTION);
     }
 
     public double steerAngle(){

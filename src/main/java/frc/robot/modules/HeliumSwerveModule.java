@@ -44,7 +44,7 @@ public class HeliumSwerveModule implements SwerveModule {
         steerMotor.getEncoder().setPosition(steerAngle());
         
         driveMotor.setInverted(true);
-        steerMotor.setInverted(false);
+        steerMotor.setInverted(false); //jacky was also here
 
         driveMotor.enableVoltageCompensation(12);
 
