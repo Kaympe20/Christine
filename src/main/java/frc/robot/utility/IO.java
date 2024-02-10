@@ -1,5 +1,7 @@
 package frc.robot.utility;
 
+import javax.management.InstanceNotFoundException;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
@@ -14,9 +16,11 @@ public class IO {
 
     public final DriveSubsystem chassis = new DriveSubsystem();
     
-    //public final IntakeNeo intake = new IntakeNeo();
+    public final IntakeNeo intake = new IntakeNeo();
     
     public final Limelight limelight = new Limelight();
+
+    ProfiledIntake profiled_intake = new ProfiledIntake(this, 91); // TODO: 
 
     SendableChooser<Command> autoSelector;
 
@@ -32,14 +36,14 @@ public class IO {
     }
 
     public void configTesting(){
-        // intake.setDefaultCommand( new InstantCommand( () -> {
-        //     intake.setVoltage(driveController.getLeftY() * 6);
-        // }));
-        driveController.a().onTrue(new Aimbot(this));
-        driveController.b().onTrue(new InstantCommand(chassis::resetSteerPositions));
-        driveController.x().onTrue(new InstantCommand(chassis::syncEncoders));
-        driveController.y().toggleOnTrue(new DistanceDrive(this, 2.3));
-        // //driveController.y().onTrue(autoSelector.getSelected());
+        intake.setDefaultCommand(profiled_intake);
+        driveController.a().onTrue(new InstantCommand(profiled_intake::stop)); 
+        driveController.b().onTrue(new InstantCommand(() -> profiled_intake.setAngle(24))); //jacky was here
+        driveController.x().onTrue(new InstantCommand(() -> profiled_intake.setAngle(269)));
+        driveController.y().onTrue(new InstantCommand(() -> profiled_intake.setAngle(0))); 
+
+        driveController.rightTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
+        driveController.leftTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(-1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
 
         driveController.leftBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = 0));
         driveController.rightBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Field_Oriented));
@@ -52,3 +56,4 @@ public class IO {
         driveController.back().onTrue(new InstantCommand(chassis::resetOdometry));
     }
 }
+

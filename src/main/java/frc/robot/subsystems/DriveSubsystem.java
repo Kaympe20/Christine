@@ -8,6 +8,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -44,6 +47,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     public final Pigeon2 pigeon2 = new Pigeon2(DriveConstants.PIGEON_ID);
 
+    StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault().getStructArrayTopic("ModuleStates", SwerveModuleState.struct).publish();
+
     private final SwerveDriveOdometry odometry;
     private final SwerveModule frontLeftModule;
     private final SwerveModule backLeftModule;
@@ -76,7 +81,7 @@ public class DriveSubsystem extends SubsystemBase {
                 DriveConstants.FRONT_RIGHT_ENCODER,
                 DriveConstants.FRONT_RIGHT_ENCODER_OFFSET);
         backLeftModule = new KrakenSwerveModule(
-                tab.getLayout("Back Left Module", BuiltInLayouts.kList)
+                tab.getLayout("Back Left Module", BuiltInLayouts.kList) //THIS IS A LONG CODE
                         .withSize(2, 4)
                         .withPosition(4, 0),
                 DriveConstants.BACK_LEFT_DRIVE_MOTOR,
@@ -218,7 +223,9 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void periodic() {
-        if (active) setModuleStates(kinematics.toSwerveModuleStates(chassisSpeeds));
+        SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
+        if (active) setModuleStates(states);
+        publisher.set(states);
         Pose2d pose = odometry.update(rotation(), getModulePositions());
 
         // TODO: Wrap This Into A List, auto-order it too

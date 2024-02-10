@@ -15,8 +15,8 @@ public final class Constants {
   public static final double DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 0.2;
 
   public static final class DriveConstants {
-    public static final double DRIVETRAIN_TRACKWIDTH_METERS = Units.inchesToMeters(19.5);
-    public static final double DRIVETRAIN_WHEELBASE_METERS = Units.inchesToMeters(21.5);
+    public static final double DRIVETRAIN_TRACKWIDTH_METERS = Units.inchesToMeters(25.5);
+    public static final double DRIVETRAIN_WHEELBASE_METERS = Units.inchesToMeters(27.5);
 
     public static final int FRONT_LEFT_DRIVE_MOTOR = 4;
     public static final int FRONT_LEFT_TURN_MOTOR = 5;

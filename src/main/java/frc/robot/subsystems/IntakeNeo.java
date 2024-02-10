@@ -4,8 +4,10 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -24,6 +26,7 @@ public class IntakeNeo extends SubsystemBase {
     pivot.getPIDController().setI(0);
     pivot.getPIDController().setD(0);
     pivot.getEncoder().setPosition(0);
+    pivot.setIdleMode(IdleMode.kBrake);
   }
  
   public void open(){
@@ -44,9 +47,17 @@ public class IntakeNeo extends SubsystemBase {
   public void setSpeed(double speed){
     intake.set(speed);
   }
+
+  public void intakeVolts(double volts){
+    pivot.setVoltage(volts);
+  }
   
   public void setVoltage(double voltage){
     intake.setVoltage(voltage);
+  }
+
+  public double angle(){
+    return encoder.getAbsolutePosition() * 360;
   }
 
   public void stop(){
@@ -57,10 +68,13 @@ public class IntakeNeo extends SubsystemBase {
     return beam_break.get();
   }
 
+  public void resetOffset(){
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Beam Break", loaded());
-    SmartDashboard.putNumber("Intake Angle", (encoder.getAbsolutePosition()) * 360);
+    SmartDashboard.putNumber("Intake Angle", angle());
     SmartDashboard.putNumber("Intake Absolute Angle", encoder.getAbsolutePosition());
   }
 }
