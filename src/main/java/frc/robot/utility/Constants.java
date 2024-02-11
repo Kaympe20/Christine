@@ -6,6 +6,8 @@ package frc.robot.utility;
 
 import java.util.HashMap;
 
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -71,6 +73,12 @@ public final class Constants {
 
   public static class Paths {
     public static final HashMap<String, Command> eventMap = new HashMap<String, Command>();
-    // public static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(4, 3);
+    public static final PathPlannerPath all = PathPlannerPath.fromPathFile("Do everything");
+    public static final PathPlannerPath allTraversal = PathPlannerPath.fromPathFile("Do everything w other side move");
+    public static final PathPlannerPath doubleAmp = PathPlannerPath.fromPathFile("double score in amp");
+    public static final PathPlannerPath doubleSubwoffer = PathPlannerPath.fromPathFile("double score in subwoffer");
+    public static final PathPlannerPath scoreWTraversal = PathPlannerPath.fromPathFile("Scorig On The Way Out");
+    public static final PathPlannerPath scoreWTraversalBottom = PathPlannerPath.fromPathFile("score on the way out bottom");
+    public static final PathPlannerPath tripleSubwoffer = PathPlannerPath.fromPathFile("triple score in subwoffer");
   }
 }

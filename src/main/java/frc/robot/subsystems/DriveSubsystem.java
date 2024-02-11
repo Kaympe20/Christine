@@ -2,6 +2,10 @@ package frc.robot.subsystems;
 
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -15,10 +19,13 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import frc.robot.modules.KrakenSwerveModule;
 import frc.robot.modules.SwerveModule;
+import frc.robot.utility.Constants.AutoConstants;
 import frc.robot.utility.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -100,6 +107,24 @@ public class DriveSubsystem extends SubsystemBase {
         odometry = new SwerveDriveOdometry(kinematics, rotation(), getModulePositions(), new Pose2d(0, 0, new Rotation2d()));
 
         zeroGyro();
+
+        AutoBuilder.configureHolonomic(
+            this::getPose,
+            this::resetOdometry,
+            this::getChassisSpeeds,
+            this::drive,
+            new HolonomicPathFollowerConfig(
+                new PIDConstants(AutoConstants.kPXController, 0, 0.01),
+                new PIDConstants(AutoConstants.kPThetaController, 0, 0.01),
+                AutoConstants.kMaxSpeedMetersPerSecond,
+                Math.sqrt(( (DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS*DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS) + (DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS*DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS) )),
+                new ReplanningConfig()
+            ),
+            () -> {
+                var alliance = DriverStation.getAlliance();
+                return (alliance.isPresent()) && (DriverStation.Alliance.Red == alliance.get());
+            }, 
+            this);
     }
 
      public void zeroGyro() {
