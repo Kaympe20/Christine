@@ -2,6 +2,9 @@ package frc.robot.utility;
 
 import javax.management.InstanceNotFoundException;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
@@ -17,10 +20,12 @@ public class IO {
     public final DriveSubsystem chassis = new DriveSubsystem();
     
     public final IntakeNeo intake = new IntakeNeo();
-    
+
     public final Limelight limelight = new Limelight();
 
-    ProfiledIntake profiled_intake = new ProfiledIntake(this, 91); // TODO: 
+    //CANSparkMax shoot = new CANSparkMax(15, MotorType.kBrushless);
+
+    //ProfiledIntake profiled_intake = new ProfiledIntake(this, 91); // TODO: 
 
     SendableChooser<Command> autoSelector;
 
@@ -36,11 +41,15 @@ public class IO {
     }
 
     public void configTesting(){
-        intake.setDefaultCommand(profiled_intake);
-        driveController.a().onTrue(new InstantCommand(profiled_intake::stop)); 
-        driveController.b().onTrue(new InstantCommand(() -> profiled_intake.setAngle(24))); //jacky was here
-        driveController.x().onTrue(new InstantCommand(() -> profiled_intake.setAngle(269)));
-        driveController.y().onTrue(new InstantCommand(() -> profiled_intake.setAngle(0))); 
+        // intake.setDefaultCommand(profiled_intake);
+        // driveController.a().onTrue(new InstantCommand(profiled_intake::stop)); 
+        // driveController.b().onTrue(new InstantCommand(() -> profiled_intake.setAngle(24))); //jacky was here
+        // driveController.x().onTrue(new InstantCommand(() -> profiled_intake.setAngle(269)));
+        // driveController.y().onTrue(new InstantCommand(() -> profiled_intake.setAngle(0))); 
+        driveController.a().onTrue(new InstantCommand(() -> intake.setVoltage(12))).onFalse(new InstantCommand(()-> intake.setVoltage(0)));
+        driveController.b().onTrue(new InstantCommand(() -> intake.setVoltage(-12))).onFalse(new InstantCommand(()-> intake.setVoltage(0)));
+
+        //driveController.b().onTrue(new InstantCommand(() -> shoot.setVoltage(12))).onFalse(new InstantCommand(()-> shoot.setVoltage(0)));
 
         driveController.rightTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
         driveController.leftTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(-1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
