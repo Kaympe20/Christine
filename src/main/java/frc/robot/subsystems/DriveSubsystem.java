@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 
-import com.ctre.phoenix.sensors.Pigeon2;
+import com.ctre.phoenix6.hardware.Pigeon2;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -113,7 +113,7 @@ public class DriveSubsystem extends SubsystemBase {
     public double absoluteRotation() {
         // double rot = Math.abs(pigeon2.getYaw()) % 360.0 * ((pigeon2.getYaw() < 0.0) ? -1.0 : 1.0);
         // return (rot < 0.0) ? rot + 360.0 : rot; 
-        return Math.toRadians(pigeon2.getYaw() %360);
+        return Math.toRadians(pigeon2.getYaw().getValueAsDouble() %360);
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
@@ -233,9 +233,9 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Y position", pose.getY());
 
         SmartDashboard.putNumber("Odometry rotation", rotation().getDegrees());
-        SmartDashboard.putNumber("Pigeon Yaw", pigeon2.getYaw());
-        SmartDashboard.putNumber("Pigeon Pitch", pigeon2.getPitch());
-        SmartDashboard.putNumber("Pigeon Roll", pigeon2.getRoll());
+        SmartDashboard.putNumber("Pigeon Yaw", pigeon2.getYaw().getValueAsDouble());
+        SmartDashboard.putNumber("Pigeon Pitch", pigeon2.getPitch().getValueAsDouble());
+        SmartDashboard.putNumber("Pigeon Roll", pigeon2.getRoll().getValueAsDouble());
 
         String drive_mode_display = "";
         switch(drive_mode){
