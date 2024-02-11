@@ -20,16 +20,16 @@ public class RobotContainer {
   public IO io = new IO(bindings, autos);
 
   public RobotContainer() {
+    addAutos();
     io.configGlobal();
     io.configTesting();
-    addAutos();
   }
 
   public void addAutos(){
     NamedCommands.registerCommand("Pickup", new PrintCommand("Picking Up!!"));
     NamedCommands.registerCommand("ScoreInAmp", new PrintCommand("Scoring in amp!!"));
     NamedCommands.registerCommand( "Score", new PrintCommand("Scoring in Subwoffer!!"));
-    autos.addOption("all", AutoBuilder.followPath(Paths.all));
+    autos.setDefaultOption("all", AutoBuilder.followPath(Paths.all));
   }
 
   public Command getAutonomousCommand() {

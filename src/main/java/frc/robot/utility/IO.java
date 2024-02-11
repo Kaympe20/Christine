@@ -39,8 +39,10 @@ public class IO {
         intake.setDefaultCommand(profiled_intake);
         driveController.a().onTrue(new InstantCommand(profiled_intake::stop)); 
         driveController.b().onTrue(new InstantCommand(() -> profiled_intake.setAngle(24))); //jacky was here
-        driveController.x().onTrue(new InstantCommand(() -> profiled_intake.setAngle(269)));
-        driveController.y().onTrue(new InstantCommand(() -> profiled_intake.setAngle(0))); 
+        // driveController.x().onTrue(new InstantCommand(() -> profiled_intake.setAngle(269)));
+        // driveController.y().onTrue(new InstantCommand(() -> profiled_intake.setAngle(0)));
+        driveController.y().onTrue(autoSelector.getSelected());
+        driveController.x().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll)); 
 
         driveController.rightTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
         driveController.leftTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(-1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
