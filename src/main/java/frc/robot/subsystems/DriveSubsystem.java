@@ -1,20 +1,18 @@
 package frc.robot.subsystems;
 
 
-import com.ctre.phoenix.sensors.Pigeon2;
+import com.ctre.phoenix6.hardware.Pigeon2;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import frc.robot.modules.HeliumSwerveModule;
 import frc.robot.modules.KrakenSwerveModule;
 import frc.robot.modules.SwerveModule;
 import frc.robot.utility.Constants.DriveConstants;
@@ -47,7 +45,9 @@ public class DriveSubsystem extends SubsystemBase {
 
     public final Pigeon2 pigeon2 = new Pigeon2(DriveConstants.PIGEON_ID);
 
-    StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault().getStructArrayTopic("ModuleStates", SwerveModuleState.struct).publish();
+    StructArrayPublisher<SwerveModuleState> current_states = NetworkTableInstance.getDefault().getTable("God did").getStructArrayTopic("myStates", SwerveModuleState.struct).publish();
+    StructArrayPublisher<SwerveModuleState> target_states = NetworkTableInstance.getDefault().getTable("God did").getStructArrayTopic("myStates", SwerveModuleState.struct).publish();
+
 
     private final SwerveDriveOdometry odometry;
     private final SwerveModule frontLeftModule;
@@ -113,7 +113,7 @@ public class DriveSubsystem extends SubsystemBase {
     public double absoluteRotation() {
         // double rot = Math.abs(pigeon2.getYaw()) % 360.0 * ((pigeon2.getYaw() < 0.0) ? -1.0 : 1.0);
         // return (rot < 0.0) ? rot + 360.0 : rot; 
-        return Math.toRadians(pigeon2.getYaw() %360);
+        return Math.toRadians(pigeon2.getYaw().getValueAsDouble() %360);
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
@@ -225,7 +225,7 @@ public class DriveSubsystem extends SubsystemBase {
     public void periodic() {
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
         if (active) setModuleStates(states);
-        publisher.set(states);
+        current_states.set(states);
         Pose2d pose = odometry.update(rotation(), getModulePositions());
 
         // TODO: Wrap This Into A List, auto-order it too
@@ -233,9 +233,9 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Y position", pose.getY());
 
         SmartDashboard.putNumber("Odometry rotation", rotation().getDegrees());
-        SmartDashboard.putNumber("Pigeon Yaw", pigeon2.getYaw());
-        SmartDashboard.putNumber("Pigeon Pitch", pigeon2.getPitch());
-        SmartDashboard.putNumber("Pigeon Roll", pigeon2.getRoll());
+        SmartDashboard.putNumber("Pigeon Yaw", pigeon2.getYaw().getValueAsDouble());
+        SmartDashboard.putNumber("Pigeon Pitch", pigeon2.getPitch().getValueAsDouble());
+        SmartDashboard.putNumber("Pigeon Roll", pigeon2.getRoll().getValueAsDouble());
 
         String drive_mode_display = "";
         switch(drive_mode){
