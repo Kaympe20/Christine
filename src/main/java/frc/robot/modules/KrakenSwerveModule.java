@@ -30,6 +30,7 @@ public class KrakenSwerveModule implements SwerveModule {
         driveMotor = new TalonFX(driveID, "rio");
         steerMotor = new CANSparkMax(steerID, MotorType.kBrushless);
         steerEncoder = new Canandcoder(steerCANID);
+        
 
         Canandcoder.Settings settings = new Canandcoder.Settings();
         settings.setInvertDirection(true);

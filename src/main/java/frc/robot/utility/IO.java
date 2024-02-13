@@ -2,9 +2,10 @@ package frc.robot.utility;
 
 import javax.management.InstanceNotFoundException;
 
+import com.ctre.phoenix.music.Orchestra;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-
+import frc.robot.commands.music;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
@@ -18,7 +19,7 @@ public class IO {
     final CommandXboxController mechController = new CommandXboxController(1);
 
     public final DriveSubsystem chassis = new DriveSubsystem();
-    
+    public Orchestra play = new Orchestra();
     public final IntakeNeo intake = new IntakeNeo();
 
     public final Limelight limelight = new Limelight();
@@ -48,7 +49,7 @@ public class IO {
         // driveController.y().onTrue(new InstantCommand(() -> profiled_intake.setAngle(0))); 
         driveController.a().onTrue(new InstantCommand(() -> intake.setVoltage(12))).onFalse(new InstantCommand(()-> intake.setVoltage(0)));
         driveController.b().onTrue(new InstantCommand(() -> intake.setVoltage(-12))).onFalse(new InstantCommand(()-> intake.setVoltage(0)));
-
+        driveController.x().toggleOnTrue(new InstantCommand(play::play));
         //driveController.b().onTrue(new InstantCommand(() -> shoot.setVoltage(12))).onFalse(new InstantCommand(()-> shoot.setVoltage(0)));
 
         driveController.rightTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
