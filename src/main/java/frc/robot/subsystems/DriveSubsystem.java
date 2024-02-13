@@ -3,6 +3,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -14,6 +16,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -51,9 +54,9 @@ public class DriveSubsystem extends SubsystemBase {
                     -DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
     public final Pigeon2 pigeon2 = new Pigeon2(DriveConstants.PIGEON_ID);
-
-    StructArrayPublisher<SwerveModuleState> current_states = NetworkTableInstance.getDefault().getTable("God did").getStructArrayTopic("myStates", SwerveModuleState.struct).publish();
-    StructArrayPublisher<SwerveModuleState> target_states = NetworkTableInstance.getDefault().getTable("God did").getStructArrayTopic("myStates", SwerveModuleState.struct).publish();
+    StructArrayPublisher<SwerveModuleState> current_states = NetworkTableInstance.getDefault().getTable("Simulating").getStructArrayTopic("myStates", SwerveModuleState.struct).publish();
+    StructArrayPublisher<SwerveModuleState> target_states = NetworkTableInstance.getDefault().getTable("Simulating").getStructArrayTopic("myStates", SwerveModuleState.struct).publish();
+    StructPublisher<Pose2d> posePublisher = NetworkTableInstance.getDefault().getTable("Simulating").getStructTopic("Pose2d", Pose2d.struct).publish();
 
 
     private final SwerveDriveOdometry odometry;
@@ -106,8 +109,6 @@ public class DriveSubsystem extends SubsystemBase {
 
         odometry = new SwerveDriveOdometry(kinematics, rotation(), getModulePositions(), new Pose2d(0, 0, new Rotation2d()));
 
-        zeroGyro();
-
         AutoBuilder.configureHolonomic(
             this::getPose,
             this::resetOdometry,
@@ -125,7 +126,9 @@ public class DriveSubsystem extends SubsystemBase {
                 return (alliance.isPresent()) && (DriverStation.Alliance.Red == alliance.get());
             }, 
             this);
+
     }
+
 
      public void zeroGyro() {
          pigeon2.setYaw(0);
@@ -246,12 +249,13 @@ public class DriveSubsystem extends SubsystemBase {
         backLeftModule.stop();
         backRightModule.stop();
     }
-
+    
     public void periodic() {
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
         if (active) setModuleStates(states);
         current_states.set(states);
         Pose2d pose = odometry.update(rotation(), getModulePositions());
+        posePublisher.set(pose);
 
         // TODO: Wrap This Into A List, auto-order it too
         SmartDashboard.putNumber("X position", pose.getX());

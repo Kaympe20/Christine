@@ -4,9 +4,16 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
 
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -26,11 +33,18 @@ public class RobotContainer {
   }
 
   public void addAutos(){
-    NamedCommands.registerCommand("Pickup", new PrintCommand("Picking Up!!"));
-    NamedCommands.registerCommand("ScoreInAmp", new PrintCommand("Scoring in amp!!"));
-    NamedCommands.registerCommand( "Score", new PrintCommand("Scoring in Subwoffer!!"));
+    commands.put("Pickup", new PrintCommand("Picking Up!!"));
+    commands.put("ScoreInAmp", new PrintCommand("Scoring in amp!!"));
+    commands.put( "Score", new PrintCommand("Scoring in Subwoffer!!"));
+    
+    NamedCommands.registerCommands(commands);
+      
     autos.setDefaultOption("all", AutoBuilder.followPath(Paths.all));
+    // autos.addOption("Forward", AutoBuilder.followPath(Paths.doubleAmp));
+
   }
+
+  HashMap<String, Command> commands = new HashMap<>();
 
   public Command getAutonomousCommand() {
     return autos.getSelected();

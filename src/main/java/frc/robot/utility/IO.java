@@ -20,7 +20,7 @@ public class IO {
     
     public final Limelight limelight = new Limelight();
 
-    ProfiledIntake profiled_intake = new ProfiledIntake(this, 91); // TODO: 
+    ProfiledIntake profiled_intake = new ProfiledIntake(this, 91);
 
     SendableChooser<Command> autoSelector;
 
@@ -36,17 +36,20 @@ public class IO {
     }
 
     public void configTesting(){
-        intake.setDefaultCommand(profiled_intake);
-        driveController.a().onTrue(new InstantCommand(profiled_intake::stop)); 
-        driveController.b().onTrue(new InstantCommand(() -> profiled_intake.setAngle(24))); //jacky was here
+        // intake.setDefaultCommand(profiled_intake);
+        // driveController.a().onTrue(new InstantCommand(profiled_intake::stop)); 
+        // driveController.b().onTrue(new InstantCommand(() -> profiled_intake.setAngle(24))); //jacky was here
         // driveController.x().onTrue(new InstantCommand(() -> profiled_intake.setAngle(269)));
         // driveController.y().onTrue(new InstantCommand(() -> profiled_intake.setAngle(0)));
+
+        // driveController.a().onTrue(new InstantCommand(() -> ));
         driveController.y().onTrue(autoSelector.getSelected());
         driveController.x().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll)); 
+        driveController.a().onTrue(new IntakeNote(this)).onFalse(new InstantCommand(() -> intake.setVoltage(0)));
+        driveController.b().onTrue(new InstantCommand(() -> intake.setVoltage(-9))).onFalse(new InstantCommand(() -> intake.setVoltage(0)));
 
         driveController.rightTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
         driveController.leftTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(-1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
-
         driveController.leftBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = 0));
         driveController.rightBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Field_Oriented));
         // driveController.leftTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Fixed_Point_Tracking));

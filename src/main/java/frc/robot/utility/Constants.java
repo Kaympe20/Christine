@@ -75,10 +75,10 @@ public final class Constants {
     public static final HashMap<String, Command> eventMap = new HashMap<String, Command>();
     public static final PathPlannerPath all = PathPlannerPath.fromPathFile("Do everything");
     public static final PathPlannerPath allTraversal = PathPlannerPath.fromPathFile("Do everything w other side move");
-    public static final PathPlannerPath doubleAmp = PathPlannerPath.fromPathFile("double score in amp");
-    public static final PathPlannerPath doubleSubwoffer = PathPlannerPath.fromPathFile("double score in subwoffer");
+    public static final PathPlannerPath doubleAmp = PathPlannerPath.fromPathFile("Double score in amp");
+    public static final PathPlannerPath doubleSubwoffer = PathPlannerPath.fromPathFile("double score in subwoofer");
     public static final PathPlannerPath scoreWTraversal = PathPlannerPath.fromPathFile("Scorig On The Way Out");
     public static final PathPlannerPath scoreWTraversalBottom = PathPlannerPath.fromPathFile("score on the way out bottom");
-    public static final PathPlannerPath tripleSubwoffer = PathPlannerPath.fromPathFile("triple score in subwoffer");
+    public static final PathPlannerPath tripleSubwoffer = PathPlannerPath.fromPathFile("triple score in subwoofer");
   }
 }
