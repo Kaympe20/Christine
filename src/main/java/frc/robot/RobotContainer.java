@@ -23,6 +23,7 @@ import frc.robot.utility.Constants.Paths;
 public class RobotContainer {
   SendableChooser<Runnable> bindings = new SendableChooser<Runnable>();
   SendableChooser<Command> autos = new SendableChooser<Command>();
+  HashMap<String, Command> commands = new HashMap<>();
 
   public IO io = new IO(bindings, autos);
 
@@ -39,12 +40,11 @@ public class RobotContainer {
     
     NamedCommands.registerCommands(commands);
       
-    autos.setDefaultOption("all", AutoBuilder.followPath(Paths.all));
-    // autos.addOption("Forward", AutoBuilder.followPath(Paths.doubleAmp));
-
+    autos.setDefaultOption("straight", AutoBuilder.followPath(Paths.straight));
+    autos.addOption("double amp", AutoBuilder.followPath(Paths.doubleAmp));
+    autos.addOption("Curved", AutoBuilder.followPath(Paths.Curved));
   }
 
-  HashMap<String, Command> commands = new HashMap<>();
 
   public Command getAutonomousCommand() {
     return autos.getSelected();

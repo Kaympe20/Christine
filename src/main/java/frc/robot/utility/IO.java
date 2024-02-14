@@ -44,7 +44,7 @@ public class IO {
 
         // driveController.a().onTrue(new InstantCommand(() -> ));
         driveController.y().onTrue(autoSelector.getSelected());
-        driveController.x().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll)); 
+        driveController.x().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll));   
         driveController.a().onTrue(new IntakeNote(this)).onFalse(new InstantCommand(() -> intake.setVoltage(0)));
         driveController.b().onTrue(new InstantCommand(() -> intake.setVoltage(-9))).onFalse(new InstantCommand(() -> intake.setVoltage(0)));
 
