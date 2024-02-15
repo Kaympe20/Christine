@@ -15,6 +15,7 @@ import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.utility.IO;
@@ -28,6 +29,9 @@ public class RobotContainer {
   public IO io = new IO(bindings, autos);
 
   public RobotContainer() {
+    SmartDashboard.putData("Autos",autos);
+    SmartDashboard.putData("Bindings", bindings);
+
     addAutos();
     io.configGlobal();
     io.configTesting();
@@ -40,8 +44,9 @@ public class RobotContainer {
     
     NamedCommands.registerCommands(commands);
       
-    autos.setDefaultOption("straight", AutoBuilder.followPath(Paths.straight));
-    autos.addOption("double amp", AutoBuilder.followPath(Paths.doubleAmp));
+    autos.setDefaultOption("Straight", AutoBuilder.followPath(Paths.straight));
+    autos.addOption("Straight Y", AutoBuilder.followPath(Paths.straightY));
+    autos.addOption("Double Amp", AutoBuilder.followPath(Paths.doubleAmp));
     autos.addOption("Curved", AutoBuilder.followPath(Paths.Curved));
   }
 

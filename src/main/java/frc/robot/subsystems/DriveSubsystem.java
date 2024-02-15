@@ -118,7 +118,7 @@ public class DriveSubsystem extends SubsystemBase {
                 new PIDConstants(AutoConstants.kPXController, 0, 0.01),
                 new PIDConstants(AutoConstants.kPThetaController, 0, 0.01),
                 AutoConstants.kMaxSpeedMetersPerSecond,
-                Math.sqrt(( (DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS*DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS) + (DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS*DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS) )),
+                DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS/2,
                 new ReplanningConfig()
             ),
             () -> {
@@ -173,14 +173,18 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void resetOdometry() {
-        zeroGyro();
-        resetPosition();
-        odometry.resetPosition(rotation(), getModulePositions(), new Pose2d());
+        resetOdometry(new Pose2d());
     }
 
     public void resetOdometry(Pose2d pose) {
+        setOdometry(pose);
+        setOdometry(pose);
+    }
+
+    public void setOdometry(Pose2d pose) {
         zeroGyro();
         resetPosition();
+        odometry.resetPosition(rotation(), getModulePositions(), pose);
         odometry.resetPosition(rotation(), getModulePositions(), pose);
     }
 

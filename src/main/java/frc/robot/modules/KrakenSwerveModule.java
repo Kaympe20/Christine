@@ -85,7 +85,8 @@ public class KrakenSwerveModule implements SwerveModule {
     }
 
     public double drivePosition(){
-        return driveMotor.getPosition().getValueAsDouble() * 0.01 * ((DriveConstants.WHEEL_DIAMETER * Math.PI) / DriveConstants.DRIVE_REDUCTION);
+        //return driveMotor.getPosition().getValue() * 0.01 * ((DriveConstants.WHEEL_DIAMETER * Math.PI) / DriveConstants.DRIVE_REDUCTION);
+        return driveMotor.getPosition().getValue() * .502 * DriveConstants.WHEEL_DIAMETER;
     }
 
     public double steerAngle(){
