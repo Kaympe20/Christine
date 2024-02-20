@@ -7,10 +7,12 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class Flywheel extends SubsystemBase {
   public TalonFX flywheel = new TalonFX(17);
+  public static TalonFX pivot = new TalonFX(16);
+  public CANSparkMax helperMotor = new CANSparkMax(18, MotorType.kBrushless);
 
-  public static CANSparkMax pivot = new CANSparkMax(16, MotorType.kBrushless);
-
-  public Flywheel() {}
+  public Flywheel() {
+    
+  }
 
   public void setAngle(double angle){
     flywheel.setPosition(angle);
@@ -18,6 +20,7 @@ public class Flywheel extends SubsystemBase {
 
   public void setSpeed(double speed){
     pivot.set(speed);
+    helperMotor.setVoltage(flywheel.get());
   }
 
   public void stop(){
