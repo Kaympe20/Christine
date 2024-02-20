@@ -60,10 +60,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
     private final SwerveDriveOdometry odometry;
-    private final SwerveModule frontLeftModule;
-    private final SwerveModule backLeftModule;
-    private final SwerveModule frontRightModule;
-    private final SwerveModule backRightModule;
+    private final SwerveModule[] modules = {null, null, null, null};
 
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
 
@@ -74,7 +71,7 @@ public class DriveSubsystem extends SubsystemBase {
     public DriveSubsystem() {
         DriveConstants.setOffsets();
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
-        frontLeftModule = new KrakenSwerveModule(
+        modules[0] = new KrakenSwerveModule(
                 tab.getLayout("Front Left Module", BuiltInLayouts.kList)
                         .withSize(2, 4)
                         .withPosition(0, 0),
@@ -82,7 +79,7 @@ public class DriveSubsystem extends SubsystemBase {
                 DriveConstants.FRONT_LEFT_TURN_MOTOR,
                 DriveConstants.FRONT_LEFT_ENCODER,
                 DriveConstants.FRONT_LEFT_ENCODER_OFFSET);
-        frontRightModule = new KrakenSwerveModule(
+                modules[1] = new KrakenSwerveModule(
                 tab.getLayout("Front Right Module", BuiltInLayouts.kList)
                         .withSize(2, 4)
                         .withPosition(2, 0),
@@ -90,7 +87,7 @@ public class DriveSubsystem extends SubsystemBase {
                 DriveConstants.FRONT_RIGHT_TURN_MOTOR,
                 DriveConstants.FRONT_RIGHT_ENCODER,
                 DriveConstants.FRONT_RIGHT_ENCODER_OFFSET);
-        backLeftModule = new KrakenSwerveModule(
+                modules[2] = new KrakenSwerveModule(
                 tab.getLayout("Back Left Module", BuiltInLayouts.kList) //THIS IS A LONG CODE
                         .withSize(2, 4)
                         .withPosition(4, 0),
@@ -98,7 +95,7 @@ public class DriveSubsystem extends SubsystemBase {
                 DriveConstants.BACK_LEFT_TURN_MOTOR,
                 DriveConstants.BACK_LEFT_ENCODER,
                 DriveConstants.BACK_LEFT_ENCODER_OFFSET);
-        backRightModule = new KrakenSwerveModule(
+                modules[3] = new KrakenSwerveModule(
                 tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                         .withSize(2, 4)
                         .withPosition(6, 0),
@@ -155,12 +152,10 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public SwerveModulePosition[] getModulePositions() {
-        SwerveModulePosition[] pos = {
-                getModulePosition(frontLeftModule),
-                getModulePosition(frontRightModule),
-                getModulePosition(backLeftModule),
-                getModulePosition(backRightModule)
-        };
+        SwerveModulePosition[] pos = {null, null, null, null};
+        for (int i = 0; i < modules.length; i++)
+            pos[i] = getModulePosition(modules[i]);
+        
         SmartDashboard.putNumber("FL Distance", pos[0].distanceMeters);
         SmartDashboard.putNumber("FR Distance", pos[1].distanceMeters);
         SmartDashboard.putNumber("BL Distance", pos[2].distanceMeters);
@@ -189,44 +184,32 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void resetPosition() {
-        frontLeftModule.resetDrivePosition();
-        frontRightModule.resetDrivePosition();
-        backLeftModule.resetDrivePosition();
-        backRightModule.resetDrivePosition();
+        for (SwerveModule mod : modules)
+            mod.resetDrivePosition();
     }
 
     public void syncEncoders() {
-        frontLeftModule.resetSteerPosition();
-        frontRightModule.resetSteerPosition();
-        backLeftModule.resetSteerPosition();
-        backRightModule.resetSteerPosition();
+        for (SwerveModule mod : modules)
+            mod.resetSteerPosition();
     }
 
     public void resetAbsolute(){
-        frontLeftModule.resetAbsolute();
-        backLeftModule.resetAbsolute();
-        frontRightModule.resetAbsolute();
-        backRightModule.resetAbsolute();
+        for (SwerveModule mod : modules)
+            mod.resetAbsolute();
     }
     
     public void resetSteerPositions() {
-        frontLeftModule.set(0, 0);
-        frontRightModule.set(0, 0);
-        backLeftModule.set(0, 0);
-        backRightModule.set(0, 0);
+        for (SwerveModule mod : modules)
+            mod.set(0,0);
     }
 
     public void setModuleStates(SwerveModuleState[] states) {
         SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
         
-        frontLeftModule.set((states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE,
-                states[0].angle.getRadians());
-        frontRightModule.set((states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE,
-                states[1].angle.getRadians());
-        backLeftModule.set((states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE,
-                states[2].angle.getRadians());
-        backRightModule.set((states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE,
-                states[3].angle.getRadians());
+        // for (SwerveModule mod : modules)
+        for (int i = 0; i < modules.length; i++)
+            modules[i].set((states[i].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE,
+            states[i].angle.getRadians());
     }
 
     public boolean isSlowMode() {
@@ -248,10 +231,8 @@ public class DriveSubsystem extends SubsystemBase {
     public void disableChassis(){
         active = false;
 
-        frontLeftModule.stop();
-        frontRightModule.stop();
-        backLeftModule.stop();
-        backRightModule.stop();
+        for (SwerveModule mod : modules)
+            mod.stop();
     }
     
     public void periodic() {
