@@ -6,13 +6,10 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import frc.robot.utility.Constants.DriveConstants;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.reduxrobotics.sensors.canandcoder.Canandcoder;
@@ -86,7 +83,8 @@ public class KrakenSwerveModule implements SwerveModule {
     }
 
     public double drivePosition(){
-        return driveMotor.getPosition().getValueAsDouble() * 0.01 * ((DriveConstants.WHEEL_DIAMETER * Math.PI) / DriveConstants.DRIVE_REDUCTION);
+        //return driveMotor.getPosition().getValue() * 0.01 * ((DriveConstants.WHEEL_DIAMETER * Math.PI) / DriveConstants.DRIVE_REDUCTION);
+        return driveMotor.getPosition().getValue() * .502 * DriveConstants.WHEEL_DIAMETER;
     }
 
     public double steerAngle(){

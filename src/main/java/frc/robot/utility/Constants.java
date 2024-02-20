@@ -6,6 +6,8 @@ package frc.robot.utility;
 
 import java.util.HashMap;
 
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -40,7 +42,8 @@ public final class Constants {
 
     public static final int PIGEON_ID = 14;
 
-    public static final double WHEEL_DIAMETER = 0.1016; // Metres
+    // public static final double WHEEL_DIAMETER = 0.1016; // Metres
+    public static final double WHEEL_DIAMETER = Units.inchesToMeters(4); // Metres
     public static final double DRIVE_REDUCTION = (15.0 / 32.0) * (10.0 / 60.0);
     public static final double STEER_REDUCTION = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0);
     public static final double DRIVE_CONVERSION_FACTOR = Math.PI * WHEEL_DIAMETER * DRIVE_REDUCTION;
@@ -71,6 +74,16 @@ public final class Constants {
 
   public static class Paths {
     public static final HashMap<String, Command> eventMap = new HashMap<String, Command>();
-    // public static final PathConstraints PATH_CONSTRAINTS = new PathConstraints(4, 3);
+    public static final PathPlannerPath all = PathPlannerPath.fromPathFile("Do everything");
+    public static final PathPlannerPath straight = PathPlannerPath.fromPathFile("Straight");
+    public static final PathPlannerPath straightY = PathPlannerPath.fromPathFile("Straight Y");
+    public static final PathPlannerPath Curved = PathPlannerPath.fromPathFile("Curved");
+    
+    public static final PathPlannerPath allTraversal = PathPlannerPath.fromPathFile("Do everything w other side move");
+    public static final PathPlannerPath doubleAmp = PathPlannerPath.fromPathFile("Double score in amp");
+    public static final PathPlannerPath doubleSubwoffer = PathPlannerPath.fromPathFile("double score in subwoofer");
+    public static final PathPlannerPath scoreWTraversal = PathPlannerPath.fromPathFile("Scorig On The Way Out");
+    public static final PathPlannerPath scoreWTraversalBottom = PathPlannerPath.fromPathFile("score on the way out bottom");
+    public static final PathPlannerPath tripleSubwoffer = PathPlannerPath.fromPathFile("triple score in subwoofer");
   }
 }

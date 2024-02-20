@@ -1,11 +1,11 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
+//import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriveSubsystem;
@@ -19,8 +19,8 @@ public class DefaultDrive extends Command {
     private final DoubleSupplier x_supplier;
     private final DoubleSupplier y_supplier;
     private final DoubleSupplier rotation_supplier;
-    private final SlewRateLimiter xLimiter = new SlewRateLimiter(4);
-    private final SlewRateLimiter yLimiter = new SlewRateLimiter(4);
+    //private final SlewRateLimiter xLimiter = new SlewRateLimiter(4);
+    //private final SlewRateLimiter yLimiter = new SlewRateLimiter(4);
 
 
     public DefaultDrive(IO io, ChassisSpeeds chassisSpeeds) {

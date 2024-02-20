@@ -2,25 +2,33 @@ package frc.robot.subsystems;
 
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+//import com.pathplanner.lib.path.PathPlannerPath;
+//import com.pathplanner.lib.path.PathPlannerTrajectory;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import frc.robot.modules.HeliumSwerveModule;
 import frc.robot.modules.KrakenSwerveModule;
 import frc.robot.modules.SwerveModule;
+import frc.robot.utility.Constants.AutoConstants;
 import frc.robot.utility.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.DriverStation;
+//import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -46,8 +54,10 @@ public class DriveSubsystem extends SubsystemBase {
                     -DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2.0));
 
     public final Pigeon2 pigeon2 = new Pigeon2(DriveConstants.PIGEON_ID);
+    StructArrayPublisher<SwerveModuleState> current_states = NetworkTableInstance.getDefault().getTable("Simulating").getStructArrayTopic("myStates", SwerveModuleState.struct).publish();
+    StructArrayPublisher<SwerveModuleState> target_states = NetworkTableInstance.getDefault().getTable("Simulating").getStructArrayTopic("myStates", SwerveModuleState.struct).publish();
+    StructPublisher<Pose2d> posePublisher = NetworkTableInstance.getDefault().getTable("Simulating").getStructTopic("Pose2d", Pose2d.struct).publish();
 
-    StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault().getStructArrayTopic("ModuleStates", SwerveModuleState.struct).publish();
 
     private final SwerveDriveOdometry odometry;
     private final SwerveModule frontLeftModule;
@@ -99,8 +109,26 @@ public class DriveSubsystem extends SubsystemBase {
 
         odometry = new SwerveDriveOdometry(kinematics, rotation(), getModulePositions(), new Pose2d(0, 0, new Rotation2d()));
 
-        zeroGyro();
+        AutoBuilder.configureHolonomic(
+            this::getPose,
+            this::resetOdometry,
+            this::getChassisSpeeds,
+            this::drive,
+            new HolonomicPathFollowerConfig(
+                new PIDConstants(AutoConstants.kPXController, 0, 0.01),
+                new PIDConstants(AutoConstants.kPThetaController, 0, 0.01),
+                AutoConstants.kMaxSpeedMetersPerSecond,
+                DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS/2,
+                new ReplanningConfig()
+            ),
+            () -> {
+                var alliance = DriverStation.getAlliance();
+                return (alliance.isPresent()) && (DriverStation.Alliance.Red == alliance.get());
+            }, 
+            this);
+
     }
+
 
      public void zeroGyro() {
          pigeon2.setYaw(0);
@@ -145,14 +173,18 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void resetOdometry() {
-        zeroGyro();
-        resetPosition();
-        odometry.resetPosition(rotation(), getModulePositions(), new Pose2d());
+        resetOdometry(new Pose2d());
     }
 
     public void resetOdometry(Pose2d pose) {
+        setOdometry(pose);
+        setOdometry(pose);
+    }
+
+    public void setOdometry(Pose2d pose) {
         zeroGyro();
         resetPosition();
+        odometry.resetPosition(rotation(), getModulePositions(), pose);
         odometry.resetPosition(rotation(), getModulePositions(), pose);
     }
 
@@ -221,12 +253,13 @@ public class DriveSubsystem extends SubsystemBase {
         backLeftModule.stop();
         backRightModule.stop();
     }
-
+    
     public void periodic() {
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
         if (active) setModuleStates(states);
-        publisher.set(states);
+        current_states.set(states);
         Pose2d pose = odometry.update(rotation(), getModulePositions());
+        posePublisher.set(pose);
 
         // TODO: Wrap This Into A List, auto-order it too
         SmartDashboard.putNumber("X position", pose.getX());

@@ -4,17 +4,22 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+//import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
-   public CANSparkMax pivot = new CANSparkMax(5, MotorType.kBrushless); // TODO: Replace ID
-   public CANSparkMax intake = new CANSparkMax(6, MotorType.kBrushless); // TODO: Replace ID
-   public DigitalInput beam_break = new DigitalInput(0); // TODO: Replace ID
+   public CANSparkMax pivot = new CANSparkMax(14, MotorType.kBrushless);
+   public TalonFX intake = new TalonFX(15, "rio");
+   public DigitalInput beam_break = new DigitalInput(0);
+   public DutyCycleEncoder encoder = new DutyCycleEncoder(2);
    public boolean intakeOpen;
 
   public Intake() {
@@ -22,6 +27,7 @@ public class Intake extends SubsystemBase {
     pivot.getPIDController().setI(0);
     pivot.getPIDController().setD(0);
     pivot.getEncoder().setPosition(0);
+    pivot.setIdleMode(IdleMode.kBrake);
   }
  
   public void open(){
@@ -43,6 +49,18 @@ public class Intake extends SubsystemBase {
     intake.set(speed);
   }
 
+  public void intakeVolts(double volts){
+    pivot.setVoltage(volts);
+  }
+  
+  public void setVoltage(double voltage){
+    intake.setVoltage(voltage);
+  }
+
+  public double angle(){
+    return encoder.getAbsolutePosition() * 360;
+  }
+
   public void stop(){
     intake.stopMotor();
   }
@@ -51,8 +69,13 @@ public class Intake extends SubsystemBase {
     return beam_break.get();
   }
 
+  public void resetOffset(){
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("Beam Break", loaded());
+    SmartDashboard.putNumber("Intake Angle", angle());
+    SmartDashboard.putNumber("Intake Absolute Angle", encoder.getAbsolutePosition());
   }
 }
