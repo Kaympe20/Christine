@@ -22,21 +22,11 @@ public final class Constants {
 
     public static final int FRONT_LEFT_DRIVE_MOTOR = 4;
     public static final int FRONT_LEFT_TURN_MOTOR = 5;
-<<<<<<< HEAD
-    public static final int FRONT_LEFT_ENCODER = 10;
-    public static double FRONT_LEFT_ENCODER_OFFSET;
-
-    public static final int FRONT_RIGHT_DRIVE_MOTOR = 2;
-    public static final int FRONT_RIGHT_TURN_MOTOR = 3;
-    public static final int FRONT_RIGHT_ENCODER = 11;
-    public static double FRONT_RIGHT_ENCODER_OFFSET;
-=======
     public static final int FRONT_LEFT_ENCODER = 11;
 
     public static final int FRONT_RIGHT_DRIVE_MOTOR = 2;
     public static final int FRONT_RIGHT_TURN_MOTOR = 3;
     public static final int FRONT_RIGHT_ENCODER = 10;
->>>>>>> aa6afaa145322d6e1396109bb2b38c64e16f77ab
 
     public static final int BACK_LEFT_DRIVE_MOTOR = 6;
     public static final int BACK_LEFT_TURN_MOTOR = 7;
