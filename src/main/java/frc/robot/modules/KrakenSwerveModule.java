@@ -23,7 +23,7 @@ public class KrakenSwerveModule implements SwerveModule {
 
     final double PI2 = 2.0 * Math.PI; 
 
-    public KrakenSwerveModule(ShuffleboardLayout tab, int driveID, int steerID, int steerCANID, double offse){
+    public KrakenSwerveModule(ShuffleboardLayout tab, int driveID, int steerID, int steerCANID){
         driveMotor = new TalonFX(driveID, "rio");
         steerMotor = new CANSparkMax(steerID, MotorType.kBrushless);
         steerEncoder = new Canandcoder(steerCANID);

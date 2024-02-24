@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,6 +29,7 @@ public class Intake extends SubsystemBase {
     pivot.getPIDController().setD(0);
     //pivot.getEncoder().setPosition(0);
     pivot.setIdleMode(IdleMode.kBrake);
+    encoder.setPositionOffset(0.0);
   }
  
   public void open(){
@@ -70,6 +72,8 @@ public class Intake extends SubsystemBase {
   }
 
   public void resetOffset(){
+    encoder.setPositionOffset(0);
+  
   }
 
   @Override

@@ -51,8 +51,9 @@ public class IO {
 
         driveController.rightTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
         driveController.leftTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(-1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
-        driveController.leftBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = 0));
+        //driveController.leftBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = 0));
         driveController.rightBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Field_Oriented));
+        driveController.leftBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = 0));
         // driveController.leftTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Fixed_Point_Tracking));
         // driveController.rightTrigger().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Fixed_Alignment));
 
