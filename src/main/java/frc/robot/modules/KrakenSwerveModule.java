@@ -37,7 +37,6 @@ public class KrakenSwerveModule implements SwerveModule {
 
         TalonFXConfiguration config = new TalonFXConfiguration();
         
-
         steerMotor.setSmartCurrentLimit(20);
         config.CurrentLimits.SupplyCurrentLimit = 40;
         config.CurrentLimits.SupplyCurrentLimitEnable = true;

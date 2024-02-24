@@ -26,7 +26,7 @@ public class Intake extends SubsystemBase {
     pivot.getPIDController().setP(0.3);
     pivot.getPIDController().setI(0);
     pivot.getPIDController().setD(0);
-    pivot.getEncoder().setPosition(0);
+    //pivot.getEncoder().setPosition(0);
     pivot.setIdleMode(IdleMode.kBrake);
   }
  

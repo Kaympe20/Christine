@@ -1,7 +1,11 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -9,13 +13,40 @@ public class Flywheel extends SubsystemBase {
   public TalonFX flywheel = new TalonFX(17);
   public static TalonFX pivot = new TalonFX(16);
   public CANSparkMax helperMotor = new CANSparkMax(18, MotorType.kBrushless);
+  public DutyCycleEncoder encoder = new DutyCycleEncoder(3); //TODO: Set ID when added
+
 
   public Flywheel() {
-    
+
+    TalonFXConfiguration config = new TalonFXConfiguration();
+
+    config.ClosedLoopGeneral.ContinuousWrap = true;
+    config.Slot0.kP = 0.3;
+    config.Slot0.kI = 0;
+    config.Slot0.kD = 0;
+    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+    pivot.getConfigurator().apply(config);
   }
 
   public void setAngle(double angle){
     flywheel.setPosition(angle);
+  }
+
+  public double getPivotAngle() {
+    return encoder.getAbsolutePosition() * 360;
+  }
+
+  public void setPivotVoltage(double volts) {
+    pivot.setVoltage(volts);
+  }
+
+  public void setFlywheelVoltage(double volts) {
+    flywheel.setVoltage(volts);
+  }
+
+  public void setHelperVoltage(double volts) {
+    helperMotor.setVoltage(volts);
   }
 
   public void setSpeed(double speed){
@@ -23,7 +54,7 @@ public class Flywheel extends SubsystemBase {
     helperMotor.setVoltage(flywheel.get());
   }
 
-  public void stop(){
+  public void pivotStop(){
     pivot.stopMotor();
   }
 

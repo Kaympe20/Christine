@@ -18,13 +18,10 @@ public class IO {
     public final DriveSubsystem chassis = new DriveSubsystem();
     public Orchestra play = new Orchestra();
     public final Intake intake = new Intake();
-
     public final Limelight limelight = new Limelight();
-
-    //CANSparkMax shoot = new CANSparkMax(15, MotorType.kBrushless);
-
-    //ProfiledIntake profiled_intake = new ProfiledIntake(this, 91); // TODO: 
-    ProfiledIntake profiled_intake = new ProfiledIntake(this, 91);
+    public final Flywheel shooter = new Flywheel();
+    public final ProfiledIntake profiledIntake = new ProfiledIntake(this, 91); //TODO: Change init angle
+    public final ProfiledShooter profiledShoot = new ProfiledShooter(this, 91); //TODO: Change init angle
 
     SendableChooser<Command> autoSelector;
 
@@ -63,6 +60,15 @@ public class IO {
         driveController.povUpLeft().onTrue(new InstantCommand(chassis::disableChassis));
         driveController.povDownRight().onTrue(new InstantCommand(chassis::activeChassis));
         driveController.back().onTrue(new InstantCommand(chassis::resetOdometry));
+
+        mechController.a().onTrue(new InstantCommand(() -> shooter.setFlywheelVoltage(12))).onFalse(new InstantCommand(() -> shooter.setFlywheelVoltage(0)));
+        mechController.b().onTrue(new InstantCommand(() -> shooter.setFlywheelVoltage(-12))).onFalse(new InstantCommand(() -> shooter.setFlywheelVoltage(0)));
+        mechController.y().onTrue(new InstantCommand(() -> shooter.setHelperVoltage(8))).onFalse(new InstantCommand(() -> shooter.setHelperVoltage(0)));
+        mechController.x().onTrue(new InstantCommand(() -> shooter.setHelperVoltage(-8))).onFalse(new InstantCommand(() -> shooter.setHelperVoltage(0)));
+        mechController.leftBumper().onTrue(new InstantCommand(() -> shooter.setPivotVoltage(3))).onFalse(new InstantCommand(() -> shooter.setPivotVoltage(0)));
+        mechController.rightBumper().onTrue(new InstantCommand(() -> shooter.setPivotVoltage(-3))).onFalse(new InstantCommand(() -> shooter.setPivotVoltage(0)));
+
+
     }
 }
 
