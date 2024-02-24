@@ -69,7 +69,6 @@ public class DriveSubsystem extends SubsystemBase {
     private boolean active = true;
 
     public DriveSubsystem() {
-        DriveConstants.setOffsets();
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         modules[0] = new KrakenSwerveModule(
                 tab.getLayout("Front Left Module", BuiltInLayouts.kList)
@@ -77,32 +76,28 @@ public class DriveSubsystem extends SubsystemBase {
                         .withPosition(0, 0),
                 DriveConstants.FRONT_LEFT_DRIVE_MOTOR,
                 DriveConstants.FRONT_LEFT_TURN_MOTOR,
-                DriveConstants.FRONT_LEFT_ENCODER,
-                DriveConstants.FRONT_LEFT_ENCODER_OFFSET);
+                DriveConstants.FRONT_LEFT_ENCODER);
                 modules[1] = new KrakenSwerveModule(
                 tab.getLayout("Front Right Module", BuiltInLayouts.kList)
                         .withSize(2, 4)
                         .withPosition(2, 0),
                 DriveConstants.FRONT_RIGHT_DRIVE_MOTOR,
                 DriveConstants.FRONT_RIGHT_TURN_MOTOR,
-                DriveConstants.FRONT_RIGHT_ENCODER,
-                DriveConstants.FRONT_RIGHT_ENCODER_OFFSET);
+                DriveConstants.FRONT_RIGHT_ENCODER);
                 modules[2] = new KrakenSwerveModule(
                 tab.getLayout("Back Left Module", BuiltInLayouts.kList) //THIS IS A LONG CODE
                         .withSize(2, 4)
                         .withPosition(4, 0),
                 DriveConstants.BACK_LEFT_DRIVE_MOTOR,
                 DriveConstants.BACK_LEFT_TURN_MOTOR,
-                DriveConstants.BACK_LEFT_ENCODER,
-                DriveConstants.BACK_LEFT_ENCODER_OFFSET);
+                DriveConstants.BACK_LEFT_ENCODER);
                 modules[3] = new KrakenSwerveModule(
                 tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                         .withSize(2, 4)
                         .withPosition(6, 0),
                 DriveConstants.BACK_RIGHT_DRIVE_MOTOR,
                 DriveConstants.BACK_RIGHT_TURN_MOTOR,
-                DriveConstants.BACK_RIGHT_ENCODER,
-                DriveConstants.BACK_RIGHT_ENCODER_OFFSET);
+                DriveConstants.BACK_RIGHT_ENCODER);
 
         odometry = new SwerveDriveOdometry(kinematics, rotation(), getModulePositions(), new Pose2d(0, 0, new Rotation2d()));
 

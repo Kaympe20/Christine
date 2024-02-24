@@ -19,7 +19,7 @@ public class HeliumSwerveModule implements SwerveModule {
 
     final double PI2 = 2.0 * Math.PI; 
 
-    public HeliumSwerveModule(ShuffleboardLayout tab, int driveID, int steerID, int steerCANID, double offse){
+    public HeliumSwerveModule(ShuffleboardLayout tab, int driveID, int steerID, int steerCANID){
         driveMotor = new CANSparkMax(driveID, MotorType.kBrushless);
         steerMotor = new CANSparkMax(steerID, MotorType.kBrushless);
         steerEncoder = new Canandcoder(steerCANID);

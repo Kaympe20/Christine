@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -11,15 +13,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Elevator extends SubsystemBase {
-   public CANSparkMax elevatorMotor = new CANSparkMax(19, MotorType.kBrushless);
-   public CANSparkMax elevatorMotorFollower = new CANSparkMax(20, MotorType.kBrushless);
+   public TalonFX elevatorMotor = new TalonFX(19, "rio");
+   public Follower elevatorMotorFollower = new Follower(elevatorMotor.getDeviceID(), true);
 
    public Elevator() {
-    elevatorMotorFollower.follow(elevatorMotor, true);
-    elevatorMotor.getPIDController().setP(0.3);
-    elevatorMotor.getPIDController().setI(0);
-    elevatorMotor.getPIDController().setD(0);
-    elevatorMotor.getEncoder().setPosition(0);
+    
   }
  
   public void setSpeed(double volts){
@@ -27,7 +25,7 @@ public class Elevator extends SubsystemBase {
   }
 
   public void setPosition(double position){
-    elevatorMotor.getPIDController().setReference(position, ControlType.kPosition);
+    elevatorMotor.setPosition(position);
   }
 
   public void stop(){
@@ -39,6 +37,6 @@ public class Elevator extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Elevator Position", elevatorMotor.getEncoder().getPosition());
+
   }
 }
