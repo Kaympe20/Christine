@@ -22,19 +22,23 @@ public final class Constants {
 
     public static final int FRONT_LEFT_DRIVE_MOTOR = 4;
     public static final int FRONT_LEFT_TURN_MOTOR = 5;
-    public static final int FRONT_LEFT_ENCODER = 11;
+    public static final int FRONT_LEFT_ENCODER = 13;
+    public static double FRONT_LEFT_ENCODER_OFFSET;
 
     public static final int FRONT_RIGHT_DRIVE_MOTOR = 2;
     public static final int FRONT_RIGHT_TURN_MOTOR = 3;
-    public static final int FRONT_RIGHT_ENCODER = 10;
+    public static final int FRONT_RIGHT_ENCODER = 12;
+    public static double FRONT_RIGHT_ENCODER_OFFSET;
 
     public static final int BACK_LEFT_DRIVE_MOTOR = 6;
     public static final int BACK_LEFT_TURN_MOTOR = 7;
-    public static final int BACK_LEFT_ENCODER = 12;
+    public static final int BACK_LEFT_ENCODER = 11;
+    public static double BACK_LEFT_ENCODER_OFFSET;
 
     public static final int BACK_RIGHT_DRIVE_MOTOR = 8;
     public static final int BACK_RIGHT_TURN_MOTOR = 9;
-    public static final int BACK_RIGHT_ENCODER = 13;
+    public static final int BACK_RIGHT_ENCODER = 10;
+    public static double BACK_RIGHT_ENCODER_OFFSET;
 
     public static final int PIGEON_ID = 14;
 
@@ -68,6 +72,7 @@ public final class Constants {
     public static final PathPlannerPath straight = PathPlannerPath.fromPathFile("Straight");
     public static final PathPlannerPath straightY = PathPlannerPath.fromPathFile("Straight Y");
     public static final PathPlannerPath Curved = PathPlannerPath.fromPathFile("Curved");
+    public static final PathPlannerPath Test = PathPlannerPath.fromPathFile("Test");
     
     public static final PathPlannerPath allTraversal = PathPlannerPath.fromPathFile("Do everything w other side move");
     public static final PathPlannerPath doubleAmp = PathPlannerPath.fromPathFile("Double score in amp");

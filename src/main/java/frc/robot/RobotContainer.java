@@ -43,8 +43,9 @@ public class RobotContainer {
     commands.put( "Score", new PrintCommand("Scoring in Subwoffer!!"));
     
     NamedCommands.registerCommands(commands);
-      
-    autos.setDefaultOption("Straight", AutoBuilder.followPath(Paths.straight));
+    
+    autos.setDefaultOption("Test", AutoBuilder.followPath(Paths.Test));
+    autos.addOption("Straight", AutoBuilder.followPath(Paths.straight));
     autos.addOption("Straight Y", AutoBuilder.followPath(Paths.straightY));
     autos.addOption("Double Amp", AutoBuilder.followPath(Paths.doubleAmp));
     autos.addOption("Curved", AutoBuilder.followPath(Paths.Curved));

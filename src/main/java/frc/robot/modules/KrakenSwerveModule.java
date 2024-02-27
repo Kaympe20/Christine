@@ -44,10 +44,12 @@ public class KrakenSwerveModule implements SwerveModule {
         steerMotor.setIdleMode(IdleMode.kBrake);
         config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
-
         steerMotor.getEncoder().setPositionConversionFactor(Math.PI * DriveConstants.STEER_REDUCTION);
         steerMotor.getEncoder().setVelocityConversionFactor(Math.PI * DriveConstants.STEER_REDUCTION / 60);
         steerMotor.getEncoder().setPosition(steerAngle());
+
+        steerMotor.getPIDController().setPositionPIDWrappingEnabled(true);
+        steerMotor.getPIDController().setPositionPIDWrappingMaxInput(PI2);
         
         driveMotor.setInverted(true);
         steerMotor.setInverted(false);

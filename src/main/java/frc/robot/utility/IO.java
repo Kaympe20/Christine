@@ -44,7 +44,7 @@ public class IO {
         // driveController.y().onTrue(new InstantCommand(() -> profiled_intake.setAngle(0)));
 
         // driveController.a().onTrue(new InstantCommand(() -> ));
-        driveController.y().onTrue(autoSelector.getSelected());
+        driveController.y().onTrue(new InstantCommand(() -> autoSelector.getSelected().schedule()));
         driveController.x().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll));   
         driveController.a().onTrue(new IntakeNote(this)).onFalse(new InstantCommand(() -> intake.setVoltage(0)));
         driveController.b().onTrue(new InstantCommand(() -> intake.setVoltage(-9))).onFalse(new InstantCommand(() -> intake.setVoltage(0)));

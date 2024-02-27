@@ -35,7 +35,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveSubsystem extends SubsystemBase {
     
-    public static double MAX_VOLTAGE = 12;
+    public static double MAX_VOLTAGE = 8;
     public int drive_mode = 0;
 
     public static final double MAX_VELOCITY_METERS_PER_SECOND = 3;
@@ -164,11 +164,14 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void resetOdometry() {
         resetOdometry(new Pose2d());
+        SmartDashboard.putNumberArray("Auton Pose", new Double[] {0.0, 0.0, rotation().getDegrees()});
     }
 
     public void resetOdometry(Pose2d pose) {
-        setOdometry(pose);
-        setOdometry(pose);
+        setOdometry(new Pose2d(1.5, 5.5, rotation()));
+        setOdometry(new Pose2d(1.5, 5.5, rotation()));
+        SmartDashboard.putNumberArray("Auton Pose", new Double[] {pose.getX(), pose.getY(), pose.getRotation().getDegrees()});
+        // setOdometry(pose);
     }
 
     public void setOdometry(Pose2d pose) {
