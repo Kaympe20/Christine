@@ -45,10 +45,12 @@ public class RobotContainer {
     NamedCommands.registerCommands(commands);
     
     autos.setDefaultOption("Bismillah", AutoBuilder.buildAuto("Bismillah"));
-    autos.addOption("Straight", AutoBuilder.followPath(Paths.straight));
-    autos.addOption("Straight Y", AutoBuilder.followPath(Paths.straightY));
-    autos.addOption("Double Amp", AutoBuilder.followPath(Paths.doubleAmp));
-    autos.addOption("Curved", AutoBuilder.followPath(Paths.Curved));
+    autos.addOption("Triple Subwoffer", AutoBuilder.buildAuto("Triple score in subwofer"));
+    autos.addOption("Scoring on the way out", AutoBuilder.buildAuto("Scoring on the way out"));
+    autos.addOption("Double Amp", AutoBuilder.buildAuto("Double score in amp"));
+    autos.addOption("Double subwofer", AutoBuilder.buildAuto("Double score in subwoffer"));
+    autos.addOption("Do everything", AutoBuilder.buildAuto("Do everything"));
+    autos.addOption("Do everything and otherside", AutoBuilder.buildAuto("Do everything w other side move"));
   }
 
 
