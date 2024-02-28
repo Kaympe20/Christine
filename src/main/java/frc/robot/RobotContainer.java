@@ -44,7 +44,7 @@ public class RobotContainer {
     
     NamedCommands.registerCommands(commands);
     
-    autos.setDefaultOption("Test", AutoBuilder.followPath(Paths.Test));
+    autos.setDefaultOption("Bismillah", AutoBuilder.buildAuto("Bismillah"));
     autos.addOption("Straight", AutoBuilder.followPath(Paths.straight));
     autos.addOption("Straight Y", AutoBuilder.followPath(Paths.straightY));
     autos.addOption("Double Amp", AutoBuilder.followPath(Paths.doubleAmp));

@@ -6,6 +6,8 @@ package frc.robot.utility;
 
 import java.util.HashMap;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -61,9 +63,9 @@ public final class Constants {
 
     public static final double kPXController = 2;
     public static final double kPYController = 2;
-    public static final double kPThetaController = 4;
+    public static final double kPThetaController = 6;
 
-    public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(1,1);
+    public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(3,5);
   }
 
   public static class Paths {

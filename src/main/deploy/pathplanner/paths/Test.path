@@ -8,57 +8,62 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6862222231739332,
-        "y": 6.431111115867505
+        "x": 1.4664946009787467,
+        "y": 6.584285773307218
       },
-      "isLocked": false,
+      "isLocked": true,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.6394152367831385,
-        "y": 7.3557778407421965
+        "x": 1.9320501589136474,
+        "y": 7.621809588133568
       },
       "prevControl": {
-        "x": 1.506399363087425,
-        "y": 6.557682598565783
+        "x": 1.3334787272830606,
+        "y": 7.648412762872705
       },
       "nextControl": {
-        "x": 1.7216147304356035,
-        "y": 7.848974802658304
+        "x": 2.431557062146748,
+        "y": 7.599609281323208
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.0,
+        "x": 2.3310977800007047,
         "y": 5.5
       },
       "prevControl": {
-        "x": 1.75,
-        "y": 7.0
+        "x": 2.3843041294789793,
+        "y": 7.408984190220471
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
-  "constraintZones": [
+  "rotationTargets": [
     {
-      "name": "New Constraints Zone",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0,
-      "constraints": {
-        "maxVelocity": 3.0,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
+      "waypointRelativePos": 1,
+      "rotationDegrees": 90.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
       }
     }
   ],
-  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -67,7 +72,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
