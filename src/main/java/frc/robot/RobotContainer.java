@@ -17,32 +17,36 @@ import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import frc.robot.utility.IO;
-import frc.robot.utility.Constants.Paths;
 
 public class RobotContainer {
   SendableChooser<Runnable> bindings = new SendableChooser<Runnable>();
-  SendableChooser<Command> autos = new SendableChooser<Command>();
+  SendableChooser<Command> autos;
   HashMap<String, Command> commands = new HashMap<>();
 
   public IO io = new IO(bindings, autos);
 
   public RobotContainer() {
+    addAutos();
+
+    autos = AutoBuilder.buildAutoChooser("Bismillah");
+ 
     SmartDashboard.putData("Autos",autos);
     SmartDashboard.putData("Bindings", bindings);
 
-    addAutos();
     io.configGlobal();
     io.configTesting();
   }
 
   public void addAutos(){
-    commands.put("Pickup", new PrintCommand("Picking Up!!"));
+    commands.put("Pickup", new InstantCommand(() -> SmartDashboard.putBoolean("Pickup", true)));
     commands.put("ScoreInAmp", new PrintCommand("Scoring in amp!!"));
     commands.put( "Score", new PrintCommand("Scoring in Subwoffer!!"));
     
     NamedCommands.registerCommands(commands);
+    SmartDashboard.putBoolean("We have pickup command", NamedCommands.hasCommand("Pickup"));
     
     autos.setDefaultOption("Bismillah", AutoBuilder.buildAuto("Bismillah"));
     autos.addOption("Triple Subwoffer", AutoBuilder.buildAuto("Triple score in subwofer"));
