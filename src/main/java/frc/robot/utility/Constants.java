@@ -68,19 +68,4 @@ public final class Constants {
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(3,5);
   }
 
-  public static class Paths {
-    public static final HashMap<String, Command> eventMap = new HashMap<String, Command>();
-    public static final PathPlannerPath all = PathPlannerPath.fromPathFile("Do everything");
-    public static final PathPlannerPath straight = PathPlannerPath.fromPathFile("Straight");
-    public static final PathPlannerPath straightY = PathPlannerPath.fromPathFile("Straight Y");
-    public static final PathPlannerPath Curved = PathPlannerPath.fromPathFile("Curved");
-    public static final PathPlannerPath Test = PathPlannerPath.fromPathFile("Test");
-    
-    public static final PathPlannerPath allTraversal = PathPlannerPath.fromPathFile("Do everything w other side move");
-    public static final PathPlannerPath doubleAmp = PathPlannerPath.fromPathFile("Double score in amp");
-    public static final PathPlannerPath doubleSubwoffer = PathPlannerPath.fromPathFile("double score in subwoofer");
-    public static final PathPlannerPath scoreWTraversal = PathPlannerPath.fromPathFile("Scorig On The Way Out");
-    public static final PathPlannerPath scoreWTraversalBottom = PathPlannerPath.fromPathFile("score on the way out bottom");
-    public static final PathPlannerPath tripleSubwoffer = PathPlannerPath.fromPathFile("triple score in subwoofer");
-  }
 }
