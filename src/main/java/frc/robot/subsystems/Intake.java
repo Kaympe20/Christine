@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
-   public CANSparkMax pivot = new CANSparkMax(14, MotorType.kBrushless);
-   public TalonFX intake = new TalonFX(15, "rio");
+   public CANSparkMax pivot = new CANSparkMax(10, MotorType.kBrushless);
+   public TalonFX intake = new TalonFX(11, "rio");
    public DigitalInput beam_break = new DigitalInput(0);
    public DutyCycleEncoder encoder = new DutyCycleEncoder(2);
    public boolean intakeOpen;
@@ -30,6 +30,9 @@ public class Intake extends SubsystemBase {
     //pivot.getEncoder().setPosition(0);
     pivot.setIdleMode(IdleMode.kBrake);
     encoder.setPositionOffset(0.0);
+    pivot.getPIDController().setPositionPIDWrappingEnabled(true);
+    pivot.getPIDController().setPositionPIDWrappingMaxInput(Math.PI * 2);
+
   }
  
   public void open(){

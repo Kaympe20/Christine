@@ -37,20 +37,13 @@ public class IO {
     }
 
     public void configTesting(){
-        // intake.setDefaultCommand(profiled_intake);
-        // driveController.a().onTrue(new InstantCommand(profiled_intake::stop)); 
-        // driveController.b().onTrue(new InstantCommand(() -> profiled_intake.setAngle(24))); //jacky was here
-        // driveController.x().onTrue(new InstantCommand(() -> profiled_intake.setAngle(269)));
-        // driveController.y().onTrue(new InstantCommand(() -> profiled_intake.setAngle(0)));
+        intake.setDefaultCommand(profiledIntake);
+        
 
         // driveController.a().onTrue(new InstantCommand(() -> ));
         driveController.y().onTrue(new InstantCommand(() -> autoSelector.getSelected().schedule()));
         driveController.x().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll));   
-        driveController.a().onTrue(new IntakeNote(this)).onFalse(new InstantCommand(() -> intake.setVoltage(0)));
-        driveController.b().onTrue(new InstantCommand(() -> intake.setVoltage(-9))).onFalse(new InstantCommand(() -> intake.setVoltage(0)));
-
-        driveController.rightTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
-        driveController.leftTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(-1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
+        
         //driveController.leftBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = 0));
         driveController.rightBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = DriveConstants.Field_Oriented));
         driveController.leftBumper().onTrue(new InstantCommand(() -> chassis.drive_mode = 0));
@@ -62,14 +55,22 @@ public class IO {
         driveController.povDownRight().onTrue(new InstantCommand(chassis::activeChassis));
         driveController.back().onTrue(new InstantCommand(chassis::resetOdometry));
 
-        mechController.a().onTrue(new InstantCommand(() -> shooter.setFlywheelVoltage(12))).onFalse(new InstantCommand(() -> shooter.setFlywheelVoltage(0)));
-        mechController.b().onTrue(new InstantCommand(() -> shooter.setFlywheelVoltage(-12))).onFalse(new InstantCommand(() -> shooter.setFlywheelVoltage(0)));
-        mechController.y().onTrue(new InstantCommand(() -> shooter.setHelperVoltage(8))).onFalse(new InstantCommand(() -> shooter.setHelperVoltage(0)));
-        mechController.x().onTrue(new InstantCommand(() -> shooter.setHelperVoltage(-8))).onFalse(new InstantCommand(() -> shooter.setHelperVoltage(0)));
-        mechController.leftBumper().onTrue(new InstantCommand(() -> shooter.setPivotVoltage(3))).onFalse(new InstantCommand(() -> shooter.setPivotVoltage(0)));
-        mechController.rightBumper().onTrue(new InstantCommand(() -> shooter.setPivotVoltage(-3))).onFalse(new InstantCommand(() -> shooter.setPivotVoltage(0)));
+        // mechController.a().onTrue(new InstantCommand(() -> shooter.setFlywheelVoltage(12))).onFalse(new InstantCommand(() -> shooter.setFlywheelVoltage(0)));
+        // mechController.b().onTrue(new InstantCommand(() -> shooter.setFlywheelVoltage(-12))).onFalse(new InstantCommand(() -> shooter.setFlywheelVoltage(0)));
+        // mechController.y().onTrue(new InstantCommand(() -> shooter.setHelperVoltage(8))).onFalse(new InstantCommand(() -> shooter.setHelperVoltage(0)));
+        // mechController.x().onTrue(new InstantCommand(() -> shooter.setHelperVoltage(-8))).onFalse(new InstantCommand(() -> shooter.setHelperVoltage(0)));
+        // mechController.leftBumper().onTrue(new InstantCommand(() -> shooter.setPivotVoltage(3))).onFalse(new InstantCommand(() -> shooter.setPivotVoltage(0)));
+        // mechController.rightBumper().onTrue(new InstantCommand(() -> shooter.setPivotVoltage(-3))).onFalse(new InstantCommand(() -> shooter.setPivotVoltage(0)));
+        mechController.rightTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
+        mechController.leftTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(-1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
+        mechController.povDown().onTrue(new InstantCommand(() -> intake.setVoltage(4.5))).onFalse(new InstantCommand(() -> intake.setVoltage(0)));
+        mechController.povUp().onTrue(new InstantCommand(() -> intake.setVoltage(-4.5))).onFalse(new InstantCommand(() -> intake.setVoltage(0)));
 
-
+        mechController.a().onTrue(new InstantCommand(profiledIntake::stop)); 
+        mechController.b().onTrue(new InstantCommand(() -> profiledIntake.setAngle(24))); //jacky was here
+        mechController.x().onTrue(new InstantCommand(() -> profiledIntake.setAngle(269)));
+        mechController.y().onTrue(new InstantCommand(() -> profiledIntake.setAngle(0)));
+        
     }
 }
 

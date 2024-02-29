@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -10,9 +11,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class Flywheel extends SubsystemBase {
-  public TalonFX flywheel = new TalonFX(17);
-  public static TalonFX pivot = new TalonFX(16);
-  public CANSparkMax helperMotor = new CANSparkMax(18, MotorType.kBrushless);
+  public TalonFX flywheel = new TalonFX(15, "rio");
+  public TalonFX pivot = new TalonFX(13, "rio");
+  public CANSparkMax helperMotor = new CANSparkMax(12, MotorType.kBrushless);
   public DutyCycleEncoder encoder = new DutyCycleEncoder(3); //TODO: Set ID when added
 
 
@@ -70,5 +71,8 @@ public class Flywheel extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+    SmartDashboard.putNumber("bussss", getPivotAngle());
+    SmartDashboard.putNumber("flywheel rpm", flywheel.get());
+  }
 }

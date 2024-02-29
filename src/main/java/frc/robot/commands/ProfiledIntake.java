@@ -15,7 +15,7 @@ import frc.robot.utility.IO;
 
 public class ProfiledIntake extends Command {
   PIDController controller = new PIDController(0.3, 0, 0);
-  Constraints constraints = new Constraints(2, 2);
+  Constraints constraints = new Constraints(10, 10);
   TrapezoidProfile profile = new TrapezoidProfile(constraints);
   Timer time = new Timer();
   double targetAngle;
