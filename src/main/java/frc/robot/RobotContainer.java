@@ -46,15 +46,14 @@ public class RobotContainer {
     commands.put( "Score", new PrintCommand("Scoring in Subwoffer!!"));
     
     NamedCommands.registerCommands(commands);
-    SmartDashboard.putBoolean("We have pickup command", NamedCommands.hasCommand("Pickup"));
     
-    autos.setDefaultOption("Bismillah", AutoBuilder.buildAuto("Bismillah"));
-    autos.addOption("Triple Subwoffer", AutoBuilder.buildAuto("Triple score in subwofer"));
-    autos.addOption("Scoring on the way out", AutoBuilder.buildAuto("Scoring on the way out"));
-    autos.addOption("Double Amp", AutoBuilder.buildAuto("Double score in amp"));
-    autos.addOption("Double subwofer", AutoBuilder.buildAuto("Double score in subwoffer"));
-    autos.addOption("Do everything", AutoBuilder.buildAuto("Do everything"));
-    autos.addOption("Do everything and otherside", AutoBuilder.buildAuto("Do everything w other side move"));
+    // autos.setDefaultOption("Bismillah", AutoBuilder.buildAuto("Bismillah"));
+    // autos.addOption("Triple Subwoffer", AutoBuilder.buildAuto("Triple score in subwofer"));
+    // autos.addOption("Scoring on the way out", AutoBuilder.buildAuto("Scoring on the way out"));
+    // autos.addOption("Double Amp", AutoBuilder.buildAuto("Double score in amp"));
+    // autos.addOption("Double subwofer", AutoBuilder.buildAuto("Double score in subwoffer"));
+    // autos.addOption("Do everything", AutoBuilder.buildAuto("Do everything"));
+    // autos.addOption("Do everything and otherside", AutoBuilder.buildAuto("Do everything w other side move"));
   }
 
 

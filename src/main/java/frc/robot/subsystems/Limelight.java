@@ -128,7 +128,7 @@ public class Limelight extends SubsystemBase {
   public double[] tagPose(){
     switch(tagID()){
       default:
-      return table.getEntry("targetpose_robotspace").getDoubleArray( new double[] {-1,-1,-1, -1,-1,-1}); // TODO: Check if it returns [X,Y,Z,Roll,Pitch,Yaw]
+      return new double[] {-1,-1,-1, -1,-1,-1};
       
 
       case 1: // Blue Alliance Player Station

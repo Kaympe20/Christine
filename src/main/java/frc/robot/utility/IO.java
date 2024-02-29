@@ -5,6 +5,7 @@ import com.ctre.phoenix.music.Orchestra;
 //import frc.robot.commands.music;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.*;
@@ -17,6 +18,7 @@ public class IO {
 
     public final DriveSubsystem chassis = new DriveSubsystem();
     public Orchestra play = new Orchestra();
+    public final LEDs leds = new LEDs();
     public final Intake intake = new Intake();
     public final Limelight limelight = new Limelight();
     public final Flywheel shooter = new Flywheel();
@@ -61,16 +63,20 @@ public class IO {
         // mechController.x().onTrue(new InstantCommand(() -> shooter.setHelperVoltage(-8))).onFalse(new InstantCommand(() -> shooter.setHelperVoltage(0)));
         // mechController.leftBumper().onTrue(new InstantCommand(() -> shooter.setPivotVoltage(3))).onFalse(new InstantCommand(() -> shooter.setPivotVoltage(0)));
         // mechController.rightBumper().onTrue(new InstantCommand(() -> shooter.setPivotVoltage(-3))).onFalse(new InstantCommand(() -> shooter.setPivotVoltage(0)));
-        mechController.rightTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
-        mechController.leftTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(-1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
-        mechController.povDown().onTrue(new InstantCommand(() -> intake.setVoltage(4.5))).onFalse(new InstantCommand(() -> intake.setVoltage(0)));
-        mechController.povUp().onTrue(new InstantCommand(() -> intake.setVoltage(-4.5))).onFalse(new InstantCommand(() -> intake.setVoltage(0)));
+        // mechController.rightTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
+        // mechController.leftTrigger().onTrue(new InstantCommand(() -> intake.intakeVolts(-1.5))).onFalse(new InstantCommand(() -> intake.intakeVolts(0)));
+        // mechController.povDown().onTrue(new InstantCommand(() -> intake.setVoltage(4.5))).onFalse(new InstantCommand(() -> intake.setVoltage(0)));
+        // mechController.povUp().onTrue(new InstantCommand(() -> intake.setVoltage(-4.5))).onFalse(new InstantCommand(() -> intake.setVoltage(0)));
 
-        mechController.a().onTrue(new InstantCommand(profiledIntake::stop)); 
-        mechController.b().onTrue(new InstantCommand(() -> profiledIntake.setAngle(24))); //jacky was here
-        mechController.x().onTrue(new InstantCommand(() -> profiledIntake.setAngle(269)));
-        mechController.y().onTrue(new InstantCommand(() -> profiledIntake.setAngle(0)));
-        
+        // mechController.a().onTrue(new InstantCommand(profiledIntake::stop)); 
+        // mechController.b().onTrue(new InstantCommand(() -> profiledIntake.setAngle(24))); //jacky was here
+        // mechController.x().onTrue(new InstantCommand(() -> profiledIntake.setAngle(269)));
+        // mechController.y().onTrue(new InstantCommand(() -> profiledIntake.setAngle(0)));
+
+        mechController.b().onTrue(new InstantCommand(leds::sequenceLed));
+        mechController.a().onTrue(new InstantCommand(leds::autonLed));
+
+        intake.setDefaultCommand(new InstantCommand(() -> SmartDashboard.putNumber("Expected Flywheel Angle", Flywheel.pivotAngle(limelight.tagPose()[1],limelight.distance())), intake));
     }
 }
 
