@@ -56,6 +56,17 @@ public class LEDs extends SubsystemBase {
     led.setData(ledBuffer);
   }
 
+  public void clear(){
+    for (int i = 0; i < ledBuffer.getLength(); i++) {
+      ledBuffer.setRGB(i, 0, 0, 0);
+    }
+    led.setData(ledBuffer);
+  }
+
+  public void stop(){
+    led.stop();
+  }
+
   public static class LEDConstants {
     public static final int LED_PORT = 6;
     public static final int LED_LENGTH = 3000;

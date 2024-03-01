@@ -72,7 +72,7 @@ public class Flywheel extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("bussss", getPivotAngle());
-    SmartDashboard.putNumber("flywheel rpm", flywheel.get());
+    SmartDashboard.putNumber("Flywheel Angle", getPivotAngle());
+    SmartDashboard.putNumber("Flywheel RPM", flywheel.getVelocity().getValueAsDouble());
   }
 }

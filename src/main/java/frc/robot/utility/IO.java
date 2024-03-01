@@ -39,8 +39,8 @@ public class IO {
     }
 
     public void configTesting(){
-        intake.setDefaultCommand(profiledIntake);
-        
+        // intake.setDefaultCommand(profiledIntake);
+        shooter.setDefaultCommand(profiledShoot);
 
         // driveController.a().onTrue(new InstantCommand(() -> ));
         driveController.y().onTrue(new InstantCommand(() -> autoSelector.getSelected().schedule()));
@@ -73,10 +73,17 @@ public class IO {
         // mechController.x().onTrue(new InstantCommand(() -> profiledIntake.setAngle(269)));
         // mechController.y().onTrue(new InstantCommand(() -> profiledIntake.setAngle(0)));
 
-        mechController.b().onTrue(new InstantCommand(leds::sequenceLed));
-        mechController.a().onTrue(new InstantCommand(leds::autonLed));
+        // mechController.y().onTrue(new InstantCommand(leds::clear));
+        // mechController.x().onTrue(new InstantCommand(leds::stop));
+        
+        // mechController.b().onTrue(new InstantCommand(leds::sequenceLed));
+        // mechController.a().onTrue(new InstantCommand(leds::autonLed));
+        mechController.a().onTrue(new InstantCommand(() -> profiledShoot.setAngle(10)));
+        mechController.x().onTrue(new InstantCommand(() -> profiledShoot.setAngle(300)));
+        mechController.b().onTrue(new InstantCommand(profiledShoot::stop));
 
-        intake.setDefaultCommand(new InstantCommand(() -> SmartDashboard.putNumber("Expected Flywheel Angle", Flywheel.pivotAngle(limelight.tagPose()[1],limelight.distance())), intake));
+
+        // // intake.setDefaultCommand(new InstantCommand(() -> SmartDashboard.putNumber("Expected Flywheel Angle", Flywheel.pivotAngle(limelight.tagPose()[1],limelight.distance())), intake));
     }
 }
 

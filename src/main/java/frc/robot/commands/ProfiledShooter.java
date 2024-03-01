@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.utility.IO;
 
 public class ProfiledShooter extends Command {
-  PIDController controller = new PIDController(0.3, 0, 0);
-  Constraints constraints = new Constraints(2, 2);
+  PIDController controller = new PIDController(.1, 0, 0);
+  Constraints constraints = new Constraints(50, 10);
   TrapezoidProfile profile = new TrapezoidProfile(constraints);
   Timer time = new Timer();
   double targetAngle;
@@ -44,11 +44,13 @@ public class ProfiledShooter extends Command {
 
   @Override
   public void execute() {
-    if (!stopped) {
-      State out = profile.calculate(time.get(), new State(io.shooter.getPivotAngle(), 0.0), new State(targetAngle, 0));
+    State out = profile.calculate(time.get(), new State(io.shooter.getPivotAngle(), 0.0), new State(targetAngle, 0));
+    if (!stopped || Math.abs(controller.getPositionError()) < 0.5) {
       double output = controller.calculate(io.shooter.getPivotAngle(), out.position);
       SmartDashboard.putNumber("Expected Profile Angle", out.position);
       SmartDashboard.putNumber("Angle Voltage", output);
+      SmartDashboard.putNumber("Position Error", controller.getPositionError());
+
 
       io.shooter.setPivotVoltage(output);
     }
