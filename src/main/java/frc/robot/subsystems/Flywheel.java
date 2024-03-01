@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -60,14 +61,15 @@ public class Flywheel extends SubsystemBase {
   }
 
   public static double pivotAngle(double height, double distance){
-    return Math.atan(height/distance);
+    return Math.toDegrees(Math.atan(height/distance));
   }
 
   public static double RPM(double angle, double distance){
-    double radius = 1; // TODO: find radius for the flywheel
+    double radius = Units.inchesToMeters(1.5);
     double conversion_factor = 60/(2*Math.PI*radius);
-    double raw_rpm = conversion_factor * Math.sqrt(distance * -9.8 * Math.sin(2*angle)); // NOTE: 9.8 could be negative or positive, idk
-    return Math.max(0,Math.min(6000.0, raw_rpm))/6000;
+    double raw_rpm = conversion_factor * Math.sqrt(distance * 9.8 * Math.sin(2*angle)); // NOTE: 9.8 could be negative or positive, idk
+    return Math.max(Math.min(raw_rpm,6000),0)/6000;
+    // return raw_rpm;
   }
 
   @Override

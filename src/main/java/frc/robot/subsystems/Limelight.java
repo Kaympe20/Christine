@@ -4,9 +4,11 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -42,13 +44,14 @@ public class Limelight extends SubsystemBase {
   private TargetData targetData = new TargetData();
 
   public NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  StructPublisher<Pose2d> posePublisher = NetworkTableInstance.getDefault().getTable("Simulating").getStructTopic("EstimatedPose", Pose2d.struct).publish();
 
   @Override
   public void periodic() {
     SmartDashboard.putString("Stream Mode", (streamMode() == 0) ? "Main" : "Secondary");
-
     updateTargetData(table);
     
+    posePublisher.set(poseEstimation(new Rotation2d(0)));
     
     SmartDashboard.putNumberArray("TargetPose", tagPose());
   }
@@ -80,6 +83,19 @@ public class Limelight extends SubsystemBase {
 
     return Math.abs(dist);
   }
+
+  public Pose2d poseEstimation(Rotation2d rotation) { // cosine is x pose, sine is y pose
+    double[] tag = tagPose();
+
+    double rot = (tag[3] == 180) ? -1 : 1;
+
+    double botX = tag[0] + (distance() * Math.acos(Math.toRadians(targetData.horizontalOffset)) * rot);
+    double botY = tag[2] - (distance() * Math.asin(Math.toRadians(targetData.horizontalOffset)) * rot);
+
+    return new Pose2d(botX, botY, rotation);
+  }
+
+
 
   public TargetData targetData() {
     return targetData;
@@ -132,46 +148,46 @@ public class Limelight extends SubsystemBase {
       
 
       case 1: // Blue Alliance Player Station
-      return new double[]{15.36, 1.22, 0.44};
+      return new double[]{15.36, 1.22, 0.44, 0};
 
       case 2: // Blue Alliance Player Station
-      return new double[]{15.85, 1.22, 0.85};
+      return new double[]{15.85, 1.22, 0.85, 0};
 
       case 3,4: // Red Alliance Speaker
-      return new double[]{16.27, 1.32, 5.60};
+      return new double[]{16.27, 1.32, 5.60, 180};
 
       case 5: // Red Alliance AMP
-      return new double[]{14.64, 1.22, 8.01};
+      return new double[]{14.64, 1.22, 8.01, 180};
 
       case 6: // Blue Alliance AMP
-      return new double[]{1.89, 1.22, 8.00};
+      return new double[]{1.89, 1.22, 8.00, 0};
 
       case 7, 8: // Blue Alliance Speaker
-      return new double[]{0.41, 1.32,  5.50};
+      return new double[]{0.41, 1.32,  5.50, 0};
 
       case 9: // Red Alliance Player Station
-      return new double[]{0.64, 1.22, 0.82};
+      return new double[]{0.64, 1.22, 0.82, 180};
 
       case 10: // Red Alliance Playe Station
-      return new double[]{1.21, 1.22, 0.50};
+      return new double[]{1.21, 1.22, 0.50, 180};
 
       case 11: // Red Alliance Stage
-      return new double[]{11.90, 1.21, 3.73};
+      return new double[]{11.90, 1.21, 3.73, 180};
       
       case 12: // Red Alliance Stage
-      return new double[]{11.90, 1.21, 4.53};
+      return new double[]{11.90, 1.21, 4.53, 180};
 
       case 13: // Red Alliance Stage
-      return new double[]{11.20, 1.21, 4.15};
+      return new double[]{11.20, 1.21, 4.15, 180};
 
       case 14: // Blue Alliance Stage
-      return new double[]{5.32, 1.21, 4.15};
+      return new double[]{5.32, 1.21, 4.15, 0};
 
       case 15: // Blue Alliance Stage
-      return new double[]{4.66, 1.21, 4.54};
+      return new double[]{4.66, 1.21, 4.54, 0};
 
       case 16: // Blue Alliance Stage
-      return new double[]{4.66, 1.21, 3.71};
+      return new double[]{4.66, 1.21, 3.71, 0};
 
     }
   }

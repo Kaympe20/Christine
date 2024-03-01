@@ -75,7 +75,7 @@ public class IO {
 
         // mechController.y().onTrue(new InstantCommand(leds::clear));
         // mechController.x().onTrue(new InstantCommand(leds::stop));
-        
+         
         // mechController.b().onTrue(new InstantCommand(leds::sequenceLed));
         // mechController.a().onTrue(new InstantCommand(leds::autonLed));
         mechController.a().onTrue(new InstantCommand(() -> profiledShoot.setAngle(10)));
@@ -83,7 +83,12 @@ public class IO {
         mechController.b().onTrue(new InstantCommand(profiledShoot::stop));
 
 
-        // // intake.setDefaultCommand(new InstantCommand(() -> SmartDashboard.putNumber("Expected Flywheel Angle", Flywheel.pivotAngle(limelight.tagPose()[1],limelight.distance())), intake));
+        intake.setDefaultCommand(new InstantCommand(() -> {
+            double distance = limelight.distance();
+            double angle = Flywheel.pivotAngle(limelight.tagPose()[1], distance);
+            SmartDashboard.putNumber("Expected Flywheel Angle", angle);
+            SmartDashboard.putNumber("Expected RPM", Flywheel.RPM(angle, distance));
+        }, intake));
     }
 }
 

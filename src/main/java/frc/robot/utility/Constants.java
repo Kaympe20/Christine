@@ -38,7 +38,6 @@ public final class Constants {
 
     public static final int PIGEON_ID = 14;
 
-    // public static final double WHEEL_DIAMETER = 0.1016; // Metres
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(4); // Metres
     public static final double DRIVE_REDUCTION = (15.0 / 32.0) * (10.0 / 60.0);
     public static final double STEER_REDUCTION = (14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0);
