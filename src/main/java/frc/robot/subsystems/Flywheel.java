@@ -11,21 +11,24 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class Flywheel extends SubsystemBase {
-  public TalonFX flywheel = new TalonFX(15, "rio");
-  public TalonFX pivot = new TalonFX(13, "rio");
-  public CANSparkMax helperMotor = new CANSparkMax(12, MotorType.kBrushless);
-  public DutyCycleEncoder encoder = new DutyCycleEncoder(3); //TODO: Set ID when added
 
+  public TalonFX pivot = new TalonFX(13, "rio");
+  public TalonFX flywheel = new TalonFX(15, "rio");
+  public DutyCycleEncoder encoder = new DutyCycleEncoder(3);
+  public CANSparkMax helperMotor = new CANSparkMax(12, MotorType.kBrushless);
+
+  public final double PASS_OFF_ANGLE = 63.0; // 54.
+  public final double AMP = 163.0;
 
   public Flywheel() {
 
     TalonFXConfiguration config = new TalonFXConfiguration();
 
-    config.ClosedLoopGeneral.ContinuousWrap = true;
+    config.ClosedLoopGeneral.ContinuousWrap = false;
     config.Slot0.kP = 0.3;
     config.Slot0.kI = 0;
     config.Slot0.kD = 0;
-    config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+    config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
     pivot.getConfigurator().apply(config);
   }

@@ -16,38 +16,29 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+
 public class Intake extends SubsystemBase {
    public CANSparkMax pivot = new CANSparkMax(10, MotorType.kBrushless);
    public TalonFX intake = new TalonFX(11, "rio");
    public DigitalInput beam_break = new DigitalInput(0);
    public DutyCycleEncoder encoder = new DutyCycleEncoder(2);
-   public boolean intakeOpen;
+   public boolean closed;
 
   public Intake() {
     pivot.getPIDController().setP(0.3);
     pivot.getPIDController().setI(0);
     pivot.getPIDController().setD(0);
-    //pivot.getEncoder().setPosition(0);
+    
     pivot.setIdleMode(IdleMode.kBrake);
     encoder.setPositionOffset(0.0);
     pivot.getPIDController().setPositionPIDWrappingEnabled(true);
     pivot.getPIDController().setPositionPIDWrappingMaxInput(Math.PI * 2);
-
-  }
- 
-  public void open(){
-    pivot.getPIDController().setReference(0, ControlType.kPosition); //placeholder value
-    intakeOpen = true;
-  }
-
-  public void close(){
-    pivot.getPIDController().setReference(0, ControlType.kPosition);
-    intakeOpen = false;
+    
+    closed = (angle() < 93);
   }
 
   public void toggle(){
-    if (intakeOpen) close();
-    else open();
+      pivot.setVoltage( 5 * ( closed ? -1 : 1) );
   }
 
   public void setSpeed(double speed){
@@ -83,6 +74,7 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("Beam Break", loaded());
     SmartDashboard.putNumber("Intake Angle", angle());
-    SmartDashboard.putNumber("Intake Absolute Angle", encoder.getAbsolutePosition());
+    SmartDashboard.putBoolean("Intake Closed", closed);
+    //SmartDashboard.putNumber("Intake Absolute Angle", encoder.getAbsolutePosition());
   }
 }

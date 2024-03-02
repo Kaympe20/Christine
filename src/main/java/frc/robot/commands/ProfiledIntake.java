@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.utility.IO;
 
 public class ProfiledIntake extends Command {
-  PIDController controller = new PIDController(0.3, 0, 0);
-  Constraints constraints = new Constraints(10, 10);
+  PIDController controller = new PIDController(0.5, 0, 0.1);
+  Constraints constraints = new Constraints(20, 10);
   TrapezoidProfile profile = new TrapezoidProfile(constraints);
   Timer time = new Timer();
   double targetAngle;
@@ -24,8 +24,10 @@ public class ProfiledIntake extends Command {
   boolean stopped;
 
   public ProfiledIntake(IO io, double init_angle) {
+    stopped = false;
     this.io = io;
     targetAngle = init_angle;
+    controller.enableContinuousInput(0, Math.PI * 2);
     controller.reset();
     addRequirements(io.intake);
   }
@@ -44,12 +46,12 @@ public class ProfiledIntake extends Command {
 
   @Override
   public void execute() {
-    if (!stopped) {
-      State out = profile.calculate(time.get(), new State(io.intake.angle(), 0.0), new State(targetAngle, 0));
+    State out = profile.calculate(time.get(), new State(io.intake.angle(), 0.0), new State(targetAngle, 0));
+    if (!stopped || Math.abs(controller.getPositionError()) > 0.5) {
       double output = controller.calculate(io.intake.angle(), out.position);
       SmartDashboard.putNumber("Expected Profile Angle", out.position);
       SmartDashboard.putNumber("Angle Voltage", output);
-
+      SmartDashboard.putBoolean("is enabled", controller.isContinuousInputEnabled());
       io.intake.intakeVolts(output);
     }
   }

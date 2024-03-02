@@ -5,33 +5,37 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-//import edu.wpi.first.wpilibj2.command.InstantCommand;
-//import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.utility.IO;
 
-public class IntakeNote extends Command {
+public class ToggleIntake extends Command {
+
   IO io;
-  public IntakeNote(IO io) {
+
+  public ToggleIntake(IO io) {
     this.io = io;
+    addRequirements(io.intake);
   }
 
+  // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
-
-  @Override
-  public void execute() {
-    io.intake.setVoltage(6);
+  public void initialize() {
+    io.intake.toggle();
   }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     io.intake.stop();
+    io.intake.closed = (io.intake.angle() < 93);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !io.intake.loaded();
+    return (io.intake.angle() > 260 && io.intake.closed ) || (io.intake.angle() < 93 && !io.intake.closed);
   }
 }
