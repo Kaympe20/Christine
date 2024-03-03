@@ -33,19 +33,19 @@ public class ProfiledShooter extends Command {
   public void setAngle(double angle) {
     controller.reset();
     time.restart();
-    targetAngle = angle;
+    targetAngle = Math.max(Math.min(angle,261),31);;
     stopped = false;
   }
 
   public void stop() {
-    io.shooter.setPivotVoltage(0);
+    io.shooter.pivotVoltage(0);
     stopped = true;
   }
 
   @Override
   public void execute() {
-      State out = profile.calculate(time.get(), new State(io.shooter.getPivotAngle(), 0.0), new State(targetAngle, 0));
-      double output = controller.calculate(io.shooter.getPivotAngle(), out.position);
+      State out = profile.calculate(time.get(), new State(io.shooter.angle(), 0.0), new State(targetAngle, 0));
+      double output = controller.calculate(io.shooter.angle(), out.position);
 
     if (!stopped || Math.abs(controller.getPositionError()) < 0.5) {
       SmartDashboard.putNumber("Expected Profile Angle", out.position);
@@ -53,9 +53,14 @@ public class ProfiledShooter extends Command {
       SmartDashboard.putNumber("Angle Voltage", output);
       SmartDashboard.putNumber("Position Error", controller.getPositionError());
 
-      io.shooter.setPivotVoltage(-output);
+      io.shooter.pivotVoltage(-output);
     }
   }
+
+    @Override
+    public void end(boolean interrupted){
+      io.shooter.helperVoltage(0);
+    }
 
   @Override
   public boolean isFinished() {

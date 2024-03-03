@@ -7,11 +7,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 //import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,32 +22,24 @@ public class Intake extends SubsystemBase {
    public DutyCycleEncoder encoder = new DutyCycleEncoder(2);
    public boolean closed;
 
-  public Intake() {
-    pivot.getPIDController().setP(0.3);
-    pivot.getPIDController().setI(0);
-    pivot.getPIDController().setD(0);
-    
-    pivot.setIdleMode(IdleMode.kBrake);
-    encoder.setPositionOffset(0.0);
-    pivot.getPIDController().setPositionPIDWrappingEnabled(true);
-    pivot.getPIDController().setPositionPIDWrappingMaxInput(Math.PI * 2);
-    
+  public Intake() { 
+    pivot.setIdleMode(IdleMode.kCoast);
+    pivot.setSmartCurrentLimit(20);
     closed = (angle() < 93);
   }
 
   public void toggle(){
-      pivot.setVoltage( 5 * ( closed ? -1 : 1) );
   }
 
-  public void setSpeed(double speed){
+  public void speed(double speed){
     intake.set(speed);
   }
 
-  public void intakeVolts(double volts){
+  public void pivotVoltage(double volts){
     pivot.setVoltage(volts);
   }
   
-  public void setVoltage(double voltage){
+  public void intakeVoltage(double voltage){
     intake.setVoltage(voltage);
   }
 
@@ -57,17 +47,8 @@ public class Intake extends SubsystemBase {
     return encoder.getAbsolutePosition() * 360;
   }
 
-  public void stop(){
-    intake.stopMotor();
-  }
-
   public boolean loaded() {
     return beam_break.get();
-  }
-
-  public void resetOffset(){
-    encoder.setPositionOffset(0);
-  
   }
 
   @Override
@@ -75,6 +56,5 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putBoolean("Beam Break", loaded());
     SmartDashboard.putNumber("Intake Angle", angle());
     SmartDashboard.putBoolean("Intake Closed", closed);
-    //SmartDashboard.putNumber("Intake Absolute Angle", encoder.getAbsolutePosition());
   }
 }

@@ -4,27 +4,26 @@
 
 package frc.robot.commands;
 
-import java.util.function.Consumer;
-
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.utility.IO;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PassOff extends SequentialCommandGroup {
-  public PassOff(IO io, Runnable setAngle, Runnable stop) {
+
+  public PassOff(IO io, ProfiledShooter shoot) {
+    ProfiledShooter profiledShoot = new ProfiledShooter(io, 70.0);
     addCommands(
-      new ToggleIntake(io),
-      new IntakeNote(io),
-      new ToggleIntake(io),
-      new InstantCommand(setAngle),
-      new InstantCommand(() -> io.shooter.setHelperVoltage(-1)),
-      new WaitCommand(0.2),
-      new InstantCommand(() -> io.shooter.setHelperVoltage(0)),
-      new InstantCommand(stop)
-    );
+        new ParallelDeadlineGroup(profiledShoot,
+            new SequentialCommandGroup(
+                new InstantCommand(() -> profiledShoot.setAngle(70)),
+                new ConditionalCommand(
+                  new SequentialCommandGroup(
+                    new ToggleIntake(io),
+                    new IntakeNote(io),
+                    new ToggleIntake(io)), 
+                  new InstantCommand(() -> profiledShoot.setAngle(70.0)),
+                    () -> io.intake.closed))));
   }
 }

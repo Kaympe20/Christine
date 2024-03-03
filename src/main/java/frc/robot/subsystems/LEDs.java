@@ -6,12 +6,11 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LEDs extends SubsystemBase {
-  AddressableLED led = new AddressableLED(LEDConstants.LED_PORT);
-  AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(LEDConstants.LED_LENGTH);
+  AddressableLED led = new AddressableLED(6);
+  AddressableLEDBuffer ledBuffer = new AddressableLEDBuffer(3000);
 
   public LEDs() {
     led.setLength(ledBuffer.getLength());
@@ -29,48 +28,40 @@ public class LEDs extends SubsystemBase {
   }
 
   public void holdNoteLed() {
-    for (int i = 0; i < ledBuffer.getLength(); i++) {
+    for (int i = 0; i < ledBuffer.getLength(); i++)
       ledBuffer.setRGB(i, 0, 255, 0);
-    }
     led.setData(ledBuffer);
   }
 
   public void noNotesLed() {
-    for (int i = 0; i < ledBuffer.getLength(); i++) {
+    for (int i = 0; i < ledBuffer.getLength(); i++)
       ledBuffer.setRGB(i, 255, 0, 0);
-    }
     led.setData(ledBuffer);
   }
 
   public void autonLed() {
-    for (int i = 0; i < ledBuffer.getLength(); i++) {
+    for (int i = 0; i < ledBuffer.getLength(); i++)
       ledBuffer.setRGB(i, 5, 237, 245);
-    }
     led.setData(ledBuffer);
   }
 
   public void sequenceLed() {
-    for (int i = 0; i < ledBuffer.getLength(); i++) {
+    for (int i = 0; i < ledBuffer.getLength(); i++)
       ledBuffer.setRGB(i, 255, 247, 0);
-    }
     led.setData(ledBuffer);
   }
 
   public void clear(){
-    for (int i = 0; i < ledBuffer.getLength(); i++) {
+    for (int i = 0; i < ledBuffer.getLength(); i++)
       ledBuffer.setRGB(i, 0, 0, 0);
-    }
     led.setData(ledBuffer);
+  }
+
+  public void start(){
+    led.start();
   }
 
   public void stop(){
     led.stop();
-  }
-
-  public static class LEDConstants {
-    public static final int LED_PORT = 6;
-    public static final int LED_LENGTH = 3000;
-    public static final Color YELLOW_LOW_POWER = new Color(0.2, 0.1, 0);
-    public static final Color BLUE_LOW_POWER = new Color(0, 0, 0.25);
   }
 }

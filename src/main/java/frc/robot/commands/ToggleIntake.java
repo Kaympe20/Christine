@@ -11,31 +11,32 @@ public class ToggleIntake extends Command {
 
   IO io;
 
+  boolean origin;
+
   public ToggleIntake(IO io) {
     this.io = io;
     addRequirements(io.intake);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    io.intake.toggle();
+        origin = (io.intake.angle() < 80);
+    io.intake.pivot.setVoltage( 5 * ( origin ? -1 : 1) );
+
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    io.intake.closed = (io.intake.angle() < 80);
+  }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    io.intake.stop();
-    io.intake.closed = (io.intake.angle() < 93);
+    io.intake.pivotVoltage(0);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (io.intake.angle() > 260 && io.intake.closed ) || (io.intake.angle() < 93 && !io.intake.closed);
+    return origin != io.intake.closed;
   }
 }

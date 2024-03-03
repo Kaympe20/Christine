@@ -57,9 +57,6 @@ public class DefaultDrive extends Command {
         Translation2d tr;
         Rotation2d adjustmentAngle;
 
-        // if (!io.limelight.targetData().hasTargets && io.chassis.drive_mode > 1)
-        //     io.chassis.drive_mode = 1;
-
         switch (io.chassis.drive_mode) {
             case 1: // Field-Oriented
             output = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed, io.chassis.rotation());
