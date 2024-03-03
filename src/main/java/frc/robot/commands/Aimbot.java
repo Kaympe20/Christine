@@ -6,7 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.utility.Constants;
 import frc.robot.utility.IO;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
@@ -14,6 +13,9 @@ public class Aimbot extends PIDCommand {
   
   public static double AimbotSpeed = 0.5; // TODO: PLACEHOLDER
   public static double minimumAdjustment = 2.5; // TODO: PLACEHOLDER
+
+  public static final double DRIVE_MAX_VELOCITY_METERS_PER_SECOND = 0.5;
+  public static final double DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 0.2;
 
   IO io;
 
@@ -23,7 +25,7 @@ public class Aimbot extends PIDCommand {
         () -> io.limelight.targetData().horizontalOffset,
         () -> 0,
         output -> {
-          io.chassis.drive(new ChassisSpeeds(0, 0, output * AimbotSpeed * Constants.DRIVE_MAX_VELOCITY_METERS_PER_SECOND));
+          io.chassis.drive(new ChassisSpeeds(0, 0, output * AimbotSpeed * DRIVE_MAX_VELOCITY_METERS_PER_SECOND));
         });
         this.io = io;
         addRequirements(io.chassis, io.limelight);

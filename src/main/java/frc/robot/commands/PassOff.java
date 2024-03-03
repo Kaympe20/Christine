@@ -15,8 +15,7 @@ public class PassOff extends SequentialCommandGroup {
   public PassOff(IO io, ProfiledShooter shoot) {
     ProfiledShooter profiledShoot = new ProfiledShooter(io, 70.0);
     addCommands(
-        new ParallelDeadlineGroup(profiledShoot,
-            new SequentialCommandGroup(
+        new ParallelDeadlineGroup(new SequentialCommandGroup(
                 new InstantCommand(() -> profiledShoot.setAngle(70)),
                 new ConditionalCommand(
                   new SequentialCommandGroup(
@@ -24,6 +23,6 @@ public class PassOff extends SequentialCommandGroup {
                     new IntakeNote(io),
                     new ToggleIntake(io)), 
                   new InstantCommand(() -> profiledShoot.setAngle(70.0)),
-                    () -> io.intake.closed))));
+                    () -> io.intake.closed)), profiledShoot));
   }
 }

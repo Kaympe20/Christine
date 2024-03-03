@@ -13,6 +13,8 @@ public class ToggleIntake extends Command {
 
   boolean origin;
 
+  final double MAX_VOLTS = 5;
+
   public ToggleIntake(IO io) {
     this.io = io;
     addRequirements(io.intake);
@@ -20,14 +22,14 @@ public class ToggleIntake extends Command {
 
   @Override
   public void initialize() {
-        origin = (io.intake.angle() < 80);
-    io.intake.pivot.setVoltage( 5 * ( origin ? -1 : 1) );
+        origin = (io.intake.angle() < io.intake.closedAngle);
+    io.intake.pivot.setVoltage( MAX_VOLTS * ( origin ? -1 : 1) );
 
   }
 
   @Override
   public void execute() {
-    io.intake.closed = (io.intake.angle() < 80);
+    io.intake.closed = (io.intake.angle() < io.intake.closedAngle);
   }
 
   @Override

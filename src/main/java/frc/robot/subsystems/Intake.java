@@ -5,7 +5,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-//import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -14,41 +13,39 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
 public class Intake extends SubsystemBase {
-   public CANSparkMax pivot = new CANSparkMax(10, MotorType.kBrushless);
-   public TalonFX intake = new TalonFX(11, "rio");
-   public DigitalInput beam_break = new DigitalInput(0);
-   public DutyCycleEncoder encoder = new DutyCycleEncoder(2);
-   public boolean closed;
+  public CANSparkMax pivot = new CANSparkMax(10, MotorType.kBrushless);
+  public TalonFX intake = new TalonFX(11, "rio");
+  public DigitalInput beamBreak = new DigitalInput(0);
+  public DutyCycleEncoder encoder = new DutyCycleEncoder(2);
+  public boolean closed;
 
-  public Intake() { 
+  public final double closedAngle = 80.0;
+
+  public Intake() {
     pivot.setIdleMode(IdleMode.kCoast);
     pivot.setSmartCurrentLimit(20);
-    closed = (angle() < 93);
+    closed = (angle() < closedAngle);
   }
 
-  public void toggle(){
-  }
-
-  public void speed(double speed){
+  public void speed(double speed) {
     intake.set(speed);
   }
 
-  public void pivotVoltage(double volts){
+  public void pivotVoltage(double volts) {
     pivot.setVoltage(volts);
   }
-  
-  public void intakeVoltage(double voltage){
+
+  public void intakeVoltage(double voltage) {
     intake.setVoltage(voltage);
   }
 
-  public double angle(){
+  public double angle() {
     return encoder.getAbsolutePosition() * 360;
   }
 
   public boolean loaded() {
-    return beam_break.get();
+    return beamBreak.get();
   }
 
   @Override

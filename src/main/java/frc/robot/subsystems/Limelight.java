@@ -144,7 +144,7 @@ public class Limelight extends SubsystemBase {
   public double[] tagPose(){
     switch(tagID()){
       default:
-      return new double[] {-1,-1,-1, -1,-1,-1};
+      return new double[] {-1,-1,-1,-1,};
       
 
       case 1: // Blue Alliance Player Station
