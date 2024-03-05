@@ -2,31 +2,45 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.5,
-      "y": 5.5
+      "x": 1.0,
+      "y": 5.0
     },
-    "rotation": 90.0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "Score"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.01
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Test"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Score"
+                }
+              },
+              {
+                "type": "race",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Firing"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Naz"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         }
       ]

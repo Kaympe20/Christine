@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.utility.IO;
 
 public class ProfiledShooter extends Command {
-  PIDController controller = new PIDController(.1, 0, 0);
-  Constraints constraints = new Constraints(50, 25);
+  public PIDController controller = new PIDController(.1, 0, 0);
+  Constraints constraints = new Constraints(100, 70);
   TrapezoidProfile profile = new TrapezoidProfile(constraints);
   Timer time = new Timer();
   double targetAngle;
@@ -59,7 +59,7 @@ public class ProfiledShooter extends Command {
 
     @Override
     public void end(boolean interrupted){
-      io.shooter.helperVoltage(0);
+      //io.shooter.pivotVoltage(0);
     }
 
   @Override

@@ -16,11 +16,27 @@
     },
     {
       "anchor": {
-        "x": 3.0,
+        "x": 2.5863868678473407,
         "y": 5.0
       },
       "prevControl": {
-        "x": 2.955942953034567,
+        "x": 2.3281934339236705,
+        "y": 5.0
+      },
+      "nextControl": {
+        "x": 2.844580301771011,
+        "y": 5.0
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.4033165209187564,
+        "y": 5.0
+      },
+      "prevControl": {
+        "x": 3.3592594739533235,
         "y": 5.0
       },
       "nextControl": null,
@@ -30,7 +46,28 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Pickup",
+      "waypointRelativePos": 0.6,
+      "command": {
+        "type": "deadline",
+        "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "Pickup",
+      "waypointRelativePos": 0.9,
+      "command": {
+        "type": "race",
+        "data": {
+          "commands": []
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -39,11 +76,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 180.0,
     "rotateFast": true
   },
   "reversed": false,
   "folder": null,
-  "previewStartingState": null,
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
+  },
   "useDefaultConstraints": true
 }

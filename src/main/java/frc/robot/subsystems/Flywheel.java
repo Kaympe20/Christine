@@ -20,6 +20,7 @@ public class Flywheel extends SubsystemBase {
   public final double AMP = 163.0;
 
   public Flywheel() {
+    helper.setSmartCurrentLimit(20);
   }
 
   public double angle() {

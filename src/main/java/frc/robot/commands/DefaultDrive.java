@@ -25,7 +25,7 @@ public class DefaultDrive extends Command {
     public DefaultDrive(IO io, CommandXboxController controller) {
         this(io, () -> -modifyAxis(controller.getLeftY()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
         () -> -modifyAxis(controller.getLeftX()) * DriveSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> modifyAxis(controller.getRightX())* DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+        () -> -modifyAxis(controller.getRightX())* DriveSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
     }
   
     public DefaultDrive(IO io,
@@ -43,9 +43,9 @@ public class DefaultDrive extends Command {
     
     @Override
     public void execute() {
-        double xSpeed = x_supplier.getAsDouble() * 0.7;
-        double ySpeed = y_supplier.getAsDouble() * 0.7;
-        double rotationSpeed = rotation_supplier.getAsDouble() * 0.7;
+        double xSpeed = x_supplier.getAsDouble() * 0.5;
+        double ySpeed = y_supplier.getAsDouble() * 0.5;
+        double rotationSpeed = rotation_supplier.getAsDouble() * 0.5;
         
         ChassisSpeeds output = new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed);
 

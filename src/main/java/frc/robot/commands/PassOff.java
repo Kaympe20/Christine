@@ -7,22 +7,26 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.utility.IO;
 
 public class PassOff extends SequentialCommandGroup {
 
-  public PassOff(IO io, ProfiledShooter shoot) {
+  public PassOff(IO io) {
     ProfiledShooter profiledShoot = new ProfiledShooter(io, 70.0);
+    addRequirements(io.intake, io.shooter);
     addCommands(
-        new ParallelDeadlineGroup(new SequentialCommandGroup(
-                new InstantCommand(() -> profiledShoot.setAngle(70)),
-                new ConditionalCommand(
-                  new SequentialCommandGroup(
+        new ParallelRaceGroup(profiledShoot,
+        new SequentialCommandGroup(
+            new InstantCommand(() -> profiledShoot.setAngle(70)),
+            new ConditionalCommand(
+                new SequentialCommandGroup(
                     new ToggleIntake(io),
                     new IntakeNote(io),
-                    new ToggleIntake(io)), 
-                  new InstantCommand(() -> profiledShoot.setAngle(70.0)),
-                    () -> io.intake.closed)), profiledShoot));
+                    new ToggleIntake(io)),
+                new InstantCommand(() -> io.profiledShoot.setAngle(70.0)),
+                () -> io.intake.closed))));
   }
+
 }

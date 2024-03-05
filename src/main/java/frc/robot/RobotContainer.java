@@ -4,21 +4,20 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
 
-import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
+import frc.robot.commands.AmpShooting;
+import frc.robot.commands.AutoFiring;
+import frc.robot.commands.CloseUpShooting;
+import frc.robot.commands.PassOff;
 import frc.robot.utility.IO;
 
 public class RobotContainer {
@@ -37,25 +36,17 @@ public class RobotContainer {
     SmartDashboard.putData("Bindings", bindings);
 
     io.configGlobal();
-    io.configTesting();
+    io.configManual();
   }
 
   public void addAutos(){
-    commands.put("Pickup", new InstantCommand(() -> SmartDashboard.putBoolean("Pickup", true)));
-    commands.put("ScoreInAmp", new PrintCommand("Scoring in amp!!"));
-    commands.put( "Score", new PrintCommand("Scoring in Subwoffer!!"));
+    commands.put("Pickup", new PassOff(io));
+    commands.put("Firing", new AutoFiring(io));
+    commands.put("ScoreInAmp", new AmpShooting(io));
+    commands.put( "Score", new CloseUpShooting(io));
     
     NamedCommands.registerCommands(commands);
-    
-    // autos.setDefaultOption("Bismillah", AutoBuilder.buildAuto("Bismillah"));
-    // autos.addOption("Triple Subwoffer", AutoBuilder.buildAuto("Triple score in subwofer"));
-    // autos.addOption("Scoring on the way out", AutoBuilder.buildAuto("Scoring on the way out"));
-    // autos.addOption("Double Amp", AutoBuilder.buildAuto("Double score in amp"));
-    // autos.addOption("Double subwofer", AutoBuilder.buildAuto("Double score in subwoffer"));
-    // autos.addOption("Do everything", AutoBuilder.buildAuto("Do everything"));
-    // autos.addOption("Do everything and otherside", AutoBuilder.buildAuto("Do everything w other side move"));
   }
-
 
   public Command getAutonomousCommand() {
     return autos.getSelected();

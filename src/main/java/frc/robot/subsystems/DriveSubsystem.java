@@ -27,10 +27,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveSubsystem extends SubsystemBase {
 
-    public static double MAX_VOLTAGE = 8;
+    public static double MAX_VOLTAGE = 5;
     public int DRIVE_MODE = 0;
 
-    public static final double MAX_VELOCITY_METERS_PER_SECOND = 3;
+    public static final double MAX_VELOCITY_METERS_PER_SECOND = 12;
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = (MAX_VELOCITY_METERS_PER_SECOND /
             Math.hypot(DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2,
                     DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2));
@@ -117,7 +117,7 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void zeroGyro() {
-        pigeon2.setYaw(0);
+        pigeon2.setYaw(180);
     }
 
     public Rotation2d rotation() {
@@ -152,11 +152,15 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void resetOdometry() {
-        resetOdometry(new Pose2d());
+        setOdometry(new Pose2d());
     }
 
     public void resetOdometry(Pose2d pose) {
-        setOdometry(pose);
+        pigeon2.setYaw(180);
+        resetPosition();
+        
+        odometry.resetPosition(rotation(), getModulePositions(), pose);
+        odometry.resetPosition(rotation(), getModulePositions(), pose);
     }
 
     public void setOdometry(Pose2d pose) {
@@ -284,7 +288,7 @@ public class DriveSubsystem extends SubsystemBase {
         public static final double kMaxAngularSpeedRadiansPerSecond = 2 * Math.PI;
         public static final double kMaxAngularSpeedRadiansPerSecondSquared = 2 * Math.PI;
 
-        public static final double kPXController = 2;
-        public static final double kPThetaController = 4;
+        public static final double kPXController = 8;
+        public static final double kPThetaController = 2.5;
     }
 }

@@ -2,7 +2,6 @@ package frc.robot.utility;
 
 
 import com.ctre.phoenix.music.Orchestra;
-//import frc.robot.commands.music;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
@@ -51,20 +50,28 @@ public class IO {
     }
 
     public void configManual(){
-
-        mechController.rightBumper().onTrue(new InstantCommand(() -> intake.speed(-1))).onFalse(new InstantCommand(() -> intake.speed(0)));
+        mechController.rightBumper().onTrue(new InstantCommand(() -> intake.speed(1))).onFalse(new InstantCommand(() -> intake.speed(0)));
         mechController.leftBumper().onTrue(new InstantCommand(() -> shooter.helperVoltage(-6))).onFalse(new InstantCommand( () -> shooter.helperVoltage(0)));
      
-        mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle(shooter.AMP)));   
-        mechController.a().onTrue(new PassOff(this, profiledShoot));
+        mechController.rightTrigger().onTrue(new AmpShooting(this));
+        mechController.leftTrigger().onTrue(new CloseUpShooting(this));
+
+        mechController.x().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll));
+        mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle( (double) DebugTable.get("Test Angle", 60.0))));
+        mechController.a().onTrue(new PassOff(this));
         mechController.b().onTrue(new InstantCommand(() -> {
-            shooter.flywheelVoltage(-16);
-            shooter.helperVoltage(-6);
+            shooter.flywheelVoltage((double) DebugTable.get("Test Flywheel Voltage", -16.0));
+            shooter.helperVoltage((double) DebugTable.get("Test Helper Voltage", -6.0));
         })).onFalse(new InstantCommand(() ->{
             intake.speed(0);
             shooter.flywheelVoltage(0);
             shooter.helperVoltage(0);
         }));
+
+        mechController.povDown().onTrue(new ToggleIntake(this));
+        mechController.povRight().onTrue(new InstantCommand(profiledShoot::stop));
+        mechController.povLeft().onTrue(new InstantCommand(() -> intake.speed((double) DebugTable.get("Test Intake Voltage", -12.0)))).onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
+        mechController.povUp().onTrue(new InstantCommand(() -> shooter.helperVoltage((double) DebugTable.get("Test Helper Voltage", -12.0)))).onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
     }
 
     public void configTesting(){
@@ -73,6 +80,7 @@ public class IO {
         driveController.povDownLeft().onTrue(new InstantCommand(chassis::resetAbsolute));
         driveController.povUpLeft().onTrue(new InstantCommand(chassis::disableChassis));
         driveController.povDownRight().onTrue(new InstantCommand(chassis::activeChassis));
+        driveController.povUpLeft().onTrue(new InstantCommand(chassis::disableChassis));
 
 
         mechController.leftBumper().onTrue(new InstantCommand(() -> shooter.pivotVoltage(1.5))).onFalse(new InstantCommand(() -> shooter.pivotVoltage(0)));
@@ -95,4 +103,3 @@ public class IO {
         mechController.b().onTrue(new InstantCommand(profiledShoot::stop));
     }
 }
-
