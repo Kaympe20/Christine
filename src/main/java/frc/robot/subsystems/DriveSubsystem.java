@@ -136,6 +136,12 @@ public class DriveSubsystem extends SubsystemBase {
         chassisSpeeds = new ChassisSpeeds();
     }
 
+    public double distance(Pose2d other_pose){
+        Pose2d pose = odometry.getPoseMeters();
+        pose.minus(other_pose);
+        return Math.sqrt( (pose.getX() * pose.getX()) + (pose.getY() * pose.getY()) );
+    }
+
     private SwerveModulePosition getModulePosition(KrakenSwerveModule module) {
         return new SwerveModulePosition(module.drivePosition(), Rotation2d.fromRadians(module.steerAngle()));
     }

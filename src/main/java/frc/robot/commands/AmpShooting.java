@@ -15,20 +15,19 @@ public class AmpShooting extends SequentialCommandGroup {
 
   public AmpShooting(IO io) {
     addCommands(
-        new SequentialCommandGroup(
-            new InstantCommand(() -> io.profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE)),
-            new WaitCommand(0.5),
-            new InstantCommand(() -> io.shooter.helperVoltage(-6)),
-            new InstantCommand(() -> io.intake.speed(-0.5)),
-            new WaitCommand(0.3),
-            new InstantCommand(() -> io.profiledShoot.setAngle(io.shooter.AMP)),
-            new InstantCommand(() -> io.intake.speed(0)),
-            new InstantCommand(() -> io.shooter.helperVoltage(0)),
-            new WaitCommand(0.3),
-            new WaitUntilCommand(() -> Math.abs(io.profiledShoot.controller.getPositionError()) < 2),
-            new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),
-            new InstantCommand(() -> io.shooter.helperVoltage(-1.5))),
+        new InstantCommand(() -> io.profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE)),
+        new WaitCommand(1.0),
+        new InstantCommand(() -> io.shooter.helperVoltage(-6)),
+        new InstantCommand(() -> io.intake.speed(-1)),
+        new WaitCommand(0.1),
+        new InstantCommand(() -> io.intake.speed(0)),
+        new InstantCommand(() -> io.shooter.helperVoltage(0)),
+        new InstantCommand(() -> io.profiledShoot.setAngle(io.shooter.AMP)),
         new WaitCommand(0.3),
+        new WaitUntilCommand(() -> Math.abs(io.profiledShoot.controller.getPositionError()) < 2),
+        new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),
+        new InstantCommand(() -> io.shooter.helperVoltage(-1.5)),
+        new WaitCommand(0.5),
         new InstantCommand(() -> io.intake.speed(0)),
         new InstantCommand(() -> io.shooter.flywheelVoltage(0)),
         new InstantCommand(() -> io.shooter.helperVoltage(0)));
