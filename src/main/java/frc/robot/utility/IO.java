@@ -55,7 +55,14 @@ public class IO {
      
         mechController.rightTrigger().onTrue(new AmpShooting(this));
         mechController.leftTrigger().onTrue(new CloseUpShooting(this));
-
+        // mechController.leftTrigger().onTrue(new InstantCommand(() -> {
+        //     shooter.flywheelSpeed(1);
+        //     shooter.helperVoltage((double) DebugTable.get("Test Helper Voltage", -6.0));
+        // })).onFalse(new InstantCommand(() ->{
+        //     intake.speed(0);
+        //     shooter.flywheelSpeed(0);
+        //     shooter.helperVoltage(0);
+        // }));
         mechController.x().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll));
         mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle( (double) DebugTable.get("Test Angle", 60.0))));
         mechController.a().onTrue(new PassOff(this));
@@ -86,7 +93,7 @@ public class IO {
         mechController.leftBumper().onTrue(new InstantCommand(() -> shooter.pivotVoltage(1.5))).onFalse(new InstantCommand(() -> shooter.pivotVoltage(0)));
         mechController.rightBumper().onTrue(new InstantCommand(() -> shooter.pivotVoltage(-1.5))).onFalse(new InstantCommand(() -> shooter.pivotVoltage(0))); 
 
-        mechController.leftTrigger().onTrue(new ToggleIntake(this)); 
+        //mechController.leftTrigger().onTrue(new ToggleIntake(this)); 
         mechController.rightTrigger().onTrue(new InstantCommand(() -> {
             shooter.flywheelVoltage(-16);
             shooter.helperVoltage(-6);

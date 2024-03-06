@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3,
-      "y": 5.56
+      "x": 1.5,
+      "y": 5.6
     },
     "rotation": 180.0
   },
@@ -14,19 +14,13 @@
         {
           "type": "named",
           "data": {
-            "name": "score"
+            "name": "Score"
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "Naz"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "score"
           }
         }
       ]

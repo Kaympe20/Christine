@@ -5,7 +5,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -17,19 +16,19 @@ public class CloseUpShooting extends SequentialCommandGroup {
 
   public CloseUpShooting(IO io) {
     addRequirements(io.intake, io.shooter);
-    ProfiledShooter profiledShoot = new ProfiledShooter(io, io.shooter.PASS_OFF_ANGLE);
-    addCommands(new ParallelRaceGroup(profiledShoot,
+    addCommands(
         new SequentialCommandGroup(
-            new InstantCommand(() -> profiledShoot.setAngle(70.0)),
-            new InstantCommand(() -> io.profiledShoot.setAngle(70.0)),
-            new WaitCommand(1.0),
+            new InstantCommand(() -> io.profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE)),
+            new WaitCommand(0.3),
+            new WaitUntilCommand(() -> Math.abs(io.profiledShoot.controller.getPositionError()) < 2),
             new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),
-            new WaitCommand(0.5),
+            new WaitCommand(0.1),
             new InstantCommand(() -> io.shooter.helperVoltage(-6)),
             new InstantCommand(() -> io.intake.speed(-1)),
-            new WaitCommand(0.3),
+            new WaitCommand(0.5),
             new InstantCommand(() -> io.shooter.flywheelVoltage(0.0)),
             new InstantCommand(() -> io.shooter.helperVoltage(0.0)),
-            new InstantCommand(() -> io.intake.speed(0.0)))));
+            new InstantCommand(() -> io.intake.speed(0.0))
+            ));
   }
 }

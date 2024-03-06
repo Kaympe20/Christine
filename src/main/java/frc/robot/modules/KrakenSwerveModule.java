@@ -42,7 +42,7 @@ public class KrakenSwerveModule {
         TalonFXConfiguration config = new TalonFXConfiguration();
 
         steerMotor.setSmartCurrentLimit(20);
-        config.CurrentLimits.SupplyCurrentLimit = 20;
+        config.CurrentLimits.StatorCurrentLimit = 20;
         config.CurrentLimits.SupplyCurrentLimitEnable = true;
 
         steerMotor.setIdleMode(IdleMode.kBrake);

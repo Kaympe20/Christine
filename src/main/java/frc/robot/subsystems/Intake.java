@@ -50,6 +50,7 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
+    closed = (angle() < closedAngle);
     SmartDashboard.putBoolean("Beam Break", loaded());
     SmartDashboard.putNumber("Intake Angle", angle());
     SmartDashboard.putBoolean("Intake Closed", closed);

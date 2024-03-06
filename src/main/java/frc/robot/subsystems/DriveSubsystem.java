@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveSubsystem extends SubsystemBase {
 
-    public static double MAX_VOLTAGE = 5;
+    public static double MAX_VOLTAGE = 12;
     public int DRIVE_MODE = 0;
 
     public static final double MAX_VELOCITY_METERS_PER_SECOND = 12;
@@ -103,7 +103,7 @@ public class DriveSubsystem extends SubsystemBase {
                 this::getChassisSpeeds,
                 this::drive,
                 new HolonomicPathFollowerConfig(
-                        new PIDConstants(AutoConstants.kPXController, 0, 0.01),
+                        new PIDConstants(AutoConstants.kPXController, 0.0, 0.0),
                         new PIDConstants(AutoConstants.kPThetaController, 0, 0.01),
                         AutoConstants.kMaxSpeedMetersPerSecond,
                         DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2,
@@ -117,7 +117,7 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public void zeroGyro() {
-        pigeon2.setYaw(180);
+        pigeon2.setYaw(0);
     }
 
     public Rotation2d rotation() {
@@ -284,11 +284,10 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = 0.2;
-        public static final double kMaxAngularSpeedRadiansPerSecond = 2 * Math.PI;
-        public static final double kMaxAngularSpeedRadiansPerSecondSquared = 2 * Math.PI;
+        public static final double kMaxSpeedMetersPerSecond = 0.25;
+        //public static final double kMaxAngularSpeedRadiansPerSecond = 2 * Math.PI;
 
-        public static final double kPXController = 8;
-        public static final double kPThetaController = 2.5;
+        public static final double kPXController = 20;
+        public static final double kPThetaController = 22;
     }
 }

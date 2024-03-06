@@ -48,22 +48,19 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Pickup",
-      "waypointRelativePos": 0.6,
+      "name": "Score",
+      "waypointRelativePos": 0.75,
       "command": {
-        "type": "deadline",
+        "type": "sequential",
         "data": {
-          "commands": []
-        }
-      }
-    },
-    {
-      "name": "Pickup",
-      "waypointRelativePos": 0.9,
-      "command": {
-        "type": "race",
-        "data": {
-          "commands": []
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "score"
+              }
+            }
+          ]
         }
       }
     }
@@ -76,7 +73,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 0.0,
     "rotateFast": true
   },
   "reversed": false,
