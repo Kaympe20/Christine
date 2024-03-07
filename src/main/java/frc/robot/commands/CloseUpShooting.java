@@ -14,21 +14,20 @@ import frc.robot.utility.IO;
 
 public class CloseUpShooting extends SequentialCommandGroup {
 
-  IO io;
-
   public CloseUpShooting(IO io) {
     addRequirements(io.shooter, io.intake);
     ProfiledShooter profiledShoot = new ProfiledShooter(io, io.shooter.PASS_OFF_ANGLE);
     addCommands(new ParallelRaceGroup(profiledShoot,
         new SequentialCommandGroup(
             new InstantCommand(() -> profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE)),
-            new InstantCommand(() -> io.profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE)),
-            new WaitCommand(1.0),
+            new WaitCommand(0.2),
+            new WaitUntilCommand(() -> Math.abs(profiledShoot.controller.getPositionError()) < 2),
+            new WaitCommand(0.3),
             new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),
-            new WaitCommand(0.5),
+            new WaitCommand(0.3),
             new InstantCommand(() -> io.shooter.helperVoltage(-6)),
             new InstantCommand(() -> io.intake.speed(-1)),
-            new WaitCommand(0.3),
+            new WaitCommand(0.3 ),
             new InstantCommand(() -> io.shooter.flywheelVoltage(0.0)),
             new InstantCommand(() -> io.shooter.helperVoltage(0.0)),
             new InstantCommand(() -> io.intake.speed(0.0)))));

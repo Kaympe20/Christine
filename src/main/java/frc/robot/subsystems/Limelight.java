@@ -142,7 +142,7 @@ public class Limelight extends SubsystemBase {
   }
 
   public double[] tagPose(){
-    switch(tagID()){
+    switch(7){
       default:
       return new double[] {-1,-1,-1,-1,};
       

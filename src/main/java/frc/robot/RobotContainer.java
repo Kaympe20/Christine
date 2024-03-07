@@ -41,7 +41,7 @@ public class RobotContainer {
   }
 
   public void addAutos(){
-    commands.put("pickup", new PassOff(io));
+    commands.put("pickup", new AutoFiring(io));
     commands.put("firing", new AutoFiring(io));
     commands.put("ScoreInamp", new AmpShooting(io));
     commands.put( "score", new CloseUpShooting(io));

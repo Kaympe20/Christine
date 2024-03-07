@@ -16,15 +16,15 @@
     },
     {
       "anchor": {
-        "x": 3.520592184041511,
+        "x": 3.447294894589789,
         "y": 5.56
       },
       "prevControl": {
-        "x": 3.551265693602816,
+        "x": 3.477968404151094,
         "y": 5.550837838818534
       },
       "nextControl": {
-        "x": 3.489918674480206,
+        "x": 3.4166213850284843,
         "y": 5.569162161181465
       },
       "isLocked": false,
@@ -96,16 +96,16 @@
     },
     {
       "anchor": {
-        "x": 3.0221706157698036,
-        "y": 3.8847563409412538
+        "x": 2.9928516999891146,
+        "y": 3.767480677818499
       },
       "prevControl": {
-        "x": 3.3393031783346543,
-        "y": 3.8319009138471127
+        "x": 3.3072220319288688,
+        "y": 3.700115606688552
       },
       "nextControl": {
-        "x": 2.7583003737436056,
-        "y": 3.9287347146122857
+        "x": 2.7876192895242933,
+        "y": 3.811459051489532
       },
       "isLocked": false,
       "linkedName": null
@@ -125,7 +125,30 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Pickup",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.44999999999999996,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 0.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    },
+    {
+      "name": "Shoot",
+      "minWaypointRelativePos": 1.15,
+      "maxWaypointRelativePos": 2.3,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
   "eventMarkers": [
     {
       "name": "Pickup",
@@ -172,23 +195,6 @@
               "type": "named",
               "data": {
                 "name": "pickup"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Score",
-      "waypointRelativePos": 1.85,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "score"
               }
             }
           ]

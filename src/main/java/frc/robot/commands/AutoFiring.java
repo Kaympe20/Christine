@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -22,7 +23,7 @@ public class AutoFiring extends SequentialCommandGroup {
                 //new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),
                 new PassOff(io),
                 new WaitUntilCommand(
-                    () -> io.limelight.distance() < 3 && Math.abs(io.limelight.targetData().horizontalOffset) < 20),
+                    () -> io.chassis.distance(io.limelight.tagPose()) < 1 && Math.abs(io.limelight.targetData().horizontalOffset) < 10),
                 new CloseUpShooting(io))));
   }
 }
