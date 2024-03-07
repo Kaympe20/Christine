@@ -13,9 +13,9 @@ public class ToggleIntake extends Command {
 
   boolean origin;
 
-  final double MAX_VOLTS = 5;
+  final double MAX_VOLTS = 6;
 
-  public ToggleIntake(IO io) {
+  public  ToggleIntake(IO io) {
     this.io = io;
     addRequirements(io.intake);
   }

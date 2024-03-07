@@ -50,7 +50,7 @@ public class IO {
     }
 
     public void configManual(){
-        mechController.rightBumper().onTrue(new InstantCommand(() -> intake.speed(1))).onFalse(new InstantCommand(() -> intake.speed(0)));
+        mechController.rightBumper().onTrue(new InstantCommand(() -> intake.speed(0.5))).onFalse(new InstantCommand(() -> intake.speed(0)));
         mechController.leftBumper().onTrue(new InstantCommand(() -> shooter.helperVoltage(-6))).onFalse(new InstantCommand( () -> shooter.helperVoltage(0)));
      
         mechController.rightTrigger().onTrue(new AmpShooting(this));

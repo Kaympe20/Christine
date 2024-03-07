@@ -16,15 +16,15 @@
     },
     {
       "anchor": {
-        "x": 2.846257121085671,
+        "x": 3.520592184041511,
         "y": 5.56
       },
       "prevControl": {
-        "x": 2.8769306306469757,
+        "x": 3.551265693602816,
         "y": 5.550837838818534
       },
       "nextControl": {
-        "x": 2.815583611524366,
+        "x": 3.489918674480206,
         "y": 5.569162161181465
       },
       "isLocked": false,
@@ -96,28 +96,28 @@
     },
     {
       "anchor": {
-        "x": 2.9488733263180817,
-        "y": 4.089988751406074
+        "x": 3.0221706157698036,
+        "y": 3.8847563409412538
       },
       "prevControl": {
-        "x": 2.582386879059473,
-        "y": 4.368518451322617
+        "x": 3.3393031783346543,
+        "y": 3.8319009138471127
       },
       "nextControl": {
-        "x": 3.3153597735766906,
-        "y": 3.811459051489531
+        "x": 2.7583003737436056,
+        "y": 3.9287347146122857
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.3,
-        "y": 5.4533183352081
+        "x": 0.9551870532312499,
+        "y": 5.56
       },
       "prevControl": {
-        "x": 2.267524220762727,
-        "y": 4.830291374868464
+        "x": 1.9227112739939778,
+        "y": 4.936973039660364
       },
       "nextControl": null,
       "isLocked": false,
@@ -129,7 +129,7 @@
   "eventMarkers": [
     {
       "name": "Pickup",
-      "waypointRelativePos": 0.3,
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "sequential",
         "data": {
@@ -146,7 +146,24 @@
     },
     {
       "name": "Pickup",
-      "waypointRelativePos": 2.5,
+      "waypointRelativePos": 2.25,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "pickup"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Pickup",
+      "waypointRelativePos": 5.1,
       "command": {
         "type": "sequential",
         "data": {
@@ -163,41 +180,7 @@
     },
     {
       "name": "Score",
-      "waypointRelativePos": 4.300000000000001,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "score"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Pick",
-      "waypointRelativePos": 5.45,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "pickup"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Score",
-      "waypointRelativePos": 1.65,
+      "waypointRelativePos": 1.85,
       "command": {
         "type": "sequential",
         "data": {
@@ -214,7 +197,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.5,
+    "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
@@ -227,5 +210,5 @@
   "reversed": false,
   "folder": null,
   "previewStartingState": null,
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

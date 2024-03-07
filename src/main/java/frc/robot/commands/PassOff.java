@@ -15,14 +15,13 @@ import frc.robot.utility.IO;
 public class PassOff extends SequentialCommandGroup {
 
   public PassOff(IO io) {
-    ProfiledShooter profiledShoot = new ProfiledShooter(io, 70.0);
+    ProfiledShooter profiledShoot = new ProfiledShooter(io, io.shooter.PASS_OFF_ANGLE);
     addRequirements(io.intake, io.shooter);
     addCommands(
         new ParallelRaceGroup(profiledShoot,
             new SequentialCommandGroup(
                 new InstantCommand(() -> profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE)),
-                new WaitCommand(0.3),
-                new WaitUntilCommand(() -> Math.abs(io.profiledShoot.controller.getPositionError()) < 2),
+                new WaitCommand(0.75),
                 new ConditionalCommand(
                     new SequentialCommandGroup(
                         new ToggleIntake(io),
@@ -32,7 +31,7 @@ public class PassOff extends SequentialCommandGroup {
                         new IntakeNote(io),
                         new ToggleIntake(io),
                         new InstantCommand(() -> io.profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE))),
-                    () -> io.intake.closed))));
+                    () -> io.intake.closed)))       );
   }
 
 }

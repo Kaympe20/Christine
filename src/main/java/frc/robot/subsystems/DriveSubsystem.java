@@ -30,7 +30,7 @@ public class DriveSubsystem extends SubsystemBase {
     public static double MAX_VOLTAGE = 12;
     public int DRIVE_MODE = 0;
 
-    public static final double MAX_VELOCITY_METERS_PER_SECOND = 12;
+    public static final double MAX_VELOCITY_METERS_PER_SECOND = 20;
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = (MAX_VELOCITY_METERS_PER_SECOND /
             Math.hypot(DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2,
                     DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2));
