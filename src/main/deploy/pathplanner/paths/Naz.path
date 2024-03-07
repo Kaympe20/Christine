@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 3.447294894589789,
+        "x": 3.344678689357379,
         "y": 5.56
       },
       "prevControl": {
-        "x": 3.477968404151094,
-        "y": 5.550837838818534
+        "x": 3.3766662396266063,
+        "y": 5.561267286114626
       },
       "nextControl": {
-        "x": 3.4166213850284843,
-        "y": 5.569162161181465
+        "x": 3.2420624841249692,
+        "y": 5.55593454044051
       },
       "isLocked": false,
       "linkedName": null
@@ -96,27 +96,27 @@
     },
     {
       "anchor": {
-        "x": 2.9928516999891146,
-        "y": 3.767480677818499
+        "x": 3.007511157879459,
+        "y": 3.7235023041474657
       },
       "prevControl": {
-        "x": 3.3072220319288688,
-        "y": 3.700115606688552
+        "x": 2.779561675036578,
+        "y": 3.33697926802258
       },
       "nextControl": {
-        "x": 2.7876192895242933,
-        "y": 3.811459051489532
+        "x": 3.681846220835299,
+        "y": 4.8669400195943275
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.9551870532312499,
+        "x": 0.8525708479988394,
         "y": 5.56
       },
       "prevControl": {
-        "x": 1.9227112739939778,
+        "x": 1.8200950687615673,
         "y": 4.936973039660364
       },
       "nextControl": null,
@@ -139,10 +139,21 @@
     },
     {
       "name": "Shoot",
-      "minWaypointRelativePos": 1.15,
+      "minWaypointRelativePos": 1.0,
       "maxWaypointRelativePos": 2.3,
       "constraints": {
         "maxVelocity": 1.0,
+        "maxAcceleration": 1.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    },
+    {
+      "name": "Last Pickup",
+      "minWaypointRelativePos": 5.55,
+      "maxWaypointRelativePos": 6.3999999999999995,
+      "constraints": {
+        "maxVelocity": 1.5,
         "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
@@ -153,40 +164,6 @@
     {
       "name": "Pickup",
       "waypointRelativePos": 0.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "pickup"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Pickup",
-      "waypointRelativePos": 2.25,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "pickup"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Pickup",
-      "waypointRelativePos": 5.1,
       "command": {
         "type": "sequential",
         "data": {
