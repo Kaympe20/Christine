@@ -51,7 +51,7 @@ public class IO {
 
     public void configManual(){
         mechController.rightBumper().onTrue(new InstantCommand(() -> intake.speed(0.5))).onFalse(new InstantCommand(() -> intake.speed(0)));
-        mechController.leftBumper().onTrue(new InstantCommand(() -> shooter.helperVoltage(-6))).onFalse(new InstantCommand( () -> shooter.helperVoltage(0)));
+        mechController.leftBumper().onTrue(new InstantCommand(() -> intake.speed((double) DebugTable.get("Test Intake Voltage", -12.0)))).onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
      
         mechController.rightTrigger().onTrue(new AmpShooting(this));
         mechController.leftTrigger().onTrue(new CloseUpShooting(this));
@@ -63,6 +63,7 @@ public class IO {
         //     shooter.flywheelSpeed(0);
         //     shooter.helperVoltage(0);
         // }));
+        mechController.back().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll));
         mechController.x().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll));
         mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle( (double) DebugTable.get("Test Angle", 60.0))));
         mechController.a().onTrue(new PassOff(this));
@@ -76,7 +77,7 @@ public class IO {
         }));
 
         mechController.povDown().onTrue(new ToggleIntake(this));
-        mechController.povRight().onTrue(new InstantCommand(profiledShoot::stop));
+        mechController.povUp().onTrue(new InstantCommand(profiledShoot::stop));
         mechController.povLeft().onTrue(new InstantCommand(() -> intake.speed((double) DebugTable.get("Test Intake Voltage", -12.0)))).onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
         mechController.povUp().onTrue(new InstantCommand(() -> shooter.helperVoltage((double) DebugTable.get("Test Helper Voltage", -12.0)))).onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
     }
