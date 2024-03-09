@@ -2,19 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.37,
-      "y": 4.28
+      "x": 0.9112086795602169,
+      "y": 6.875285750571502
     },
-    "rotation": 140.0
+    "rotation": -125.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "double score in subwoofer"
+            "name": "score"
           }
         }
       ]

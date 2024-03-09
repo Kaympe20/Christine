@@ -31,7 +31,8 @@ public class PassOff extends SequentialCommandGroup {
                         new IntakeNote(io),
                         new ToggleIntake(io),
                         new InstantCommand(() -> io.profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE))),
-                    () -> io.intake.closed)))       );
+                    () -> io.intake.closed), 
+                    new InstantCommand(() -> io.profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE)))));
   }
 
 }

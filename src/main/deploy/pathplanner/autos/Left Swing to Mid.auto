@@ -2,19 +2,25 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.06,
-      "y": 7.23
+      "x": 0.7352951848718504,
+      "y": 6.626074966439958
     },
-    "rotation": -19.29000000000002
+    "rotation": 125.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Score"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Do everything"
+            "pathName": "Left Swing"
           }
         }
       ]

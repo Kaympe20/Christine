@@ -78,7 +78,7 @@ public class IO {
 
         mechController.povDown().onTrue(new ToggleIntake(this));
         mechController.povUp().onTrue(new InstantCommand(profiledShoot::stop));
-        mechController.povLeft().onTrue(new InstantCommand(() -> intake.speed((double) DebugTable.get("Test Intake Voltage", -12.0)))).onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
+        mechController.povLeft().onTrue(new InstantCommand(() -> intake.speed((double) DebugTable.get("Test Intake Voltage", -1.0)))).onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
         mechController.povUp().onTrue(new InstantCommand(() -> shooter.helperVoltage((double) DebugTable.get("Test Helper Voltage", -12.0)))).onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
     }
 

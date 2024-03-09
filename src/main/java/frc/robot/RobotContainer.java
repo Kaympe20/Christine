@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AmpShooting;
 import frc.robot.commands.AutoFiring;
 import frc.robot.commands.CloseUpShooting;
@@ -31,7 +32,7 @@ public class RobotContainer {
   public RobotContainer() {
     addAutos();
 
-    autos = AutoBuilder.buildAutoChooser("Bismillah");
+    autos = AutoBuilder.buildAutoChooser("Speaker Rings Centre");
  
     SmartDashboard.putData("Autos",autos);
     SmartDashboard.putData("Bindings", bindings);
@@ -51,6 +52,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
+    // return new SequentialCommandGroup(() -> io.chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED);
     return new InstantCommand(() -> io.chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED).andThen(autos.getSelected());
   }
 }

@@ -45,7 +45,7 @@ public class DefaultDrive extends Command {
     public void execute() {
         double xSpeed = x_supplier.getAsDouble() * 0.5;
         double ySpeed = y_supplier.getAsDouble() * 0.5;
-        double rotationSpeed = rotation_supplier.getAsDouble() * 0.5;
+        double rotationSpeed = rotation_supplier.getAsDouble() * 0.25;
         
         ChassisSpeeds output = new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed);
 
