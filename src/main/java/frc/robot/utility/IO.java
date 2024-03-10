@@ -65,7 +65,7 @@ public class IO {
         // }));
         mechController.back().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll));
         mechController.x().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll));
-        mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle( (double) DebugTable.get("Test Angle", 60.0))));
+        //mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle( (double) DebugTable.get("Test Angle", 75.0))));
         mechController.a().onTrue(new PassOff(this));
         mechController.b().onTrue(new InstantCommand(() -> {
             shooter.flywheelVoltage((double) DebugTable.get("Test Flywheel Voltage", -16.0));
@@ -79,7 +79,8 @@ public class IO {
         mechController.povDown().onTrue(new ToggleIntake(this));
         mechController.povUp().onTrue(new InstantCommand(profiledShoot::stop));
         mechController.povLeft().onTrue(new InstantCommand(() -> intake.speed((double) DebugTable.get("Test Intake Voltage", -1.0)))).onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
-        mechController.povUp().onTrue(new InstantCommand(() -> shooter.helperVoltage((double) DebugTable.get("Test Helper Voltage", -12.0)))).onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
+        //mechController.povUp().onTrue(new InstantCommand(() -> shooter.helperVoltage((double) DebugTable.get("Test Helper Voltage", -12.0)))).onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
+        mechController.povRight().onTrue(new InstantCommand(() -> profiledShoot.setAngle( (double) DebugTable.get("Test Angle", 75.0))));
     }
 
     public void configTesting(){

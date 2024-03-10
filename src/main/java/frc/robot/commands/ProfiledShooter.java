@@ -31,9 +31,10 @@ public class ProfiledShooter extends Command {
   }
 
   public void setAngle(double angle) {
+    // TODO: if (anlge == target Angle) stop(); else 
     controller.reset();
     time.restart();
-    targetAngle = Math.max(Math.min(angle,261),31);;
+    targetAngle = Math.max(Math.min(angle,261),31);
     stopped = false;
   }
 
