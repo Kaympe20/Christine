@@ -7,6 +7,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -47,58 +48,33 @@ public class DriveSubsystem extends SubsystemBase {
 
     public final Pigeon2 pigeon2 = new Pigeon2(DriveConstants.PIGEON_ID);
 
-    StructArrayPublisher<SwerveModuleState> current_states = NetworkTableInstance.getDefault().getTable("Simulating")
-            .getStructArrayTopic("myStates", SwerveModuleState.struct).publish();
-    StructArrayPublisher<SwerveModuleState> target_states = NetworkTableInstance.getDefault().getTable("Simulating")
-            .getStructArrayTopic("myStates", SwerveModuleState.struct).publish();
-    StructPublisher<Pose2d> posePublisher = NetworkTableInstance.getDefault().getTable("Simulating")
-            .getStructTopic("Pose2d", Pose2d.struct).publish();
+    StructArrayPublisher<SwerveModuleState> current_states = NetworkTableInstance.getDefault().getTable("Debug")
+            .getStructArrayTopic("Current Module States", SwerveModuleState.struct).publish();
+    StructArrayPublisher<SwerveModuleState> target_states = NetworkTableInstance.getDefault().getTable("Debug")
+            .getStructArrayTopic("Target Module States", SwerveModuleState.struct).publish();
+    StructPublisher<Pose2d> posePublisher = NetworkTableInstance.getDefault().getTable("Debug")
+            .getStructTopic("Current pose", Pose2d.struct).publish();
 
-    private final SwerveDriveOdometry odometry;
+    private final SwerveDriveOdometry odometry = new SwerveDriveOdometry(kinematics, rotation(), modulePositions(), new Pose2d(0,0, rotation()));
     private final KrakenSwerveModule[] modules = new KrakenSwerveModule[4];
     private ChassisSpeeds chassisSpeeds = new ChassisSpeeds();
 
     private boolean active = true;
 
-    private final int tabWidth = 2;
-    private final int tabHeight = 4;
-
     public DriveSubsystem() {
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
-        modules[0] = new KrakenSwerveModule(
-                tab.getLayout("Front Left Module", BuiltInLayouts.kList)
-                        .withSize(tabWidth, tabHeight)
-                        .withPosition(0, 0),
-                DriveConstants.FRONT_LEFT_DRIVE_MOTOR,
-                DriveConstants.FRONT_LEFT_TURN_MOTOR,
-                DriveConstants.FRONT_LEFT_ENCODER);
-        modules[1] = new KrakenSwerveModule(
-                tab.getLayout("Front Right Module", BuiltInLayouts.kList)
-                        .withSize(tabWidth, tabHeight)
-                        .withPosition(2, 0),
-                DriveConstants.FRONT_RIGHT_DRIVE_MOTOR,
-                DriveConstants.FRONT_RIGHT_TURN_MOTOR,
-                DriveConstants.FRONT_RIGHT_ENCODER);
-        modules[2] = new KrakenSwerveModule(
-                tab.getLayout("Back Left Module", BuiltInLayouts.kList) // THIS IS A LONG CODE
-                        .withSize(tabWidth, tabHeight)
-                        .withPosition(4, 0),
-                DriveConstants.BACK_LEFT_DRIVE_MOTOR,
-                DriveConstants.BACK_LEFT_TURN_MOTOR,
-                DriveConstants.BACK_LEFT_ENCODER);
-        modules[3] = new KrakenSwerveModule(
-                tab.getLayout("Back Right Module", BuiltInLayouts.kList)
-                        .withSize(tabWidth, tabHeight)
-                        .withPosition(6, 0),
-                DriveConstants.BACK_RIGHT_DRIVE_MOTOR,
-                DriveConstants.BACK_RIGHT_TURN_MOTOR,
-                DriveConstants.BACK_RIGHT_ENCODER);
-
-        odometry = new SwerveDriveOdometry(kinematics, rotation(), getModulePositions(),
-                new Pose2d(0, 0, new Rotation2d()));
+        for (int i = 0; i < modules.length; i++){
+            modules[i] = new KrakenSwerveModule(
+                tab.getLayout(DriveConstants.LAYOUT_TITLE[i], BuiltInLayouts.kList)
+                        .withSize(2, 4)
+                        .withPosition(i * 2, 0),
+                DriveConstants.DRIVE_ID[i],
+                DriveConstants.STEER_ID[i],
+                DriveConstants.ENCODER_ID[i]);
+        }
 
         AutoBuilder.configureHolonomic(
-                this::getPose,
+                this::pose,
                 this::resetOdometry,
                 this::getChassisSpeeds,
                 this::drive,
@@ -136,25 +112,23 @@ public class DriveSubsystem extends SubsystemBase {
         chassisSpeeds = new ChassisSpeeds();
     }
 
-    public double distance(double[] other_pose){
-        Pose2d pose = odometry.getPoseMeters();
-        double x = (pose.getX() - other_pose[0]);
-        double y = (pose.getY() - other_pose[2]);
-        return Math.sqrt( (x * x) + (y * y) );
+    public double distance(Pose2d reference_point){
+        Transform2d dist = odometry.getPoseMeters().minus(reference_point);
+        return Math.sqrt( (dist.getX() * dist.getX()) + (dist.getY() * dist.getY()) );
     }
 
-    private SwerveModulePosition getModulePosition(KrakenSwerveModule module) {
+    private SwerveModulePosition modulePosition(KrakenSwerveModule module) {
         return new SwerveModulePosition(module.drivePosition(), Rotation2d.fromRadians(module.steerAngle()));
     }
 
-    public SwerveModulePosition[] getModulePositions() {
+    public SwerveModulePosition[] modulePositions() {
         SwerveModulePosition[] pos = new SwerveModulePosition[4];
         for (int i = 0; i < modules.length; i++)
-            pos[i] = getModulePosition(modules[i]);
+            pos[i] = modulePosition(modules[i]);
         return pos;
     }
 
-    public Pose2d getPose() {
+    public Pose2d pose() {
         return odometry.getPoseMeters();
     }
 
@@ -166,16 +140,16 @@ public class DriveSubsystem extends SubsystemBase {
         pigeon2.setYaw(180);
         resetPosition();
         
-        odometry.resetPosition(rotation(), getModulePositions(), pose);
-        odometry.resetPosition(rotation(), getModulePositions(), pose);
+        odometry.resetPosition(rotation(), modulePositions(), pose);
+        odometry.resetPosition(rotation(), modulePositions(), pose);
     }
 
     public void setOdometry(Pose2d pose) {
         zeroGyro();
         resetPosition();
         
-        odometry.resetPosition(rotation(), getModulePositions(), pose);
-        odometry.resetPosition(rotation(), getModulePositions(), pose);
+        odometry.resetPosition(rotation(), modulePositions(), pose);
+        odometry.resetPosition(rotation(), modulePositions(), pose);
     }
 
     public void resetPosition() {
@@ -202,7 +176,7 @@ public class DriveSubsystem extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
         for (int i = 0; i < modules.length; i++)
-            modules[i].set((states[i].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE,
+        modules[i].set((states[i].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND) * MAX_VOLTAGE,
                     states[i].angle.getRadians());
     }
 
@@ -225,8 +199,8 @@ public class DriveSubsystem extends SubsystemBase {
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
         if (active)
             setModuleStates(states);
-        current_states.set(states);
-        Pose2d pose = odometry.update(rotation(), getModulePositions());
+        target_states.set(states);
+        Pose2d pose = odometry.update(rotation(), modulePositions());
         posePublisher.set(pose);
 
         // TODO: Wrap This Into A List, auto-order it too
@@ -238,61 +212,32 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Pigeon Pitch", pigeon2.getPitch().getValueAsDouble());
         SmartDashboard.putNumber("Pigeon Roll", pigeon2.getRoll().getValueAsDouble());
 
-        String DRIVE_MODE_DISPLAY = "";
-        switch (DRIVE_MODE) {
-            case DriveConstants.ROBOT_ORIENTED:
-                DRIVE_MODE_DISPLAY = "Robot-Oriented";
-                break;
-
-            case DriveConstants.FIELD_ORIENTED:
-                DRIVE_MODE_DISPLAY = "Field-Oriented";
-                break;
-
-            case DriveConstants.FIXED_POINT_TRACKING:
-                DRIVE_MODE_DISPLAY = "Fixed-Point Tracking";
-                break;
-
-            case DriveConstants.FIXED_ALIGNMENT:
-                DRIVE_MODE_DISPLAY = "Fixed Alignment";
-                break;
-        }
-
-        SmartDashboard.putString("Drive Mode", DRIVE_MODE_DISPLAY);
+        SmartDashboard.putString("Drive Mode", DriveConstants.DRIVE_MODE_DISPLAY[DRIVE_MODE]);
     }
 
     public static final class DriveConstants {
         public static final double DRIVETRAIN_TRACKWIDTH_METERS = Units.inchesToMeters(25.5);
         public static final double DRIVETRAIN_WHEELBASE_METERS = Units.inchesToMeters(27.5);
 
-        public static final int FRONT_LEFT_DRIVE_MOTOR = 4;
-        public static final int FRONT_LEFT_TURN_MOTOR = 5;
-        public static final int FRONT_LEFT_ENCODER = 11;
-
-        public static final int FRONT_RIGHT_DRIVE_MOTOR = 2;
-        public static final int FRONT_RIGHT_TURN_MOTOR = 3;
-        public static final int FRONT_RIGHT_ENCODER = 10;
-
-        public static final int BACK_LEFT_DRIVE_MOTOR = 6;
-        public static final int BACK_LEFT_TURN_MOTOR = 7;
-        public static final int BACK_LEFT_ENCODER = 12;
-
-        public static final int BACK_RIGHT_DRIVE_MOTOR = 8;
-        public static final int BACK_RIGHT_TURN_MOTOR = 9;
-        public static final int BACK_RIGHT_ENCODER = 13;
+        public static final int[] DRIVE_ID = {4, 2, 6, 8}; // FL, FR, BL, BR
+        public static final int[] STEER_ID = {5, 4, 7, 9}; // FL, FR, BL, BR
+        public static final int[] ENCODER_ID = {11, 10, 12, 13}; // FL, FR, BL, BR
+        public static final String[] LAYOUT_TITLE = {"Front Left", "Front Right", "Back Left", "Back Right"};
 
         public static final int PIGEON_ID = 14;
 
         // We are not dealing with enums being class BS
+        public static final String[] DRIVE_MODE_DISPLAY = {"Robot-Oriented", "Field-Oriented", "Fixed-Point", "Fixed Alignment"};
         public static final int ROBOT_ORIENTED = 0;
         public static final int FIELD_ORIENTED = 1;
         public static final int FIXED_POINT_TRACKING = 2;
         public static final int FIXED_ALIGNMENT = 3;
 
+
     }
 
     public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = 0.25;
-        //public static final double kMaxAngularSpeedRadiansPerSecond = 2 * Math.PI;
 
         public static final double kPXController = 20;
         public static final double kPThetaController = 22;
