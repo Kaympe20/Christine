@@ -52,7 +52,7 @@ public class KrakenSwerveModule {
 
         steerMotor.getEncoder().setPositionConversionFactor(Math.PI * STEER_REDUCTION);
         steerMotor.getEncoder().setVelocityConversionFactor(Math.PI * STEER_REDUCTION / 60);
-        steerMotor.getEncoder().setPosition(steerAngle());
+        steerMotor.getEncoder().setPosition(angle());
 
         steerMotor.getPIDController().setPositionPIDWrappingEnabled(true);
         steerMotor.getPIDController().setPositionPIDWrappingMaxInput(PI2);
@@ -70,7 +70,7 @@ public class KrakenSwerveModule {
         steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
         steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
 
-        tab.addDouble("Absolute Angle", () -> Math.toDegrees(steerAngle()));
+        tab.addDouble("Absolute Angle", () -> Math.toDegrees(angle()));
         tab.addDouble("Current Angle", () -> Math.toDegrees(steerMotor.getEncoder().getPosition()));
         tab.addDouble("Target Angle", () -> Math.toDegrees(desiredAngle));
         tab.addBoolean("Active", steerEncoder::isConnected);
@@ -81,7 +81,7 @@ public class KrakenSwerveModule {
     }
 
     public void resetSteerPosition() {
-        steerMotor.getEncoder().setPosition(steerAngle());
+        steerMotor.getEncoder().setPosition(angle());
     }
 
     public void resetAbsolute() {
@@ -92,7 +92,11 @@ public class KrakenSwerveModule {
         return driveMotor.getPosition().getValue() * .502 * WHEEL_DIAMETER;
     }
 
-    public double steerAngle() {
+    public double velocity() {
+        return driveMotor.getRotorVelocity().getValueAsDouble() * PI2 * .502 * Units.inchesToMeters(3);
+    }
+
+    public double angle() {
         return (steerEncoder.getAbsPosition() * PI2) % PI2;
     }
 
@@ -109,7 +113,7 @@ public class KrakenSwerveModule {
 
         desiredAngle = targetAngle;
 
-        double diff = targetAngle - steerAngle();
+        double diff = targetAngle - angle();
 
         if (diff > (Math.PI / 2.0) || diff < -(Math.PI / 2.0)) {
             targetAngle = (targetAngle + Math.PI) % PI2;

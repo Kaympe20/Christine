@@ -22,7 +22,7 @@ public class AutoFiring extends SequentialCommandGroup {
             new SequentialCommandGroup(
                 //new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),
                 new PassOff(io),
-                new WaitUntilCommand(() -> io.chassis.distance(io.limelight.tagPose()) < 2 && Math.abs(io.limelight.targetData().horizontalOffset) < 20),
+                new WaitUntilCommand(() -> io.limelight.distance() < 2 && Math.abs(io.limelight.targetData().horizontalOffset) < 20),
                 new CloseUpShooting(io))));
   }
 }

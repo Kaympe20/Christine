@@ -26,12 +26,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DriveSubsystem extends SubsystemBase {
+public class Swerve extends SubsystemBase {
 
     public static double MAX_VOLTAGE = 12;
     public int DRIVE_MODE = 0;
 
-    public static final double MAX_VELOCITY_METERS_PER_SECOND = 20; //TODO: Increase the spead
+    public static final double MAX_VELOCITY_METERS_PER_SECOND = 20;
     public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = (MAX_VELOCITY_METERS_PER_SECOND /
             Math.hypot(DriveConstants.DRIVETRAIN_WHEELBASE_METERS / 2,
                     DriveConstants.DRIVETRAIN_TRACKWIDTH_METERS / 2));
@@ -61,7 +61,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     private boolean active = true;
 
-    public DriveSubsystem() {
+    public Swerve() {
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
         for (int i = 0; i < modules.length; i++){
             modules[i] = new KrakenSwerveModule(
@@ -118,7 +118,11 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     private SwerveModulePosition modulePosition(KrakenSwerveModule module) {
-        return new SwerveModulePosition(module.drivePosition(), Rotation2d.fromRadians(module.steerAngle()));
+        return new SwerveModulePosition(module.drivePosition(), Rotation2d.fromRadians(module.angle()));
+    }
+
+    private SwerveModuleState moduleState(KrakenSwerveModule module){
+        return new SwerveModuleState(module.velocity(), new Rotation2d(module.angle()));
     }
 
     public SwerveModulePosition[] modulePositions() {
@@ -126,6 +130,13 @@ public class DriveSubsystem extends SubsystemBase {
         for (int i = 0; i < modules.length; i++)
             pos[i] = modulePosition(modules[i]);
         return pos;
+    }
+    
+    public SwerveModuleState[] moduleStates(KrakenSwerveModule[] modules){
+        SwerveModuleState[] state = new SwerveModuleState[4];
+        for (int i = 0; i < modules.length; i++)
+            state[i] = moduleState(modules[i]);
+        return state;
     }
 
     public Pose2d pose() {
@@ -199,11 +210,11 @@ public class DriveSubsystem extends SubsystemBase {
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
         if (active)
             setModuleStates(states);
+        current_states.set(moduleStates(modules));
         target_states.set(states);
         Pose2d pose = odometry.update(rotation(), modulePositions());
         posePublisher.set(pose);
 
-        // TODO: Wrap This Into A List, auto-order it too
         SmartDashboard.putNumber("X position", pose.getX());
         SmartDashboard.putNumber("Y position", pose.getY());
 
