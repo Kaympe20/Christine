@@ -84,7 +84,7 @@ public class IO {
     }
 
     public void configTesting(){
-        driveController.y().onTrue(new InstantCommand(() -> autoSelector.getSelected().schedule()));
+        // driveController.y().onTrue(new InstantComm   and(() -> autoSelector.getSelected().schedule()));
         
         driveController.povDownLeft().onTrue(new InstantCommand(chassis::resetAbsolute));
         driveController.povUpLeft().onTrue(new InstantCommand(chassis::disableChassis));

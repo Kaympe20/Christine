@@ -7,6 +7,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Swerve.DriveConstants;
+import frc.robot.utility.DebugTable;
 import frc.robot.utility.IO;
 
 import java.util.function.DoubleSupplier;
@@ -23,9 +25,9 @@ public class DefaultDrive extends Command {
     }
 
     public DefaultDrive(IO io, CommandXboxController controller) {
-        this(io, () -> -modifyAxis(controller.getLeftY()) * Swerve.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(controller.getLeftX()) * Swerve.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(controller.getRightX())* Swerve.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND);
+        this(io, () -> -modifyAxis(controller.getLeftY()),
+        () -> -modifyAxis(controller.getLeftX()),
+        () -> -modifyAxis(controller.getRightX()));
     }
   
     public DefaultDrive(IO io,
@@ -43,9 +45,22 @@ public class DefaultDrive extends Command {
     
     @Override
     public void execute() {
-        double xSpeed = x_supplier.getAsDouble() * 0.5;
-        double ySpeed = y_supplier.getAsDouble() * 0.5;
-        double rotationSpeed = rotation_supplier.getAsDouble() * 0.25;
+        double scale = (double) DebugTable.get("Translation Scale", 0.75);
+        double rot_scale = (double) DebugTable.get("Rotation Scale", 0.25);
+
+        switch(io.chassis.SPEED_TYPE){
+            case DriveConstants.TURBO:
+            scale = 1.0;
+            break;
+            
+            case DriveConstants.SLOW:
+            scale = .25;
+            break;
+        }
+
+        double xSpeed = x_supplier.getAsDouble() * scale;
+        double ySpeed = y_supplier.getAsDouble() * scale;
+        double rotationSpeed = rotation_supplier.getAsDouble() * rot_scale;
         
         ChassisSpeeds output = new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed);
 

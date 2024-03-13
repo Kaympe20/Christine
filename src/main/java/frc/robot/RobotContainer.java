@@ -38,7 +38,7 @@ public class RobotContainer {
     SmartDashboard.putData("Bindings", bindings);
 
     io.configGlobal();
-    io.configManual();
+    io.configTesting();
   }
 
   public void addAutos(){
