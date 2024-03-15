@@ -33,26 +33,29 @@ public class RobotContainer {
     addAutos();
 
     autos = AutoBuilder.buildAutoChooser("Speaker Rings Centre");
- 
-    SmartDashboard.putData("Autos",autos);
+
+    SmartDashboard.putData("Autos", autos);
     SmartDashboard.putData("Bindings", bindings);
 
     io.configGlobal();
-    io.configTesting();
+    io.configManual();
   }
 
-  public void addAutos(){
+  public void addAutos() {
     commands.put("pickup", new AutoFiring(io));
     commands.put("firing", new AutoFiring(io));
     commands.put("ScoreInamp", new AmpShooting(io));
-    commands.put( "score", new CloseUpShooting(io));
-    commands.put( "Profiled Arm", io.profiledShoot);
-    
+    commands.put("score", new CloseUpShooting(io));
+    commands.put("Profiled Arm", io.profiledShoot);
+
     NamedCommands.registerCommands(commands);
   }
 
   public Command getAutonomousCommand() {
-    // return new SequentialCommandGroup(() -> io.chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED);
-    return new InstantCommand(() -> io.chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED).andThen(autos.getSelected());
+    // return new SequentialCommandGroup(() -> io.chassis.DRIVE_MODE =
+    // DriveConstants.FIELD_ORIENTED);
+    return new SequentialCommandGroup(
+      new InstantCommand(() -> io.chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED),
+        autos.getSelected());
   }
 }

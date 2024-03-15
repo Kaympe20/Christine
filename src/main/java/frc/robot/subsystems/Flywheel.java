@@ -14,7 +14,7 @@ public class Flywheel extends SubsystemBase {
 
   public TalonFX pivot = new TalonFX(13, "rio");
   public TalonFX flywheel = new TalonFX(15, "rio");
-  public DutyCycleEncoder encoder = new DutyCycleEncoder(3);
+  public DutyCycleEncoder encoder = new DutyCycleEncoder(4);
   public CANSparkMax helper = new CANSparkMax(12, MotorType.kBrushless);
 
   public final double PASS_OFF_ANGLE = 75.0;

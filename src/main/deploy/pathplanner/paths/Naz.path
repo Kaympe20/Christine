@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 3.344678689357379,
+        "x": 3.23560572113137,
         "y": 5.56
       },
       "prevControl": {
-        "x": 3.3766662396266063,
-        "y": 5.561267286114626
+        "x": 3.23560572113137,
+        "y": 5.592012644163247
       },
       "nextControl": {
-        "x": 3.2420624841249692,
-        "y": 5.55593454044051
+        "x": 3.23560572113137,
+        "y": 5.520158783741731
       },
       "isLocked": false,
       "linkedName": null
@@ -48,16 +48,16 @@
     },
     {
       "anchor": {
-        "x": 2.2745382633622415,
-        "y": 7.007220871584601
+        "x": 2.5838279400225086,
+        "y": 7.023238156502981
       },
       "prevControl": {
-        "x": 2.2585405536641936,
-        "y": 6.9987825192164
+        "x": 1.9662174833299861,
+        "y": 7.537913537080081
       },
       "nextControl": {
-        "x": 3.6085489313835772,
-        "y": 7.7108748503211295
+        "x": 2.903066036892155,
+        "y": 6.75720640911161
       },
       "isLocked": false,
       "linkedName": null
@@ -80,32 +80,32 @@
     },
     {
       "anchor": {
-        "x": 1.3,
-        "y": 5.56
+        "x": 1.094050154630826,
+        "y": 5.533460371111301
       },
       "prevControl": {
-        "x": 1.2562404596925287,
-        "y": 5.77078690072915
+        "x": 0.9911292791943462,
+        "y": 5.722545823450477
       },
       "nextControl": {
-        "x": 1.62952211618709,
-        "y": 3.97271308828332
+        "x": 1.8325130125010223,
+        "y": 4.176762005265741
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.007511157879459,
-        "y": 3.7235023041474657
+        "x": 2.8897644495225863,
+        "y": 3.990476236241342
       },
       "prevControl": {
-        "x": 2.779561675036578,
-        "y": 3.33697926802258
+        "x": 2.7035422263486253,
+        "y": 3.6579365520021283
       },
       "nextControl": {
-        "x": 3.681846220835299,
-        "y": 4.8669400195943275
+        "x": 3.109683408913651,
+        "y": 4.383188663725384
       },
       "isLocked": false,
       "linkedName": null
@@ -129,18 +129,18 @@
     {
       "name": "Pickup",
       "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0.44999999999999996,
+      "maxWaypointRelativePos": 0.39999999999999997,
       "constraints": {
-        "maxVelocity": 1.5,
-        "maxAcceleration": 0.5,
+        "maxVelocity": 1.0,
+        "maxAcceleration": 1.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
       }
     },
     {
       "name": "Shoot",
-      "minWaypointRelativePos": 1.0,
-      "maxWaypointRelativePos": 2.3,
+      "minWaypointRelativePos": 1.3,
+      "maxWaypointRelativePos": 2.75,
       "constraints": {
         "maxVelocity": 1.0,
         "maxAcceleration": 1.0,
@@ -150,48 +150,52 @@
     },
     {
       "name": "Last Pickup",
-      "minWaypointRelativePos": 5.55,
+      "minWaypointRelativePos": 5.3,
       "maxWaypointRelativePos": 6.3999999999999995,
       "constraints": {
-        "maxVelocity": 1.5,
+        "maxVelocity": 1.25,
         "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    },
+    {
+      "name": "piKC",
+      "minWaypointRelativePos": 2.75,
+      "maxWaypointRelativePos": 3.45,
+      "constraints": {
+        "maxVelocity": 0.75,
+        "maxAcceleration": 4.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    },
+    {
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 3.95,
+      "maxWaypointRelativePos": 5.25,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
       }
     }
   ],
-  "eventMarkers": [
-    {
-      "name": "Pickup",
-      "waypointRelativePos": 0.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "pickup"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
     "rotation": 180.0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": null,
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

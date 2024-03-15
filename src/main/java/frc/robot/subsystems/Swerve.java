@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Swerve extends SubsystemBase {
 
     public static double MAX_VOLTAGE = (double) DebugTable.get("Max Voltage", 12.0);
+    public final double MAX_VELOCITY = 20;
     public int DRIVE_MODE = 0;
     public int SPEED_TYPE = 0;
 
@@ -87,7 +88,7 @@ public class Swerve extends SubsystemBase {
                 },
                 this);
 
-        odometry = new SwerveDriveOdometry(kinematics, rotation(), modulePositions(), new Pose2d(0, 0, rotation()));
+        odometry = new SwerveDriveOdometry(kinematics, rotation(), modulePositions(), new Pose2d(0, 0, new Rotation2d()));
 
     }
 
@@ -184,8 +185,7 @@ public class Swerve extends SubsystemBase {
 
     public void setModuleStates(SwerveModuleState[] states) {
         for (int i = 0; i < modules.length; i++){
-            SwerveModuleState optimisedState = SwerveModuleState.optimize(states[i], new Rotation2d(modules[i].angle()));
-            modules[i].set(optimisedState.speedMetersPerSecond * MAX_VOLTAGE, optimisedState.angle.getRadians());
+            modules[i].set((states[i].speedMetersPerSecond / MAX_VELOCITY) * MAX_VOLTAGE, states[i].angle.getRadians());
         }
     }
 
@@ -249,7 +249,7 @@ public class Swerve extends SubsystemBase {
 
     public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = 0.25;
-        public static final double kPXController = 20;
-        public static final double kPThetaController = 22;
+        public static final double kPXController = 20.0;
+        public static final double kPThetaController = 22.0;
     }
 }

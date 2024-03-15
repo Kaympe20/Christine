@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-import frc.robot.utility.IO;
+
+import frc.robot.utility.IO; 
 
 public class AmpShooting extends SequentialCommandGroup {
   IO io;

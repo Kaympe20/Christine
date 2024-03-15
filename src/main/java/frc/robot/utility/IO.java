@@ -2,15 +2,23 @@ package frc.robot.utility;
 
 
 import com.ctre.phoenix.music.Orchestra;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Swerve.*;
 
-public class IO {
+public class IO extends SubsystemBase{
     final CommandXboxController driveController = new CommandXboxController(0);
     final CommandXboxController mechController = new CommandXboxController(1);
 
@@ -43,6 +51,10 @@ public class IO {
         driveController.back().onTrue(new InstantCommand(chassis::resetOdometry));
         driveController.start().onTrue(new InstantCommand(() -> chassis.resetOdometry(limelight.poseEstimation(chassis.rotation()))));
 
+        // driveController.a().onTrue(new SequentialCommandGroup(
+        //     new InstantCommand(() -> chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED),
+        //       autoSelector.getSelected() ));
+
         driveController.povUpRight().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll));
         // leds.sequenceLed();
         
@@ -65,7 +77,7 @@ public class IO {
         // }));
         mechController.back().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll));
         mechController.x().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll));
-        //mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle( (double) DebugTable.get("Test Angle", 75.0))));
+        mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle( (double) DebugTable.get("Test Angle", 75.0))));
         mechController.a().onTrue(new PassOff(this));
         mechController.b().onTrue(new InstantCommand(() -> {
             shooter.flywheelVoltage((double) DebugTable.get("Test Flywheel Voltage", -16.0));
@@ -112,6 +124,12 @@ public class IO {
         mechController.b().onTrue(new InstantCommand(profiledShoot::stop));
     }
 
-    // @Override
-    // public void periodic(){}
+    StructPublisher<Pose2d> estimated_pose = NetworkTableInstance.getDefault().getTable("Debug").getStructTopic("Estimated Pose", Pose2d.struct).publish();
+
+
+    @Override
+    public void periodic(){
+        estimated_pose.set(limelight.poseEstimation(chassis.rotation()));
+        SmartDashboard.putNumber("Odometry Distance", chassis.distance( new Pose2d(limelight.tagPose()[0], limelight.tagPose()[2], new Rotation2d())));
+    }
 }
