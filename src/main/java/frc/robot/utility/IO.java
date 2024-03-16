@@ -57,6 +57,7 @@ public class IO extends SubsystemBase{
 
         driveController.povUpRight().onTrue(new InstantCommand(scheduler::cancelAll));
         driveController.leftTrigger().onTrue(new InstantCommand(profiledShoot::stop));
+        
         // leds.sequenceLed();
         
         DriverStation.silenceJoystickConnectionWarning(true);
@@ -68,14 +69,6 @@ public class IO extends SubsystemBase{
      
         mechController.rightTrigger().onTrue(new AmpShooting(this));
         mechController.leftTrigger().onTrue(new CloseUpShooting(this));
-        // mechController.leftTrigger().onTrue(new InstantCommand(() -> {
-        //     shooter.flywheelSpeed(1);
-        //     shooter.helperVoltage((double) DebugTable.get("Test Helper Voltage", -6.0));
-        // })).onFalse(new InstantCommand(() ->{
-        //     intake.speed(0);
-        //     shooter.flywheelSpeed(0);
-        //     shooter.helperVoltage(0);
-        // }));
         mechController.back().onTrue(new InstantCommand(scheduler::cancelAll));
         mechController.x().onTrue(new InstantCommand(scheduler::cancelAll));
         mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle( (double) DebugTable.get("Test Angle", 75.0))));
@@ -100,17 +93,10 @@ public class IO extends SubsystemBase{
 
     public void configTesting(){
         // driveController.y().onTrue(new InstantComm   and(() -> autoSelector.getSelected().schedule()));
-        
-        driveController.povDownLeft().onTrue(new InstantCommand(chassis::resetAbsolute));
-        driveController.povUpLeft().onTrue(new InstantCommand(chassis::disableChassis));
-        driveController.povDownRight().onTrue(new InstantCommand(chassis::activeChassis));
-        driveController.povUpLeft().onTrue(new InstantCommand(chassis::disableChassis));
-
-
         mechController.leftBumper().onTrue(new InstantCommand(() -> shooter.pivotVoltage(1.5))).onFalse(new InstantCommand(() -> shooter.pivotVoltage(0)));
         mechController.rightBumper().onTrue(new InstantCommand(() -> shooter.pivotVoltage(-1.5))).onFalse(new InstantCommand(() -> shooter.pivotVoltage(0))); 
 
-        //mechController.leftTrigger().onTrue(new ToggleIntake(this)); 
+        mechController.leftTrigger().onTrue(new ToggleIntake(this)); 
         mechController.rightTrigger().onTrue(new InstantCommand(() -> {
             shooter.flywheelVoltage(-16);
             shooter.helperVoltage(-6);
@@ -121,14 +107,11 @@ public class IO extends SubsystemBase{
         })); 
 
         mechController.a().onTrue(new InstantCommand(() -> profiledShoot.setAngle(150)));
-        // mechController.x().onTrue(new InstantCommand(() -> profiledShoot.setAngle(200)));
         mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle( (double) DebugTable.get("Test Angle", 200.0))));
-        // mechController.leftBumper().onTrue(new InstantCommand(() -> intake.speed(-1))).onFalse(new InstantCommand(() -> intake.speed(0)));
         mechController.b().onTrue(new InstantCommand(profiledShoot::stop));
     }
 
     StructPublisher<Pose2d> estimated_pose = NetworkTableInstance.getDefault().getTable("Debug").getStructTopic("Estimated Pose", Pose2d.struct).publish();
-
 
     @Override
     public void periodic(){

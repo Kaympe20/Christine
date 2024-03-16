@@ -45,7 +45,7 @@ public class DefaultDrive extends Command {
     @Override
     public void execute() {
         double scale = (double) DebugTable.get("Translation Scale", 1.0);
-        double rot_scale = (double) DebugTable.get("Rotation Scale", 0.75);
+        double rot_scale = (double) DebugTable.get("Rotation Scale", 0.6);
 
         switch(io.chassis.SPEED_TYPE){
             case DriveConstants.TURBO:

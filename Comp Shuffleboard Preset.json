@@ -21,7 +21,7 @@
               "_title": "Chassis",
               "_glyph": 82,
               "_showGlyph": true,
-              "Layout/Label position": "TOP",
+              "Layout/Label position": "BOTTOM",
               "_children": [
                 {
                   "_type": "Text View",
@@ -39,13 +39,6 @@
                 },
                 {
                   "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Drive Mode",
-                  "_title": "Drive Mode",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "Text View",
                   "_source0": "network_table:///SmartDashboard/Odometry rotation",
                   "_title": "Odometry rotation",
                   "_glyph": 148,
@@ -53,29 +46,15 @@
                 },
                 {
                   "_type": "Text View",
+                  "_source0": "network_table:///SmartDashboard/Drive Mode",
+                  "_title": "Drive Mode",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
                   "_source0": "network_table:///SmartDashboard/Odometry Distance",
                   "_title": "Odometry Distance",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Pigeon Yaw",
-                  "_title": "Pigeon Yaw",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Pigeon Pitch",
-                  "_title": "Pigeon Pitch",
-                  "_glyph": 148,
-                  "_showGlyph": false
-                },
-                {
-                  "_type": "Text View",
-                  "_source0": "network_table:///SmartDashboard/Pigeon Roll",
-                  "_title": "Pigeon Roll",
                   "_glyph": 148,
                   "_showGlyph": false
                 }
@@ -165,7 +144,7 @@
               ]
             }
           },
-          "6,0": {
+          "4,3": {
             "size": [
               2,
               1
@@ -178,7 +157,7 @@
               "_showGlyph": false
             }
           },
-          "6,1": {
+          "4,4": {
             "size": [
               2,
               1
@@ -191,33 +170,139 @@
               "_showGlyph": false
             }
           },
-          "6,2": {
+          "0,3": {
             "size": [
               2,
-              1
+              2
             ],
             "content": {
-              "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Stream Mode",
-              "_title": "Stream Mode",
-              "_glyph": 148,
-              "_showGlyph": false
+              "_type": "List Layout",
+              "_title": "Debug Drive Sliders",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///Debug/Translation Scale",
+                  "_title": "/Debug/Translation Scale",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///Debug/Rotation Scale",
+                  "_title": "/Debug/Rotation Scale",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///Debug/Max Voltage",
+                  "_title": "Debug/Max Voltage",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              ]
             }
           },
-          "0,3": {
+          "2,3": {
+            "size": [
+              2,
+              2
+            ],
+            "content": {
+              "_type": "List Layout",
+              "_title": "Debug Mechanism Sliders",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///Debug/Test Flywheel Voltage",
+                  "_title": "Debug/Test Flywheel Voltage",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///Debug/Test Helper Voltage",
+                  "_title": "Debug/Test Helper Voltage",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                },
+                {
+                  "_type": "Text View",
+                  "_source0": "network_table:///Debug/Test Intake Voltage",
+                  "_title": "Debug/Test Intake Voltage",
+                  "_glyph": 148,
+                  "_showGlyph": false
+                }
+              ]
+            }
+          },
+          "6,0": {
+            "size": [
+              3,
+              4
+            ],
+            "content": {
+              "_type": "Camera Stream",
+              "_source0": "camera_server://limelight",
+              "_title": "Limelight",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Crosshair/Show crosshair": true,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": true,
+              "Controls/Rotation": "NONE",
+              "compression": 100.0,
+              "fps": -1,
+              "imageWidth": -1,
+              "imageHeight": -1
+            }
+          },
+          "9,0": {
             "size": [
               1,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///SmartDashboard/Angle Voltage",
-              "_title": "Angle Voltage",
+              "_source0": "network_table:///SmartDashboard/Pigeon Yaw",
+              "_title": "Pigeon Yaw",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "2,3": {
+          "10,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Pigeon Pitch",
+              "_title": "Pigeon Pitch",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "11,0": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Pigeon Roll",
+              "_title": "Pigeon Roll",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "9,1": {
             "size": [
               1,
               1
@@ -230,7 +315,7 @@
               "_showGlyph": false
             }
           },
-          "3,3": {
+          "10,1": {
             "size": [
               1,
               1
@@ -243,7 +328,7 @@
               "_showGlyph": false
             }
           },
-          "4,3": {
+          "11,1": {
             "size": [
               1,
               1
@@ -256,28 +341,41 @@
               "_showGlyph": false
             }
           },
-          "5,3": {
+          "9,2": {
             "size": [
               1,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///Debug/Translation Scale",
-              "_title": "/Debug/Translation Scale",
+              "_source0": "network_table:///SmartDashboard/Stream Mode",
+              "_title": "Stream Mode",
               "_glyph": 148,
               "_showGlyph": false
             }
           },
-          "6,3": {
+          "10,2": {
             "size": [
               1,
               1
             ],
             "content": {
               "_type": "Text View",
-              "_source0": "network_table:///Debug/Rotation Scale",
-              "_title": "/Debug/Rotation Scale",
+              "_source0": "network_table:///SmartDashboard/Expected Profile Angle",
+              "_title": "Expected Profile Angle",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "11,2": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Angle Voltage",
+              "_title": "Angle Voltage",
               "_glyph": 148,
               "_showGlyph": false
             }
@@ -313,9 +411,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -7.245283126831055,
-    "y": -7.245283126831055,
-    "width": 1753.3585205078125,
-    "height": 944.6038208007812
+    "x": 0.9056603908538818,
+    "y": 0.9056603908538818,
+    "width": 1737.056640625,
+    "height": 928.3019409179688
   }
 }
