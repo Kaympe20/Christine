@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-//import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -50,8 +49,7 @@ public class Flywheel extends SubsystemBase {
   }
 
   public void setRPM(double RPM) {
-    double flywheelRPM = Math.max(Math.min(RPM, 6000), 0) / 6000;
-    flywheel.set(RPM / 6000);
+    flywheel.set(Math.max(Math.min(RPM, 6000), 0) / 6000 / 6000);
   }
 
   public void setVelocity(double velocity) {

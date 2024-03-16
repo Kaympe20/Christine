@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7352951848718504,
-      "y": 6.626074966439958
+      "x": 0.75,
+      "y": 4.2
     },
     "rotation": 125.0
   },
@@ -14,13 +14,32 @@
         {
           "type": "named",
           "data": {
-            "name": "Score"
+            "name": "score"
           }
         },
         {
-          "type": "path",
+          "type": "race",
           "data": {
-            "pathName": "Left Swing"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Left Swing"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "pickup"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "score"
           }
         }
       ]

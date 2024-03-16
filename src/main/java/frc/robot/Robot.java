@@ -7,8 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -50,6 +48,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     if (m_autonomousCommand != null) m_autonomousCommand.cancel();
     // m_robotContainer.bindings.getSelected().run();
+    // CommandScheduler.getInstance().cancelAll();
   }
 
   @Override
@@ -59,13 +58,7 @@ public class Robot extends TimedRobot {
   public void teleopExit() {}
 
   @Override
-  public void testInit() {
-    CommandScheduler.getInstance().cancelAll();
-    new SequentialCommandGroup(
-    new InstantCommand(() -> m_robotContainer.io.shooter.flywheelVoltage(0)),
-        new InstantCommand(() -> m_robotContainer.io.shooter.helperVoltage(0)),
-        new InstantCommand(() -> m_robotContainer.io.intake.intakeVoltage(0))).schedule();
-  }
+  public void testInit() {}
 
   @Override
   public void testPeriodic() {}

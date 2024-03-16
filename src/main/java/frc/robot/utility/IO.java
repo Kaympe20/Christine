@@ -5,9 +5,7 @@ import com.ctre.phoenix.music.Orchestra;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -29,6 +27,8 @@ public class IO extends SubsystemBase{
     public final Limelight limelight = new Limelight();
     public final Flywheel shooter = new Flywheel();
     public final ProfiledShooter profiledShoot = new ProfiledShooter(this, 64);
+
+    public CommandScheduler scheduler = CommandScheduler.getInstance();
 
     SendableChooser<Command> autoSelector;
 
@@ -55,7 +55,8 @@ public class IO extends SubsystemBase{
         //     new InstantCommand(() -> chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED),
         //       autoSelector.getSelected() ));
 
-        driveController.povUpRight().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll));
+        driveController.povUpRight().onTrue(new InstantCommand(scheduler::cancelAll));
+        driveController.leftTrigger().onTrue(new InstantCommand(profiledShoot::stop));
         // leds.sequenceLed();
         
         DriverStation.silenceJoystickConnectionWarning(true);
@@ -75,11 +76,13 @@ public class IO extends SubsystemBase{
         //     shooter.flywheelSpeed(0);
         //     shooter.helperVoltage(0);
         // }));
-        mechController.back().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll));
-        mechController.x().onTrue(new InstantCommand(CommandScheduler.getInstance()::cancelAll));
+        mechController.back().onTrue(new InstantCommand(scheduler::cancelAll));
+        mechController.x().onTrue(new InstantCommand(scheduler::cancelAll));
         mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle( (double) DebugTable.get("Test Angle", 75.0))));
         mechController.a().onTrue(new PassOff(this));
+
         mechController.b().onTrue(new InstantCommand(() -> {
+            profiledShoot.setAngle(shooter.PASS_OFF_ANGLE);
             shooter.flywheelVoltage((double) DebugTable.get("Test Flywheel Voltage", -16.0));
             shooter.helperVoltage((double) DebugTable.get("Test Helper Voltage", -6.0));
         })).onFalse(new InstantCommand(() ->{

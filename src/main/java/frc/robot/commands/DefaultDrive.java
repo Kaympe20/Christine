@@ -6,7 +6,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Swerve.DriveConstants;
 import frc.robot.utility.DebugTable;
 import frc.robot.utility.IO;
@@ -45,8 +44,8 @@ public class DefaultDrive extends Command {
     
     @Override
     public void execute() {
-        double scale = (double) DebugTable.get("Translation Scale", 0.75);
-        double rot_scale = (double) DebugTable.get("Rotation Scale", 0.25);
+        double scale = (double) DebugTable.get("Translation Scale", 1.0);
+        double rot_scale = (double) DebugTable.get("Rotation Scale", 0.75);
 
         switch(io.chassis.SPEED_TYPE){
             case DriveConstants.TURBO:

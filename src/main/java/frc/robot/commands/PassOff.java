@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.utility.IO;
 
 public class PassOff extends SequentialCommandGroup {
@@ -32,7 +31,9 @@ public class PassOff extends SequentialCommandGroup {
                         new ToggleIntake(io),
                         new InstantCommand(() -> io.profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE))),
                     () -> io.intake.closed), 
-                    new InstantCommand(() -> io.profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE)))));
+                    new InstantCommand(() -> io.profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE)),
+                    new InstantCommand(profiledShoot::stop),
+                    new InstantCommand(io.profiledShoot::stop))));
   }
 
 }

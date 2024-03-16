@@ -9,6 +9,7 @@ import java.util.HashMap;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,8 +18,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AmpShooting;
 import frc.robot.commands.AutoFiring;
 import frc.robot.commands.CloseUpShooting;
-import frc.robot.commands.PassOff;
-import frc.robot.commands.ProfiledShooter;
 import frc.robot.subsystems.Swerve.DriveConstants;
 import frc.robot.utility.IO;
 
@@ -52,8 +51,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    // return new SequentialCommandGroup(() -> io.chassis.DRIVE_MODE =
-    // DriveConstants.FIELD_ORIENTED);
     return new SequentialCommandGroup(
       new InstantCommand(() -> io.chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED),
         autos.getSelected());

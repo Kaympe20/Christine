@@ -23,6 +23,7 @@ public class AmpShooting extends SequentialCommandGroup {
             new SequentialCommandGroup(
               new InstantCommand(() -> io.profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE)),
                 new InstantCommand(() -> profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE)),
+                new WaitUntilCommand(() -> Math.abs(profiledShoot.controller.getPositionError()) < 2),
                 new WaitCommand(0.3),
                 new InstantCommand(() -> io.shooter.helperVoltage(-6)),
                 new InstantCommand(() -> io.intake.speed(-1.0)),
