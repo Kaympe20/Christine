@@ -10,6 +10,8 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -142,7 +144,8 @@ public class Limelight extends SubsystemBase {
   }
 
   public double[] tagPose(){
-    switch(7){
+    int alliance = (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) ? 7 : 3;
+    switch(alliance){
       default:
       return new double[] {-1,-1,-1,-1,};
       
