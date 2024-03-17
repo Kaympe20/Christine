@@ -146,10 +146,11 @@ public class Limelight extends SubsystemBase {
   public double[] tagPose(){
     int alliance = (DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) ? 7 : 3;
     switch(alliance){
+    
       default:
       return new double[] {-1,-1,-1,-1,};
-      
 
+      
       case 1: // Blue Alliance Player Station
       return new double[]{15.36, 1.22, 0.44, 0};
 

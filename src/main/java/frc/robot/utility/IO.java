@@ -33,8 +33,8 @@ public class IO extends SubsystemBase{
     SendableChooser<Command> autoSelector;
 
     public IO(SendableChooser<Runnable> bindings, SendableChooser<Command> selector){
-        bindings.setDefaultOption("Testing", this::configTesting);
-        bindings.addOption("Manual", this::configManual);
+        // bindings.setDefaultOption("Manual", this::configManual);
+        // bindings.addOption("Testing", this::configTesting);
         autoSelector = selector;
     }
 
@@ -44,8 +44,6 @@ public class IO extends SubsystemBase{
 
         driveController.leftBumper().onTrue(new InstantCommand(() -> chassis.DRIVE_MODE = DriveConstants.ROBOT_ORIENTED));
         driveController.rightBumper().onTrue(new InstantCommand(() -> chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED));
-        // driveController.leftTrigger().onTrue(new InstantCommand(() -> chassis.DRIVE_MODE = DriveConstants.FIXED_POINT_TRACKING));
-        // driveController.rightTrigger().onTrue(new InstantCommand(() -> chassis.DRIVE_MODE = DriveConstants.FIXED_ALIGNMENT));
 
 
         driveController.back().onTrue(new InstantCommand(chassis::resetOdometry));
@@ -58,8 +56,6 @@ public class IO extends SubsystemBase{
         driveController.povUpRight().onTrue(new InstantCommand(scheduler::cancelAll));
         driveController.leftTrigger().onTrue(new InstantCommand(profiledShoot::stop));
         
-        // leds.sequenceLed();
-        
         DriverStation.silenceJoystickConnectionWarning(true);
     }
 
@@ -69,11 +65,12 @@ public class IO extends SubsystemBase{
      
         mechController.rightTrigger().onTrue(new AmpShooting(this));
         mechController.leftTrigger().onTrue(new CloseUpShooting(this));
+        
         mechController.back().onTrue(new InstantCommand(scheduler::cancelAll));
         mechController.x().onTrue(new InstantCommand(scheduler::cancelAll));
-        mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle( (double) DebugTable.get("Test Angle", 75.0))));
+        
+        mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle( (double) DebugTable.get("Test Angle", 75.0)))); //86 for distance
         mechController.a().onTrue(new PassOff(this));
-
         mechController.b().onTrue(new InstantCommand(() -> {
             profiledShoot.setAngle(shooter.PASS_OFF_ANGLE);
             shooter.flywheelVoltage((double) DebugTable.get("Test Flywheel Voltage", -16.0));
