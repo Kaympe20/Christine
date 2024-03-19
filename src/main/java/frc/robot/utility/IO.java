@@ -26,6 +26,7 @@ public class IO extends SubsystemBase{
     public final Intake intake = new Intake();
     public final Limelight limelight = new Limelight();
     public final Flywheel shooter = new Flywheel();
+    public final Climber climber = new Climber();
     public final ProfiledShooter profiledShoot = new ProfiledShooter(this, 64);
 
     public CommandScheduler scheduler = CommandScheduler.getInstance();
