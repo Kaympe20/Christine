@@ -49,6 +49,7 @@ public class IO extends SubsystemBase{
         driveController.back().onTrue(new InstantCommand(chassis::resetOdometry));
         driveController.start().onTrue(new InstantCommand(() -> chassis.resetOdometry(limelight.poseEstimation(chassis.rotation()))));
 
+        driveController.povRight().onTrue(new InstantCommand(() -> autoSelector.getSelected().schedule()));
         // driveController.a().onTrue(new SequentialCommandGroup(
         //     new InstantCommand(() -> chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED),
         //       autoSelector.getSelected() ));

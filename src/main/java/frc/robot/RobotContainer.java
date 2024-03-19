@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoFire;
-import frc.robot.commands.AutoFiring;
 import frc.robot.commands.CloseUpShooting;
 import frc.robot.subsystems.Swerve.DriveConstants;
 import frc.robot.utility.IO;
@@ -40,8 +39,8 @@ public class RobotContainer {
   }
 
   public void addAutos() {
-    commands.put("pickup", new AutoFiring(io));
-    // commands.put("pickup", new AutoFire(io, false));
+    // commands.put("pickup", new AutoFiring(io));
+    commands.put("pickup", new AutoFire(io, false));
     commands.put("ramped pickup", new AutoFire(io, true));
     commands.put("score", new CloseUpShooting(io));
 
@@ -50,7 +49,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return new SequentialCommandGroup(
-      new InstantCommand(() -> io.chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED),
+        new InstantCommand(() -> io.chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED),
         autos.getSelected());
   }
 }
