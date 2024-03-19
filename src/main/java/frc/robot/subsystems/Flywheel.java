@@ -16,8 +16,8 @@ public class Flywheel extends SubsystemBase {
   public DutyCycleEncoder encoder = new DutyCycleEncoder(4);
   public CANSparkMax helper = new CANSparkMax(12, MotorType.kBrushless);
 
-  public final double PASS_OFF_ANGLE = 67.0; //75
-  public final double AMP = 152.0; //163
+  public static final double PASS_OFF_ANGLE = 67.0; //75
+  public static final double AMP = 152.0; //163
 
   public Flywheel() {
     helper.setSmartCurrentLimit(20);

@@ -9,15 +9,14 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-
+import frc.robot.subsystems.Flywheel;
 import frc.robot.utility.IO; 
 
 public class AmpShooting extends SequentialCommandGroup {
-  IO io;
 
   public AmpShooting(IO io) {
     addRequirements(io.shooter, io.intake);
-    ProfiledShooter profiledShoot = new ProfiledShooter(io, io.shooter.AMP);
+    ProfiledShooter profiledShoot = new ProfiledShooter(io, Flywheel.AMP);
     addCommands(
         new ParallelRaceGroup(profiledShoot,
             new SequentialCommandGroup(

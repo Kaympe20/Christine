@@ -12,13 +12,12 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.utility.IO;
 
 public class AutoFiring extends SequentialCommandGroup {
-  /** Creates a new AutoFiring. */
+
   public AutoFiring(IO io) {
     addRequirements(io.intake, io.shooter, io.limelight);
     addCommands(
         new RepeatCommand(
             new SequentialCommandGroup(
-                // new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),
                 new PassOff(io),
                 new WaitUntilCommand(() -> io.chassis.distance(new Pose2d(io.limelight.tagPose()[0], io.limelight.tagPose()[2], new Rotation2d())) < 2.0),
                 new CloseUpShooting(io))));

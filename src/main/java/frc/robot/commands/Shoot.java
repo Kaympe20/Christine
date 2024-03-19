@@ -9,16 +9,17 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.subsystems.Flywheel;
 import frc.robot.utility.IO;
 
 public class Shoot extends SequentialCommandGroup {
 
   public Shoot(IO io) {
-    ProfiledShooter profiledShoot = new ProfiledShooter(io, io.shooter.PASS_OFF_ANGLE);
+    ProfiledShooter profiledShoot = new ProfiledShooter(io, Flywheel.PASS_OFF_ANGLE);
     addCommands(new ParallelRaceGroup(profiledShoot,
         new SequentialCommandGroup(
-            new InstantCommand(() -> io.profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE)),
-            new InstantCommand(() -> profiledShoot.setAngle(io.shooter.PASS_OFF_ANGLE)),
+            new InstantCommand(() -> io.profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
+            new InstantCommand(() -> profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
             new WaitCommand(0.1),
             new WaitUntilCommand(() -> Math.abs(profiledShoot.controller.getPositionError()) < 2),
             new InstantCommand(() -> io.shooter.helperVoltage(-12)),
