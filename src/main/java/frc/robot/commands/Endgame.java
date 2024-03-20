@@ -4,22 +4,17 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.utility.IO;
 
 public class Endgame extends SequentialCommandGroup {
-
-  final double HANG_DISTANCE = 3;
-
   public Endgame(IO io) {
     addRequirements(io.shooter, io.climber, io.intake);
     addCommands(
-      new InstantCommand(() -> io.climber.setHangPos(io.climber.HANG_UP_POS)),
-      new InstantCommand(() -> io.climber.setHangPos(io.climber.HANG_DOWN_POS)),
-      new InstantCommand(() -> io.climber.setElevatorPos(io.climber.ELEVATOR_UP_POS)),
-      new AmpShooting(io));
+        new InstantCommand(() -> io.climber.setHangPos(io.climber.HANG_UP_POS)),
+        new InstantCommand(() -> io.climber.setHangPos(io.climber.HANG_DOWN_POS)),
+        new InstantCommand(() -> io.climber.setElevatorPos(io.climber.ELEVATOR_UP_POS)),
+        new AmpShooting(io));
   }
 }
