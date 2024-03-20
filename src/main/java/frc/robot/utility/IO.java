@@ -24,7 +24,8 @@ public class IO extends SubsystemBase{
     public Orchestra play = new Orchestra();
     public final LEDs leds = new LEDs();
     public final Intake intake = new Intake();
-    public final Limelight limelight = new Limelight();
+    public final Limelight shooter_light = new Limelight("shooter"); 
+    public final Limelight intake_light = new Limelight("intake"); 
     public final Flywheel shooter = new Flywheel();
     public final ProfiledShooter profiledShoot = new ProfiledShooter(this, 64);
 
@@ -47,7 +48,7 @@ public class IO extends SubsystemBase{
 
 
         driveController.back().onTrue(new InstantCommand(chassis::resetOdometry));
-        driveController.start().onTrue(new InstantCommand(() -> chassis.resetOdometry(limelight.poseEstimation(chassis.rotation()))));
+        driveController.start().onTrue(new InstantCommand(() -> chassis.resetOdometry(shooter_light.poseEstimation(chassis.rotation()))));
 
         driveController.povRight().onTrue(new InstantCommand(() -> autoSelector.getSelected().schedule()));
         // driveController.a().onTrue(new SequentialCommandGroup(
@@ -119,7 +120,7 @@ public class IO extends SubsystemBase{
 
     @Override
     public void periodic(){
-        estimated_pose.set(limelight.poseEstimation(chassis.rotation()));
-        SmartDashboard.putNumber("Odometry Distance", chassis.distance( new Pose2d(limelight.tagPose()[0], limelight.tagPose()[2], new Rotation2d())));
+        estimated_pose.set(shooter_light.poseEstimation(chassis.rotation()));
+        SmartDashboard.putNumber("Odometry Distance", chassis.distance( new Pose2d(shooter_light.tagPose()[0], shooter_light.tagPose()[2], new Rotation2d())));
     }
 }

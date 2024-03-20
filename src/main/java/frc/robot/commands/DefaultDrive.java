@@ -77,14 +77,14 @@ public class DefaultDrive extends Command {
             break;
             
             case 2: // Fixed-Point Tracking
-            adjustmentAngle = io.chassis.pose().getRotation().plus(new Rotation2d(io.limelight.targetData().horizontalOffset));
+            adjustmentAngle = io.chassis.pose().getRotation().plus(new Rotation2d(io.shooter_light.targetData().horizontalOffset));
             tr = new Translation2d(xSpeed, ySpeed).rotateBy(adjustmentAngle.unaryMinus());
             output = new ChassisSpeeds(tr.getX(), tr.getY(), rotationSpeed);
             break;
 
             case 3: // Fixed Alignment
             Pose2d pose = io.chassis.pose();
-            adjustmentAngle = pose.getRotation().plus(new Rotation2d(io.limelight.targetData().horizontalOffset));
+            adjustmentAngle = pose.getRotation().plus(new Rotation2d(io.shooter_light.targetData().horizontalOffset));
             tr = new Translation2d(0, xSpeed).rotateBy(adjustmentAngle.unaryMinus());
             output = new ChassisSpeeds(tr.getX(), tr.getY(), 0);
             break;

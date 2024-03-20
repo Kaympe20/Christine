@@ -20,7 +20,7 @@ public class AmpShooting extends SequentialCommandGroup {
     addCommands(
         new ParallelRaceGroup(profiledShoot,
             new SequentialCommandGroup(
-                              new InstantCommand(() -> io.profiledShoot.setAngle(70.0)),
+                new InstantCommand(() -> io.profiledShoot.setAngle(70.0)),
                 new InstantCommand(() -> profiledShoot.setAngle(70.0)),
                 new WaitCommand(0.3),
                 new WaitUntilCommand(() -> Math.abs(profiledShoot.controller.getPositionError()) < 3),

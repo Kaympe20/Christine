@@ -22,18 +22,18 @@ public class Aimbot extends PIDCommand {
   public Aimbot(IO io) {
     super(
         new PIDController(1, 0, 0), // TODO: PLACEHOLDER
-        () -> io.limelight.targetData().horizontalOffset,
+        () -> io.shooter_light.targetData().horizontalOffset,
         () -> 0,
         output -> {
           io.chassis.drive(new ChassisSpeeds(0, 0, output * AimbotSpeed * DRIVE_MAX_VELOCITY_METERS_PER_SECOND));
         });
         this.io = io;
-        addRequirements(io.chassis, io.limelight);
+        addRequirements(io.chassis, io.shooter_light);
   }
 
   @Override
   public boolean isFinished() {
-    return Math.abs(getController().getPositionError()) < minimumAdjustment || io.limelight.targetData().hasTargets;
+    return Math.abs(getController().getPositionError()) < minimumAdjustment || io.shooter_light.targetData().hasTargets;
   }
 
   @Override
