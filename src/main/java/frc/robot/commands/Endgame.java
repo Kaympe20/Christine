@@ -15,17 +15,11 @@ public class Endgame extends SequentialCommandGroup {
   final double HANG_DISTANCE = 3;
 
   public Endgame(IO io) {
-    addRequirements(io.shooter, io.climber, io.chassis);
-    ProfiledShooter profiledShoot = new ProfiledShooter(io, io.shooter.PASS_OFF_ANGLE);
+    addRequirements(io.shooter, io.climber, io.intake);
     addCommands(
-        new ParallelRaceGroup(profiledShoot,
-            new SequentialCommandGroup(
-                new Aimbot(io),
-                new DistanceDrive(io, HANG_DISTANCE),
-                new InstantCommand(() -> io.climber.setHangPos(io.climber.HANG_UP_POS)),
-                new DefaultDrive(io, new ChassisSpeeds(1, 0, 0)), // kinda placeholder but just like move forward lil
-                new InstantCommand(() -> io.climber.setHangPos(io.climber.HANG_DOWN_POS)),
-                new InstantCommand(() -> io.climber.setElevatorPos(io.climber.ELEVATOR_UP_POS)),
-                new AmpShooting(io))));
+      new InstantCommand(() -> io.climber.setHangPos(io.climber.HANG_UP_POS)),
+      new InstantCommand(() -> io.climber.setHangPos(io.climber.HANG_DOWN_POS)),
+      new InstantCommand(() -> io.climber.setElevatorPos(io.climber.ELEVATOR_UP_POS)),
+      new AmpShooting(io));
   }
 }
