@@ -50,12 +50,7 @@ public class IO extends SubsystemBase{
         driveController.back().onTrue(new InstantCommand(chassis::resetOdometry));
         driveController.start().onTrue(new InstantCommand(() -> chassis.resetOdometry(shooter_light.poseEstimation(chassis.rotation()))));
 
-        driveController.povRight().onTrue(new InstantCommand(() -> autoSelector.getSelected().schedule()));
-        // driveController.a().onTrue(new SequentialCommandGroup(
-        //     new InstantCommand(() -> chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED),
-        //       autoSelector.getSelected() ));
-
-        driveController.povUpRight().onTrue(new InstantCommand(scheduler::cancelAll));
+        // driveController.povUpRight().onTrue(new InstantCommand(scheduler::cancelAll));
         driveController.leftTrigger().onTrue(new InstantCommand(profiledShoot::stop));
         
         DriverStation.silenceJoystickConnectionWarning(true);
