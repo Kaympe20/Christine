@@ -11,11 +11,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 public class Aimbot extends PIDCommand {
   
-  public static double AimbotSpeed = 0.5; // TODO: PLACEHOLDER
+  public static double aimbotSpeed = 0.5; // TODO: PLACEHOLDER
   public static double minimumAdjustment = 2.5; // TODO: PLACEHOLDER
 
   public static final double DRIVE_MAX_VELOCITY_METERS_PER_SECOND = 0.5;
-  public static final double DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 0.2;
 
   IO io;
 
@@ -25,7 +24,7 @@ public class Aimbot extends PIDCommand {
         () -> io.shooter_light.targetData().horizontalOffset,
         () -> 0,
         output -> {
-          io.chassis.drive(new ChassisSpeeds(0, 0, output * AimbotSpeed * DRIVE_MAX_VELOCITY_METERS_PER_SECOND));
+          io.chassis.drive(new ChassisSpeeds(0, 0, output * aimbotSpeed * DRIVE_MAX_VELOCITY_METERS_PER_SECOND));
         });
         this.io = io;
         addRequirements(io.chassis, io.shooter_light);

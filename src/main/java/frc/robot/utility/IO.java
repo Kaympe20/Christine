@@ -27,6 +27,7 @@ public class IO extends SubsystemBase{
     public final Limelight shooter_light = new Limelight("shooter"); 
     public final Limelight intake_light = new Limelight("intake"); 
     public final Flywheel shooter = new Flywheel();
+    public final Climber climber = new Climber();
     public final ProfiledShooter profiledShoot = new ProfiledShooter(this, 64);
 
     public CommandScheduler scheduler = CommandScheduler.getInstance();
@@ -48,9 +49,8 @@ public class IO extends SubsystemBase{
 
 
         driveController.back().onTrue(new InstantCommand(chassis::resetOdometry));
-        driveController.start().onTrue(new InstantCommand(() -> chassis.resetOdometry(shooter_light.poseEstimation(chassis.rotation()))));
-
-        // driveController.povUpRight().onTrue(new InstantCommand(scheduler::cancelAll));
+        driveController.start().onTrue(new InstantCommand(() -> chassis.resetOdometry(limelight.poseEstimation(chassis.rotation()))));
+        driveController.povUpRight().onTrue(new InstantCommand(scheduler::cancelAll));
         driveController.leftTrigger().onTrue(new InstantCommand(profiledShoot::stop));
         
         DriverStation.silenceJoystickConnectionWarning(true);
@@ -83,6 +83,7 @@ public class IO extends SubsystemBase{
 
         mechController.povDown().onTrue(new ToggleIntake(this));
         mechController.povUp().onTrue(new InstantCommand(profiledShoot::stop));
+        mechController.povLeft().onTrue(new InstantCommand(() -> intake.speed((double) DebugTable.get("Test Intake Voltage", -1.0)))).onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
         mechController.povLeft().onTrue(new InstantCommand(() -> {
             intake.speed(-1);
             profiledShoot.stop();
@@ -109,6 +110,12 @@ public class IO extends SubsystemBase{
         mechController.a().onTrue(new InstantCommand(() -> profiledShoot.setAngle(150)));
         mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle( (double) DebugTable.get("Test Angle", 200.0))));
         mechController.b().onTrue(new InstantCommand(profiledShoot::stop));
+
+        mechController.povLeft().onTrue(new InstantCommand(() -> climber.setElevatorVolts(3)));
+        mechController.povRight().onTrue(new InstantCommand(() -> climber.setElevatorVolts(-3)));
+        mechController.povUp().onTrue(new InstantCommand(() -> climber.setHangVolts(3)));
+        mechController.povDown().onTrue(new InstantCommand(() -> climber.setElevatorVolts(-3)));
+
     }
 
     StructPublisher<Pose2d> estimated_pose = NetworkTableInstance.getDefault().getTable("Debug").getStructTopic("Estimated Pose", Pose2d.struct).publish();
