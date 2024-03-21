@@ -38,11 +38,10 @@ public class RobotContainer {
       autos.getSelected()));
 
     io.configGlobal();
-    io.configManual();
+    io.configTesting();
   }
 
   public void addAutos() {
-    // commands.put("pickup", new AutoFiring(io));
     commands.put("pickup", new AutoFire(io, false));
     commands.put("ramped pickup", new AutoFire(io, true));
     commands.put("score", new CloseUpShooting(io));

@@ -83,7 +83,7 @@ public class IO extends SubsystemBase{
 
         mechController.povDown().onTrue(new ToggleIntake(this));
         mechController.povUp().onTrue(new InstantCommand(profiledShoot::stop));
-        mechController.povLeft().onTrue(new InstantCommand(() -> intake.speed((double) DebugTable.get("Test Intake Voltage", -1.0)))).onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
+        // mechController.povLeft().onTrue(new InstantCommand(() -> intake.speed((double) DebugTable.get("Test Intake Voltage", -1.0)))).onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
         mechController.povLeft().onTrue(new InstantCommand(() -> {
             intake.speed(-1);
             profiledShoot.stop();
@@ -115,6 +115,10 @@ public class IO extends SubsystemBase{
         mechController.povRight().onTrue(new InstantCommand(() -> climber.setElevatorVolts(-3)));
         mechController.povUp().onTrue(new InstantCommand(() -> climber.setHangVolts(3)));
         mechController.povDown().onTrue(new InstantCommand(() -> climber.setElevatorVolts(-3)));
+
+        driveController.povUpLeft().onTrue(new InstantCommand(chassis::disable));
+        driveController.povDownLeft().onTrue(new InstantCommand(chassis::resetAbsolute));
+        driveController.povDownRight().onTrue(new InstantCommand(chassis::enable));
 
     }
 

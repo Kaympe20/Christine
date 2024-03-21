@@ -193,11 +193,11 @@ public class Swerve extends SubsystemBase {
         return chassisSpeeds;
     }
 
-    public void activeChassis() {
+    public void enable() {
         active = true;
     }
 
-    public void disableChassis() {
+    public void disable() {
         active = false;
 
         for (KrakenSwerveModule mod : modules)
