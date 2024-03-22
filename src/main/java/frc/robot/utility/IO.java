@@ -32,12 +32,9 @@ public class IO extends SubsystemBase{
 
     public CommandScheduler scheduler = CommandScheduler.getInstance();
 
-    SendableChooser<Command> autoSelector;
-
-    public IO(SendableChooser<Runnable> bindings, SendableChooser<Command> selector){
-        // bindings.setDefaultOption("Manual", this::configManual);
-        // bindings.addOption("Testing", this::configTesting);
-        autoSelector = selector;
+    public IO(SendableChooser<Runnable> bindings){
+        bindings.setDefaultOption("Testing", this::configTesting);
+        bindings.addOption("Manual", this::configManual);
     }
 
     public void configGlobal(){
@@ -93,7 +90,12 @@ public class IO extends SubsystemBase{
     }
 
     public void configTesting(){
-        // driveController.y().onTrue(new InstantComm   and(() -> autoSelector.getSelected().schedule()));
+        // driveController.y().onTrue(new InstantCommand(() -> autoSelector.getSelected().schedule()));
+        
+        driveController.povDownLeft().onTrue(new InstantCommand(chassis::resetAbsolute));
+        driveController.povUpLeft().onTrue(new InstantCommand(chassis::disable));
+        driveController.povDownRight().onTrue(new InstantCommand(chassis::enable));
+
         mechController.leftBumper().onTrue(new InstantCommand(() -> shooter.pivotVoltage(1.5))).onFalse(new InstantCommand(() -> shooter.pivotVoltage(0)));
         mechController.rightBumper().onTrue(new InstantCommand(() -> shooter.pivotVoltage(-1.5))).onFalse(new InstantCommand(() -> shooter.pivotVoltage(0))); 
 

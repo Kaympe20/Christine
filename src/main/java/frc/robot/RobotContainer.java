@@ -24,14 +24,15 @@ public class RobotContainer {
   SendableChooser<Command> autos;
   HashMap<String, Command> commands = new HashMap<>();
 
-  public IO io = new IO(bindings, autos);
+  public IO io = new IO(bindings);
 
   public RobotContainer() {
     addAutos();
 
     autos = AutoBuilder.buildAutoChooser("Speaker Rings Centre");
-
-    SmartDashboard.putData("Autos", autos);
+    // autos.addOption("Adaptive Path", new AdaptivePath());
+ 
+    SmartDashboard.putData("Autos",autos);
     SmartDashboard.putData("Bindings", bindings);
     SmartDashboard.putData("Autonomous", new SequentialCommandGroup(
       new InstantCommand(() -> io.chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED),
