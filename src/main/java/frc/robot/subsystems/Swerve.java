@@ -101,7 +101,9 @@ public class Swerve extends SubsystemBase {
     }
 
     public double absoluteRotation() {
-        return Math.toRadians(pigeon2.getYaw().getValueAsDouble() % 360);
+        double rotation = pigeon2.getYaw().getValueAsDouble() % 360;
+        rotation += (rotation < 0) ? 360 : 0;
+        return Math.toRadians( rotation);
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
