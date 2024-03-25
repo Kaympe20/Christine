@@ -43,17 +43,21 @@ public class IO extends SubsystemBase{
 
         driveController.leftBumper().onTrue(new InstantCommand(() -> chassis.DRIVE_MODE = DriveConstants.ROBOT_ORIENTED));
         driveController.rightBumper().onTrue(new InstantCommand(() -> chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED));
+        driveController.leftTrigger().onTrue(new InstantCommand(() -> chassis.SPEED_TYPE = DriveConstants.SLOW)).onFalse(new InstantCommand(() -> chassis.SPEED_TYPE = 0));
+        driveController.rightTrigger().onTrue(new InstantCommand(() -> chassis.SPEED_TYPE = DriveConstants.TURBO)).onFalse(new InstantCommand(() -> chassis.SPEED_TYPE = 0));
 
 
         driveController.back().onTrue(new InstantCommand(chassis::resetOdometry));
         driveController.start().onTrue(new InstantCommand(() -> chassis.resetOdometry(shooter_light.poseEstimation(chassis.rotation()))));
         driveController.povUpRight().onTrue(new InstantCommand(scheduler::cancelAll));
-        driveController.leftTrigger().onTrue(new InstantCommand(profiledShoot::stop));
+        // driveController.leftTrigger().onTrue(new InstantCommand(profiledShoot::stop));
         
         DriverStation.silenceJoystickConnectionWarning(true);
     }
 
     public void configManual(){
+        driveController.a().onTrue(new Endgame(this));
+
         mechController.leftBumper().onTrue(new InstantCommand(() -> {
             intake.speed(-1);
             profiledShoot.stop();
