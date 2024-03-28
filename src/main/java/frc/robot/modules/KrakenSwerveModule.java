@@ -66,9 +66,11 @@ public class KrakenSwerveModule {
         steerMotor.getPIDController().setI(0.0);
         steerMotor.getPIDController().setD(1.0);
 
-        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 40);
+        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20);
         steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
         steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
+
+        steerMotor.getPIDController().setSmartMotionAllowedClosedLoopError(0.0, 0);
 
         tab.addDouble("Absolute Angle", () -> Math.toDegrees(angle()));
         tab.addDouble("Current Angle", () -> Math.toDegrees(steerMotor.getEncoder().getPosition()));

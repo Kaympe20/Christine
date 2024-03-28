@@ -19,7 +19,6 @@ public class CloseUpShooting extends SequentialCommandGroup {
     ProfiledShooter profiledShoot = new ProfiledShooter(io, Flywheel.PASS_OFF_ANGLE);
     addCommands(new ParallelRaceGroup(profiledShoot,
         new SequentialCommandGroup(
-            new InstantCommand(() -> io.profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
             new InstantCommand(() -> profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
             new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),
             new WaitCommand(0.3),
@@ -27,6 +26,7 @@ public class CloseUpShooting extends SequentialCommandGroup {
             new InstantCommand(() -> io.shooter.helperVoltage(12)),
             new InstantCommand(() -> io.intake.speed(-1)),
             new WaitCommand(0.2),
+            new InstantCommand(() -> profiledShoot.stop()),
             new InstantCommand(() -> io.shooter.flywheelVoltage(0.0)),
             new InstantCommand(() -> io.shooter.helperVoltage(0.0)),
             new InstantCommand(() -> io.intake.speed(0.0)))));

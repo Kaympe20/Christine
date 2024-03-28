@@ -20,8 +20,7 @@ public class IO extends SubsystemBase {
     final CommandXboxController mechController = new CommandXboxController(1);
 
     public final Swerve chassis = new Swerve();
-    public Orchestra play = new Orchestra();
-    public final LEDs leds = new LEDs();
+//     public final LEDs leds = n       ew LEDs();
     public final Intake intake = new Intake();
     public final Limelight shooter_light = new Limelight("shooter");
     public final Limelight intake_light = new Limelight("intake");
@@ -103,15 +102,15 @@ public class IO extends SubsystemBase {
             shooter.helperVoltage(0);
         }));
 
-        mechController.x().onTrue(new ToggleIntake(this));
+        mechController.x().onTrue(new Trap(this));
 
         mechController.povLeft().onTrue(new InstantCommand(() -> {
                 profiledShoot.setAngle(220);
-                climber.setHangPos(145);
+                climber.setHangPos(Climber.HANG_UP_POS);
         }));
-        mechController.povUp().onTrue(new InstantCommand(() -> climber.setHangPos(0)));
-        mechController.povRight().onTrue(new InstantCommand(() -> climber.setElevatorPos(200)));
-        mechController.povDown().onTrue(new InstantCommand(() -> climber.setElevatorPos(0)));
+        mechController.povUp().onTrue(new InstantCommand(() -> climber.setHangPos(Climber.HANG_DOWN_POS)));
+        mechController.povRight().onTrue(new InstantCommand(() -> climber.setElevatorPos(Climber.ELEVATOR_UP_POS)));
+        mechController.povDown().onTrue(new InstantCommand(() -> climber.setElevatorPos(Climber.ELEVATOR_DOWN_POS)));
 
         // mechController.povDown().onTrue(new ToggleIntake(this));
         // mechController.povUp().onTrue(new InstantCommand(profiledShoot::stop));

@@ -208,7 +208,7 @@ public class Swerve extends SubsystemBase {
 
     public void periodic() {
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
-        if (active)
+        if (active && chassisSpeeds != new ChassisSpeeds())
             setModuleStates(states);
         current_states.set(moduleStates(modules));
         target_states.set(states);
@@ -251,7 +251,7 @@ public class Swerve extends SubsystemBase {
 
     public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = 0.25;
-        public static final double kPXController = 22.0;
-        public static final double kPThetaController = 22.0;
+        public static final double kPXController = 20.0;
+        public static final double kPThetaController = 10;
     }
 }
