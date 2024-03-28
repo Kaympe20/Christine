@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -25,37 +26,38 @@ public class Climber extends SubsystemBase {
   public TalonFX hangFollower = new TalonFX(22, "rio");
 
   public final double ELEVATOR_DOWN_POS = 0;
-  public final double ELEVATOR_UP_POS = 50; //TODO: PLACEHOLDER
+  public final double ELEVATOR_UP_POS = 30; //TODO: PLACEHOLDER
 
   public final double HANG_DOWN_POS = 0;
-  public final double HANG_UP_POS = 50; //TODO: PLACEHOLDER
+  public final double HANG_UP_POS = 140; //TODO: PLACEHOLDER
 
   public Climber() {
-    elevatorMotor.restoreFactoryDefaults();
-    elevatorFollower.restoreFactoryDefaults();
-
     elevatorFollower.follow(elevatorMotor, true);
-    hangFollower.setControl(new Follower(elevatorMotor.getDeviceId(), true));
+    hangFollower.setControl(new Follower(hangMotor.getDeviceID(), true));
 
-    elevatorMotor.setIdleMode(IdleMode.kBrake);
-    elevatorFollower.setIdleMode(IdleMode.kBrake);
+    elevatorMotor.setIdleMode(IdleMode.kCoast);
+    elevatorFollower.setIdleMode(IdleMode.kCoast);
     hangMotor.setNeutralMode(NeutralModeValue.Brake);
     hangFollower.setNeutralMode(NeutralModeValue.Brake);
 
-    elevatorMotor.getPIDController().setP(1);
+    elevatorMotor.setSmartCurrentLimit(35);
+    elevatorFollower.setSmartCurrentLimit(35);
+
+    elevatorMotor.getPIDController().setP(.1);
     elevatorMotor.getPIDController().setI(0);
     elevatorMotor.getPIDController().setD(0);
 
-    elevatorFollower.getPIDController().setP(1);
+    elevatorFollower.getPIDController().setP(.1);
     elevatorFollower.getPIDController().setI(0);
     elevatorFollower.getPIDController().setD(0);
 
     TalonFXConfiguration configs = new TalonFXConfiguration();
-    configs.Slot0.kP = 1;
+    configs.Slot0.kP = 10;
     configs.Slot0.kI = 0;
     configs.Slot0.kD = 0;
+    configs.CurrentLimits = new CurrentLimitsConfigs().withStatorCurrentLimitEnable(true).withStatorCurrentLimit(20);
     hangMotor.getConfigurator().apply(configs);
-    // hangFollower.getConfigurator().apply(configs); i wanna see if we need this or not since its follower
+    hangFollower.getConfigurator().apply(configs);
   }
  
   public void setElevatorVolts(double volts){
@@ -96,6 +98,11 @@ public class Climber extends SubsystemBase {
 
   public void setHangPos(double pos) {
     hangMotor.setControl(new PositionVoltage(pos).withSlot(0));
+  }
+
+  public void resetEncoders(){
+    hangMotor.setPosition(0);
+    elevatorMotor.getEncoder().setPosition(0);
   }
 
   @Override

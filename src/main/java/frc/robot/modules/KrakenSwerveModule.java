@@ -48,7 +48,7 @@ public class KrakenSwerveModule {
         // config.CurrentLimits.SupplyCurrentLimitEnable = true;
 
         steerMotor.setIdleMode(IdleMode.kBrake);
-        config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+        config.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
         steerMotor.getEncoder().setPositionConversionFactor(Math.PI * STEER_REDUCTION);
         steerMotor.getEncoder().setVelocityConversionFactor(Math.PI * STEER_REDUCTION / 60);
@@ -66,7 +66,7 @@ public class KrakenSwerveModule {
         steerMotor.getPIDController().setI(0.0);
         steerMotor.getPIDController().setD(1.0);
 
-        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
+        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 40);
         steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
         steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
 

@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -10,11 +6,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.subsystems.Flywheel;
-import frc.robot.utility.IO; 
+import frc.robot.utility.IO;
 
-public class AmpShooting extends SequentialCommandGroup {
-
-  public AmpShooting(IO io) {
+public class Trap extends SequentialCommandGroup{
+    
+  public Trap(IO io) {
     addRequirements(io.shooter, io.intake);
     ProfiledShooter profiledShoot = new ProfiledShooter(io, Flywheel.PASS_OFF_ANGLE);
     addCommands(new ParallelRaceGroup(profiledShoot,
@@ -29,6 +25,7 @@ public class AmpShooting extends SequentialCommandGroup {
                 new InstantCommand(() -> io.intake.speed(0)),
                 new InstantCommand(() -> io.shooter.helperVoltage(0)),
                 new InstantCommand(() -> profiledShoot.setAngle(io.shooter.AMP)),
+                new InstantCommand(() -> io.climber.setElevatorPos(240)),
                 new WaitCommand(0.3),
                 new WaitUntilCommand(() -> Math.abs(profiledShoot.controller.getPositionError()) < 2),
                 new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),

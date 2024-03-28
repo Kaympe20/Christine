@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.utility.IO;
 
 public class Endgame extends SequentialCommandGroup {
@@ -13,8 +14,10 @@ public class Endgame extends SequentialCommandGroup {
     addRequirements(io.shooter, io.climber, io.intake);
     addCommands(
         new InstantCommand(() -> io.climber.setHangPos(io.climber.HANG_UP_POS)),
+        new WaitCommand(0.2),
         new InstantCommand(() -> io.climber.setHangPos(io.climber.HANG_DOWN_POS)),
         new InstantCommand(() -> io.climber.setElevatorPos(io.climber.ELEVATOR_UP_POS)),
+        new WaitCommand(0.5),
         new AmpShooting(io));
   }
 }

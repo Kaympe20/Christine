@@ -39,7 +39,7 @@ public class RobotContainer {
       autos.getSelected()));
 
     io.configGlobal();
-    io.configTesting();
+    io.configManual();
   }
 
   public void addAutos() {

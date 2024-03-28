@@ -48,7 +48,7 @@ public class ProfiledShooter extends Command {
       State out = profile.calculate(time.get(), new State(io.shooter.angle(), 0.0), new State(targetAngle, 0));
       double output = controller.calculate(io.shooter.angle(), out.position);
 
-    if (!stopped || Math.abs(controller.getPositionError()) < 0.5) {
+    if (!stopped && Math.abs(controller.getPositionError()) > 0.5 && io.shooter.active) {
       SmartDashboard.putNumber("Expected Profile Angle", out.position);
       SmartDashboard.putNumber("Target Shooter Angle", targetAngle);
       SmartDashboard.putNumber("Angle Voltage", output);

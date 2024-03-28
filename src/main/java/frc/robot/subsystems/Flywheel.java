@@ -15,9 +15,10 @@ public class Flywheel extends SubsystemBase {
   public TalonFX flywheel = new TalonFX(15, "rio");
   public DutyCycleEncoder encoder = new DutyCycleEncoder(4);
   public CANSparkMax helper = new CANSparkMax(12, MotorType.kBrushless);
+  public boolean active;
 
-  public static final double PASS_OFF_ANGLE = 67.0; //75
-  public static final double AMP = 152.0; //163
+  public static final double PASS_OFF_ANGLE = 176.0; //75
+  public static final double AMP = 249.0; //163
 
   public Flywheel() {
     helper.setSmartCurrentLimit(20);
@@ -67,6 +68,9 @@ public class Flywheel extends SubsystemBase {
 
   @Override
   public void periodic() {
+    active = angle() != 0;
+    
+    SmartDashboard.putBoolean("Flywheel Active", active);
     SmartDashboard.putNumber("Flywheel Angle", angle());
     SmartDashboard.putNumber("Flywheel RPM", flywheel.getVelocity().getValueAsDouble());
   }

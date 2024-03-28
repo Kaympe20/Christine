@@ -22,7 +22,7 @@ public class Shoot extends SequentialCommandGroup {
             new InstantCommand(() -> profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
             new WaitCommand(0.1),
             new WaitUntilCommand(() -> Math.abs(profiledShoot.controller.getPositionError()) < 2),
-            new InstantCommand(() -> io.shooter.helperVoltage(-12)),
+            new InstantCommand(() -> io.shooter.helperVoltage(12)),
             new InstantCommand(() -> io.intake.speed(-1)),
             new WaitCommand(0.2),
             new InstantCommand(() -> io.shooter.helperVoltage(0.0)),

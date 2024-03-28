@@ -23,7 +23,7 @@ public class ToggleIntake extends Command {
   @Override
   public void initialize() {
         origin = (io.intake.angle() < io.intake.closedAngle);
-    io.intake.pivot.setVoltage( MAX_VOLTS * ( origin ? -1 : 1) );
+    io.intake.pivot.setVoltage( MAX_VOLTS * ( origin ? 1 : -1) );
 
   }
 

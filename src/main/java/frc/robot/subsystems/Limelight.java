@@ -60,6 +60,7 @@ public class Limelight extends SubsystemBase {
     posePublisher.set(poseEstimation(new Rotation2d(0)));
     
     SmartDashboard.putNumberArray(host+ " TargetPose", tagPose());
+    SmartDashboard.putNumber("Limelight Distance", distance());
   }
 
   private void updateTargetData(NetworkTable table) {
