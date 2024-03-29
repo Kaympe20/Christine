@@ -36,24 +36,22 @@ public class Climber extends SubsystemBase {
     elevatorFollower.follow(elevatorMotor, true);
     hangFollower.setControl(new Follower(hangMotor.getDeviceID(), true));
 
-    elevatorMotor.setIdleMode(IdleMode.kCoast);
-    elevatorFollower.setIdleMode(IdleMode.kCoast);
+    elevatorMotor.setIdleMode(IdleMode.kBrake);
+    elevatorFollower.setIdleMode(IdleMode.kBrake);
     hangMotor.setNeutralMode(NeutralModeValue.Brake);
     hangFollower.setNeutralMode(NeutralModeValue.Brake);
 
     elevatorMotor.setSmartCurrentLimit(35);
     elevatorFollower.setSmartCurrentLimit(35);
 
-    elevatorMotor.getPIDController().setP((double) DebugTable.get("Elevator Kp", .5));
+    elevatorMotor.getPIDController().setP((double) DebugTable.get("Elevator Kp", 1.0));
     elevatorMotor.getPIDController().setI(0);
     elevatorMotor.getPIDController().setD(0);
+    elevatorMotor.getPIDController().setSmartMotionAllowedClosedLoopError(10, 0);
 
-    elevatorFollower.getPIDController().setP(.5);
-    elevatorFollower.getPIDController().setI(0);
-    elevatorFollower.getPIDController().setD(0);
 
     TalonFXConfiguration configs = new TalonFXConfiguration();
-    configs.Slot0.kP = 2;
+    configs.Slot0.kP = 1;
     configs.Slot0.kI = 0;
     configs.Slot0.kD = 0;
     configs.CurrentLimits = new CurrentLimitsConfigs().withStatorCurrentLimitEnable(true).withStatorCurrentLimit(20);
