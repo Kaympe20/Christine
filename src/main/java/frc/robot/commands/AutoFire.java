@@ -24,8 +24,8 @@ public class AutoFire extends SequentialCommandGroup {
           new ConditionalCommand(
                 new SequentialCommandGroup(
                   new PassOff(io),
-                  new InstantCommand(() -> io.profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
                   new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),
+                  new InstantCommand(() -> io.profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
                   new WaitUntilCommand(() -> io.chassis.distance(new Pose2d(io.shooter_light.tagPose()[0], io.shooter_light.tagPose()[2], new Rotation2d())) < 1.5),
                   new Shoot(io)), 
                 new SequentialCommandGroup(

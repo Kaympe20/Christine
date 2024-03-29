@@ -66,9 +66,9 @@ public class DefaultDrive extends Command {
         // double ySpeed = y_supplier.getAsDouble() * scale;
         // double rotationSpeed = rotation_supplier.getAsDouble() * rot_scale;
 
-        double xSpeed = Math.pow(x_supplier.getAsDouble() * scale, 3.0); //TODO: CHANGE BACK TO 3
-        double ySpeed = Math.pow(y_supplier.getAsDouble() * scale, 3.0); //TODO: ChaNGE BACK TO 3
-        double rotationSpeed = Math.pow(rotation_supplier.getAsDouble() * rot_scale, 3.0);
+        double xSpeed = Math.pow(x_supplier.getAsDouble() * scale, 1.0);
+        double ySpeed = Math.pow(y_supplier.getAsDouble() * scale, 1.0);
+        double rotationSpeed = Math.pow(rotation_supplier.getAsDouble() * rot_scale, 1.0);
 
         
         ChassisSpeeds output = new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed);

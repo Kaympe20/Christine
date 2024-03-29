@@ -36,7 +36,7 @@ public class RobotContainer {
     SmartDashboard.putData("Bindings", bindings);
     SmartDashboard.putData("Autonomous", new SequentialCommandGroup(
       new InstantCommand(() -> io.chassis.DRIVE_MODE = DriveConstants.FIELD_ORIENTED),
-      autos.getSelected()));
+      new InstantCommand(autos.getSelected()::schedule)));
 
     io.configGlobal();
     io.configManual();

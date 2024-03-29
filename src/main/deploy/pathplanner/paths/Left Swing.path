@@ -39,12 +39,55 @@
         "x": 1.6527168241503494,
         "y": 3.4584127414652563
       },
+      "nextControl": {
+        "x": -0.15271682415034937,
+        "y": 4.941587258534744
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.303510508934645,
+        "y": 2.4208889266322484
+      },
+      "prevControl": {
+        "x": 4.698780331782813,
+        "y": 0.6251746317438472
+      },
+      "nextControl": {
+        "x": 8.393019188526145,
+        "y": 2.4654781212626324
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.75,
+        "y": 4.2
+      },
+      "prevControl": {
+        "x": 5.762907321348301,
+        "y": 0.5586666948960053
+      },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 3.05,
+      "rotationDegrees": -155.60644157154147,
+      "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 2.0,
+      "rotationDegrees": 125.0,
+      "rotateFast": true
+    }
+  ],
   "constraintZones": [
     {
       "name": "Landing",

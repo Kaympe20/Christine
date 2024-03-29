@@ -21,8 +21,8 @@ public class CloseUpShooting extends SequentialCommandGroup {
         new SequentialCommandGroup(
             new InstantCommand(() -> profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
             new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),
-            new WaitCommand(0.3),
-            new WaitUntilCommand(() -> Math.abs(profiledShoot.controller.getPositionError()) < 3),
+            new WaitCommand(0.2),
+            new WaitUntilCommand(() -> Math.abs(profiledShoot.controller.getPositionError()) < 3).withTimeout(.5),
             new InstantCommand(() -> io.shooter.helperVoltage(12)),
             new InstantCommand(() -> io.intake.speed(-1)),
             new WaitCommand(0.2),

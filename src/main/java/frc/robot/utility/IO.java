@@ -102,7 +102,7 @@ public class IO extends SubsystemBase {
             shooter.helperVoltage(0);
         }));
 
-        mechController.x().onTrue(new Trap(this));
+        mechController.x().onTrue(new ToggleIntake(this));
 
         mechController.povLeft().onTrue(new InstantCommand(() -> {
                 profiledShoot.setAngle(220);
