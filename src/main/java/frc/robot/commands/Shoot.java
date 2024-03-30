@@ -18,7 +18,6 @@ public class Shoot extends SequentialCommandGroup {
     ProfiledShooter profiledShoot = new ProfiledShooter(io, Flywheel.PASS_OFF_ANGLE);
     addCommands(new ParallelRaceGroup(profiledShoot,
         new SequentialCommandGroup(
-            new InstantCommand(() -> io.profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
             new InstantCommand(() -> profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
             new WaitCommand(0.1),
             new WaitUntilCommand(() -> Math.abs(profiledShoot.controller.getPositionError()) < 2),

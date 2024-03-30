@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.utility.IO;
 
 public class ToggleIntake extends Command {
@@ -34,7 +36,7 @@ public class ToggleIntake extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    io.intake.pivotVoltage(0);
+    // new WaitCommand(0.1).andThen(new InstantCommand( () -> io.intake.pivotVoltage(0)));
   }
 
   @Override

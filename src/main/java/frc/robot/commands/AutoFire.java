@@ -17,21 +17,21 @@ import frc.robot.utility.IO;
 public class AutoFire extends SequentialCommandGroup {
 
   public AutoFire(IO io, boolean pre_ramped) {
-
+    ProfiledShooter profiledShoot = new ProfiledShooter(io, Flywheel.PASS_OFF_ANGLE);
     addRequirements(io.intake, io.shooter, io.shooter_light);
     addCommands(
         new RepeatCommand(
           new ConditionalCommand(
                 new SequentialCommandGroup(
+                  new InstantCommand(() -> io.profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
                   new PassOff(io),
                   new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),
-                  new InstantCommand(() -> io.profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
-                  new WaitUntilCommand(() -> io.chassis.distance(new Pose2d(io.shooter_light.tagPose()[0], io.shooter_light.tagPose()[2], new Rotation2d())) < 1.5),
+                  new WaitUntilCommand(() -> io.chassis.distance(new Pose2d(io.shooter_light.tagPose()[0], io.shooter_light.tagPose()[2], new Rotation2d())) < 2.5),
                   new Shoot(io)), 
                 new SequentialCommandGroup(
                   new PassOff(io),
-                  new WaitUntilCommand(() -> io.chassis.distance(new Pose2d(io.shooter_light.tagPose()[0], io.shooter_light.tagPose()[2], new Rotation2d())) < 2.0),
-                  new CloseUpShooting(io)),
+                  new WaitUntilCommand(() -> io.chassis.distance(new Pose2d(io.shooter_light.tagPose()[0], io.shooter_light.tagPose()[2], new Rotation2d())) < 2.5),
+                  new Score(io)),
                 ()-> pre_ramped)));
   }
 }

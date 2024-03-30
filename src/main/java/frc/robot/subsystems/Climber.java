@@ -27,12 +27,14 @@ public class Climber extends SubsystemBase {
   public TalonFX hangFollower = new TalonFX(22, "rio");
 
   public final static double ELEVATOR_DOWN_POS = 0;
-  public final static double ELEVATOR_UP_POS = 240; //TODO: PLACEHOLDER
+  public final static double ELEVATOR_UP_POS = 220; //TODO: PLACEHOLDER
 
   public final static double HANG_DOWN_POS = 0;
-  public final static double HANG_UP_POS = 145; //TODO: PLACEHOLDER
+  public final static double HANG_UP_POS = 165; //TODO: PLACEHOLDER
 
   public Climber() {
+    elevatorMotor.restoreFactoryDefaults();
+
     elevatorFollower.follow(elevatorMotor, true);
     hangFollower.setControl(new Follower(hangMotor.getDeviceID(), true));
 
@@ -46,9 +48,8 @@ public class Climber extends SubsystemBase {
 
     elevatorMotor.getPIDController().setP((double) DebugTable.get("Elevator Kp", 1.0));
     elevatorMotor.getPIDController().setI(0);
-    elevatorMotor.getPIDController().setD(0);
-    elevatorMotor.getPIDController().setSmartMotionAllowedClosedLoopError(10, 0);
-
+    elevatorMotor.getPIDController().setD(0.1);
+    elevatorMotor.getPIDController().setSmartMotionAllowedClosedLoopError(.1, 0);
 
     TalonFXConfiguration configs = new TalonFXConfiguration();
     configs.Slot0.kP = 1;
@@ -71,13 +72,12 @@ public class Climber extends SubsystemBase {
     elevatorMotor.stopMotor();
   }
 
-  public double getElevatorPos() {
+  public double elevatorPos() {
     return elevatorMotor.getEncoder().getPosition();
   }
 
   public void setElevatorPos(double pos) {
     elevatorMotor.getPIDController().setReference(pos, ControlType.kPosition);
-    elevatorFollower.getPIDController().setReference(pos, ControlType.kPosition);
   }
 
   public void setHangVolts(double volts) {
@@ -88,6 +88,10 @@ public class Climber extends SubsystemBase {
     return hangMotor.getClosedLoopError().getValue();
   }
 
+  public double elevatorError(){
+    return elevatorMotor.getPIDController().getSmartMotionAllowedClosedLoopError(0);
+  }
+
   public void setHangSpeed(double speed) {
     hangMotor.set(speed);
   }
@@ -96,7 +100,7 @@ public class Climber extends SubsystemBase {
     hangMotor.stopMotor();
   }
 
-  public double getHangPos() {
+  public double hangPos() {
     return hangMotor.getPosition().getValueAsDouble();
   }
 
@@ -111,7 +115,7 @@ public class Climber extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Hang Pos", getHangPos());
-    SmartDashboard.putNumber("Elevator Pos", getElevatorPos());
+    SmartDashboard.putNumber("Hang Pos", hangPos());
+    SmartDashboard.putNumber("Elevator Pos", elevatorPos());
   }
 }

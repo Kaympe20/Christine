@@ -6,7 +6,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class Flywheel extends SubsystemBase {
@@ -17,13 +19,16 @@ public class Flywheel extends SubsystemBase {
   public CANSparkMax helper = new CANSparkMax(12, MotorType.kBrushless);
   public boolean active;
 
-  public static final double PASS_OFF_ANGLE = 57.0; //75
+  public static final double PASS_OFF_ANGLE = 55.0; //75
   public static final double AMP = 130.0; //163
 
   public Flywheel() {
     helper.setSmartCurrentLimit(20);
+    helper.setIdleMode(IdleMode.kCoast);
+    helper.setInverted(true);
     TalonFXConfiguration configs = new TalonFXConfiguration();
     flywheel.getConfigurator().apply(configs);
+    flywheel.setNeutralMode(NeutralModeValue.Coast);
   }
 
   public double angle() {

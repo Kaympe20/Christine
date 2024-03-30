@@ -15,7 +15,7 @@ import frc.robot.utility.IO;
 
 public class ProfiledShooter extends Command {
   public PIDController controller = new PIDController(.1, 0, 0);
-  Constraints constraints = new Constraints(100, 70);
+  Constraints constraints = new Constraints(100, 500);
   TrapezoidProfile profile = new TrapezoidProfile(constraints);
   Timer time = new Timer();
   double targetAngle;

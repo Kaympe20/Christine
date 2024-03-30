@@ -16,26 +16,29 @@ public class Trap extends SequentialCommandGroup{
     ProfiledShooter profiledShoot = new ProfiledShooter(io, Flywheel.PASS_OFF_ANGLE);
     addCommands(new ParallelRaceGroup(profiledShoot,
             new SequentialCommandGroup(
-                new InstantCommand(() -> io.climber.setHangPos(0.0)),
-                new WaitCommand(0.3),
-                new WaitUntilCommand(() -> Math.abs(io.climber.hangError()) < 2),
+                new InstantCommand(() -> io.climber.setHangPos(3.0)),
                 new InstantCommand(() -> profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
-                new WaitUntilCommand(() -> Math.abs(profiledShoot.controller.getPositionError()) < 2),
+                new WaitCommand(0.3),
+                new WaitUntilCommand(() -> Math.abs(io.climber.hangError()) < 7),
                 new InstantCommand(() -> io.shooter.helperVoltage(3)),
                 new InstantCommand(() -> io.intake.speed(-1.0)),
                 new WaitCommand(0.1),
                 new InstantCommand(() -> io.intake.speed(0)),
                 new InstantCommand(() -> io.shooter.helperVoltage(0)),
                 new InstantCommand(() -> profiledShoot.setAngle(Flywheel.AMP)),
-                new InstantCommand(() -> io.climber.setElevatorPos(Climber.ELEVATOR_UP_POS)),
-                new WaitCommand(0.3),
-                new WaitUntilCommand(() -> Math.abs(profiledShoot.controller.getPositionError()) < 2),
+                // new InstantCommand(() -> io.profiledShoot.setAngle(Flywheel.AMP)),
+                new InstantCommand(() -> io.climber.setElevatorPos(40.0)),
+                new WaitCommand(0.5),
+                new WaitUntilCommand(() -> Math.abs(profiledShoot.controller.getPositionError()) < 3.0).withTimeout(1.0),
+                new InstantCommand(() -> io.shooter.helperVoltage(3)),
                 new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),
-                new InstantCommand(() -> io.shooter.helperVoltage(6)))),
-                new WaitCommand(0.3),
-                new InstantCommand(() -> io.intake.speed(0)),
-                new InstantCommand(() -> io.shooter.flywheelVoltage(0)),
-                new InstantCommand(() -> io.shooter.helperVoltage(0)));
+                new WaitCommand(1.0),
+                new InstantCommand(() -> io.climber.setElevatorPos(2)),
+                new InstantCommand(() -> io.shooter.helperVoltage(0)),
+                new InstantCommand(() -> io.shooter.flywheelVoltage(0))
+                )));
+
+
 
   }
 }
