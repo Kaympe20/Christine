@@ -30,7 +30,7 @@ public class AutoFire extends SequentialCommandGroup {
                   new Shoot(io)), 
                 new SequentialCommandGroup(
                   new PassOff(io),
-                  new WaitUntilCommand(() -> io.chassis.distance(new Pose2d(io.shooter_light.tagPose()[0], io.shooter_light.tagPose()[2], new Rotation2d())) < 2.5),
+                  new WaitUntilCommand(() -> io.chassis.distance(new Pose2d(io.shooter_light.tagPose()[0], io.shooter_light.tagPose()[2], new Rotation2d())) < 2.75 && Math.abs(io.chassis.pose().getY() - io.shooter_light.tagPose()[2]) <= 1),
                   new Score(io)),
                 ()-> pre_ramped)));
   }

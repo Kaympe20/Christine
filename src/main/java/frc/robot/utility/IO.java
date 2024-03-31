@@ -55,7 +55,7 @@ public class IO extends SubsystemBase {
                 driveController.back().onTrue(new InstantCommand(chassis::resetOdometry));
 
                 driveController.povRight().onTrue(new Trap(this));
-                driveController.povLeft().onTrue(new InstantCommand(() -> climber.setElevatorPos(30)));
+                driveController.povLeft().onTrue(new InstantCommand(() -> climber.setElevatorPos(25)));
                 driveController.povUp().onTrue(new InstantCommand(() -> climber.setHangVolts(6)))
                                 .onFalse(new InstantCommand(() -> climber.setHangVolts(0)));
                 driveController.povDown().onTrue(new InstantCommand(() -> climber.setHangVolts(-6)))
@@ -85,10 +85,8 @@ public class IO extends SubsystemBase {
                 mechController.back().onTrue(new InstantCommand(scheduler::cancelAll));
                 mechController.start().onTrue(new InstantCommand(climber::resetEncoders));
 
-                mechController.y().onTrue(
-                                new InstantCommand(() -> profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)));
-                mechController.x().onTrue(
-                                new InstantCommand(() -> profiledShoot.setAngle(Flywheel.AMP))); // distance
+                mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)));
+                mechController.x().onTrue(new InstantCommand(() -> profiledShoot.setAngle(115.0))); // distance
                 mechController.a().onTrue(new PassOff(this));
                 mechController.b().onTrue(new InstantCommand(() -> {
                         profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE);
@@ -113,44 +111,14 @@ public class IO extends SubsystemBase {
                 mechController.povDown().onTrue(new InstantCommand(() -> {
                         if (climber.elevatorPos() > 1)
                                 climber.setElevatorVolts(-4);
-                }))
-                                .onFalse(new InstantCommand(() -> climber.setElevatorVolts(0)));
+                })).onFalse(new InstantCommand(() -> climber.setElevatorVolts(0)));
         }
 
         public void configTesting() {
-                // driveController.y().onTrue(new InstantCommand(() ->
-                // autoSelector.getSelected().schedule()));
-
-                // mechController.leftBumper().onTrue(new InstantCommand(() ->
-                // shooter.pivotVoltage(1.5)))
-                // .onFalse(new InstantCommand(() -> shooter.pivotVoltage(0)));
-                // mechController.rightBumper().onTrue(new InstantCommand(() ->
-                // shooter.pivotVoltage(-1.5)))
-                // .onFalse(new InstantCommand(() -> shooter.pivotVoltage(0)));
-
-                // mechController.leftTrigger().onTrue(new ToggleIntake(this));
-                // mechController.rightTrigger().onTrue(new InstantCommand(() -> {
-                // shooter.flywheelVoltage(-16);
-                // shooter.helperVoltage(-6);
-                // })).onFalse(new InstantCommand(() -> {
-                // intake.speed(0);
-                // shooter.flywheelVoltage(0);
-                // shooter.helperVoltage(0);
-                // }));
-
-                // mechController.a()
-                // .onTrue(new InstantCommand(() -> profiledShoot.setAngle((double)
-                // DebugTable.get("Test Angle", 200.0))));
-                // mechController.b().onTrue(new InstantCommand(profiledShoot::stop));
-
-                // mechController.povLeft().onTrue(new InstantCommand(() ->
-                // climber.setElevatorVolts(3)));
-                // mechController.povRight().onTrue(new InstantCommand(() ->
-                // climber.setElevatorVolts(-3)));
-                // mechController.povUp().onTrue(new InstantCommand(() ->
-                // climber.setHangVolts(3)));
-                // mechController.povDown().onTrue(new InstantCommand(() ->
-                // climber.setElevatorVolts(-3)));
+                mechController.leftBumper().onTrue(new InstantCommand(() ->  shooter.helperVoltage(12))).onFalse(new InstantCommand(() ->  shooter.helperVoltage(0)));
+                mechController.rightBumper().onTrue(new InstantCommand(() ->  shooter.flywheelVoltage(-16))).onFalse(new InstantCommand(() ->  shooter.flywheelVoltage(0)));
+                mechController.b().onTrue(new InstantCommand(() ->  shooter.helperVoltage(4))).onFalse(new InstantCommand(() ->  shooter.helperVoltage(0)));
+                mechController.a().onTrue(new InstantCommand(() -> profiledShoot.setAngle((double) DebugTable.get("Test Angle", Flywheel.PASS_OFF_ANGLE))));
         }
 
         StructPublisher<Pose2d> estimated_pose = NetworkTableInstance.getDefault().getTable("Debug")
