@@ -119,6 +119,12 @@ public class Swerve extends SubsystemBase {
         return Math.sqrt((dist.getX() * dist.getX()) + (dist.getY() * dist.getY()));
     }
 
+    public double distance(double[] reference_point) {
+        var reference_pose = new Pose2d(reference_point[0], reference_point[2], new Rotation2d(reference_point[3]));
+        Transform2d dist = odometry.getPoseMeters().minus(reference_pose);
+        return Math.sqrt((dist.getX() * dist.getX()) + (dist.getY() * dist.getY()));
+    }
+
     private SwerveModulePosition modulePosition(KrakenSwerveModule module) {
         return new SwerveModulePosition(module.drivePosition(), Rotation2d.fromRadians(module.angle()));
     }

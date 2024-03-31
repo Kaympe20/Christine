@@ -27,7 +27,7 @@ public class Trap extends SequentialCommandGroup{
                 new InstantCommand(() -> io.shooter.helperVoltage(0)),
                 new InstantCommand(() -> profiledShoot.setAngle(115.0)),
                 // new InstantCommand(() -> io.profiledShoot.setAngle(Flywheel.AMP)),
-                new InstantCommand(() -> io.climber.setElevatorPos(25.0)),
+                new InstantCommand(() -> io.climber.setElevatorPos(35.0)),
                 new WaitCommand(0.5),
                 new WaitUntilCommand(() -> Math.abs(profiledShoot.controller.getPositionError()) < 3.0).withTimeout(1.0),
                 new InstantCommand(() -> io.shooter.helperVoltage(3)),

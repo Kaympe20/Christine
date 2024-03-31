@@ -27,10 +27,10 @@ public class Climber extends SubsystemBase {
   public TalonFX hangFollower = new TalonFX(22, "rio");
 
   public final static double ELEVATOR_DOWN_POS = 0;
-  public final static double ELEVATOR_UP_POS = 220; //TODO: PLACEHOLDER
+  public final static double ELEVATOR_UP_POS = 25;
 
   public final static double HANG_DOWN_POS = 0;
-  public final static double HANG_UP_POS = 165; //TODO: PLACEHOLDER
+  public final static double HANG_UP_POS = 130; 
 
   public Climber() {
     elevatorMotor.restoreFactoryDefaults();

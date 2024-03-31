@@ -18,13 +18,17 @@ public class Aimbot extends PIDCommand {
 
   IO io;
 
-  public Aimbot(IO io) {
+  public Aimbot(IO io, boolean translational) {
     super(
         new PIDController(1, 0, 0), // TODO: PLACEHOLDER
         () -> io.shooter_light.targetData().horizontalOffset,
         () -> 0,
         output -> {
-          io.chassis.drive(new ChassisSpeeds(0, 0, output * aimbotSpeed * DRIVE_MAX_VELOCITY_METERS_PER_SECOND));
+          if (translational) {
+            io.chassis.drive(new ChassisSpeeds(0, output * aimbotSpeed * DRIVE_MAX_VELOCITY_METERS_PER_SECOND, 0));
+          } else {
+            io.chassis.drive(new ChassisSpeeds(0, 0, output * aimbotSpeed * DRIVE_MAX_VELOCITY_METERS_PER_SECOND));
+          }
         });
         this.io = io;
         addRequirements(io.chassis, io.shooter_light);
