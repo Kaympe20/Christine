@@ -27,7 +27,7 @@ public class ProfiledShooter extends Command {
     this.io = io;
     targetAngle = init_angle;
     controller.reset();
-    addRequirements(io.shooter);
+    addRequirements();
   }
 
   public void setAngle(double angle) {

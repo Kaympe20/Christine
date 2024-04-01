@@ -46,18 +46,15 @@ public class DefaultDrive extends Command {
     public void execute() {
         double scale = (double) DebugTable.get("Translation Scale", 1.0);
         double rot_scale = (double) DebugTable.get("Rotation Scale", 0.6);
-        DebugTable.set("Max Voltage", 12);
 
         switch(io.chassis.SPEED_TYPE){
             case DriveConstants.TURBO:
-            DebugTable.set("Max Voltage", 16); // TODO: check if we should turn it down a little
-            scale = 1.0;
+            scale = 1.25;
             rot_scale = (double) DebugTable.get("Rotation Scale", 0.6);
             break;
             
             case DriveConstants.SLOW:
-            DebugTable.set("Max Voltage", 12);
-            scale = .25;
+            scale = 1.0;
             rot_scale = .25;
             break;
         }

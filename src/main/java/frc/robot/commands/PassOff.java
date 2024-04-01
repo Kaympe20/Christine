@@ -11,16 +11,16 @@ import frc.robot.utility.IO;
 
 public class PassOff extends SequentialCommandGroup {
 
-    public PassOff(IO io) {
+    public PassOff(IO io, boolean auton) {
         addRequirements(io.intake, io.shooter);
         addCommands(
             new ConditionalCommand(
                     new SequentialCommandGroup(
                             new ToggleIntake(io),
-                            new IntakeNote(io),
+                            new IntakeNote(io, auton),
                             new ToggleIntake(io)),
                     new SequentialCommandGroup(
-                            new IntakeNote(io),
+                            new IntakeNote(io, auton),
                             new ToggleIntake(io)),
                     () -> io.intake.closed),
             new InstantCommand(io.profiledShoot::stop));

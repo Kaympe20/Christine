@@ -19,7 +19,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import frc.robot.modules.KrakenSwerveModule;
-import frc.robot.utility.DebugTable;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -29,7 +28,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Swerve extends SubsystemBase {
 
-    public static double MAX_VOLTAGE = (double) DebugTable.get("Max Voltage", 12.0);
+    public static double MAX_VOLTAGE = 12;
     public final double MAX_VELOCITY = 20;
     public int DRIVE_MODE = 0;
     public int SPEED_TYPE = 0;

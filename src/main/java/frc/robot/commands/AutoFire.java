@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -19,17 +20,18 @@ public class AutoFire extends SequentialCommandGroup {
     ProfiledShooter profiledShoot = new ProfiledShooter(io, Flywheel.PASS_OFF_ANGLE);
     addRequirements(io.intake, io.shooter, io.shooter_light);
     addCommands(
+      new ParallelRaceGroup(profiledShoot,
         new RepeatCommand(
             new SequentialCommandGroup(
-                new PassOff(io),
+                new PassOff(io, true),
 
-                new WaitUntilCommand(() -> io.chassis.distance(io.shooter_light.tagPose()) < (double) DebugTable.get("RampUp Distance", 2.5)), // REPLACE: 2.5
+                new WaitUntilCommand(() -> io.chassis.distance(io.shooter_light.tagPose()) < (double) DebugTable.get("RampUp Distance", 2.0)), // REPLACE: 2.2
                 new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),
 
-                new WaitUntilCommand(() -> io.chassis.distance(io.shooter_light.tagPose()) < (double) DebugTable.get("Angle Setting Distance", 2.5)), // REPLACE: 2.5
+                new WaitUntilCommand(() -> io.chassis.distance(io.shooter_light.tagPose()) < (double) DebugTable.get("Angle Setting Distance", 1.5)), // REPLACE: 2.0
                 new InstantCommand(() -> profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
 
-                new WaitUntilCommand(() -> io.chassis.distance(io.shooter_light.tagPose()) < (double) DebugTable.get("ShootingDistance", 2.5)), // REPLACE: 2.5
+                new WaitUntilCommand(() -> io.chassis.distance(io.shooter_light.tagPose()) < (double) DebugTable.get("Shooting Distance", 1.0)), // REPLACE: 1.5
                 
                 // Shooting
                 new InstantCommand(() -> io.shooter.helperVoltage(12)),
@@ -43,6 +45,6 @@ public class AutoFire extends SequentialCommandGroup {
 
                   io.shooter.helperVoltage(0.0);
                   io.intake.speed(0.0);
-                }))));
+                })))));
   }
 }

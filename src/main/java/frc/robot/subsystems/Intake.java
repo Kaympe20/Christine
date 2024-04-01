@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Intake extends SubsystemBase {
   public CANSparkMax pivot = new CANSparkMax(10, MotorType.kBrushless);
   public TalonFX intake = new TalonFX(11, "rio");
-  public DigitalInput beamBreak = new DigitalInput(0);
+  public DigitalInput beamBreak = new DigitalInput(1);
   public DutyCycleEncoder encoder = new DutyCycleEncoder(2);
   public boolean closed;
 

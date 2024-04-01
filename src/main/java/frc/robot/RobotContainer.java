@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoFire;
-import frc.robot.commands.CloseUpShooting;
 import frc.robot.commands.Score;
 import frc.robot.subsystems.Swerve.DriveConstants;
 import frc.robot.utility.IO;

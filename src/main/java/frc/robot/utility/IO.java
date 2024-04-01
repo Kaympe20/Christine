@@ -34,6 +34,7 @@ public class IO extends SubsystemBase {
         }
 
         public void configGlobal() {
+                profiledShoot.addRequirements(shooter);
                 chassis.setDefaultCommand(new DefaultDrive(this, driveController));
                 shooter.setDefaultCommand(profiledShoot);
 
@@ -52,7 +53,7 @@ public class IO extends SubsystemBase {
                 driveController.x().onTrue(new InstantCommand(profiledShoot::stop));
                 
                 driveController.y().onTrue(new InstantCommand(() -> {
-                        profiledShoot.setAngle(120.0);
+                        profiledShoot.setAngle(190.0);
                         climber.setHangPos(Climber.HANG_UP_POS);
                 }));;
                 driveController.a().onTrue(new InstantCommand(() -> {
@@ -93,7 +94,7 @@ public class IO extends SubsystemBase {
                                         intake.speed(0);
                                         profiledShoot.stop();
                                 }));
-                mechController.rightBumper().onTrue(new InstantCommand(() -> intake.speed(0.5)))
+                mechController.rightBumper().onTrue(new InstantCommand(() -> intake.speed(0.3)))
                                 .onFalse(new InstantCommand(() -> intake.speed(0)));
 
                 mechController.rightTrigger().onTrue(new AmpShooting(this));
@@ -104,10 +105,10 @@ public class IO extends SubsystemBase {
 
                 mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)));
                 mechController.x().onTrue(new InstantCommand(() -> profiledShoot.setAngle(115.0))); // distance
-                mechController.a().onTrue(new PassOff(this));
+                mechController.a().onTrue(new PassOff(this, false));
                 mechController.b().onTrue(new InstantCommand(() -> {
                         profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE);
-                        shooter.flywheelVoltage(-16.0);
+                        shooter.flywheelVoltage(-12.0);
                         shooter.helperVoltage(4.0); // TESTING using smaller voltages for the helper
                 })).onFalse(new InstantCommand(() -> {
                         intake.speed(0);
@@ -122,6 +123,8 @@ public class IO extends SubsystemBase {
         }
 
         public void configTesting() {
+                mechController.leftTrigger().onTrue(new InstantCommand(() -> chassis.setOdometry(new Pose2d(1.2, 5.53, new Rotation2d()))));
+                mechController.rightTrigger().onTrue(new InstantCommand(scheduler::cancelAll));
                 mechController.leftBumper().onTrue(new InstantCommand(() -> shooter.helperVoltage(12)))
                                 .onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
                 mechController.rightBumper().onTrue(new InstantCommand(() -> shooter.flywheelVoltage(-16)))
@@ -130,8 +133,8 @@ public class IO extends SubsystemBase {
                                 .onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
                 mechController.a().onTrue(new InstantCommand(() -> profiledShoot
                                 .setAngle((double) DebugTable.get("Test Angle", Flywheel.PASS_OFF_ANGLE))));
-                mechController.x().onTrue(new InstantCommand(() -> new AutoFire(this, false)));
-                mechController.y().onTrue(new InstantCommand(() -> new AutoFire(this, true)));
+                mechController.x().onTrue(new AutoFire(this, false));
+                mechController.y().onTrue( new AutoFire(this, true));
 
         }
 
