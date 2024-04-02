@@ -33,7 +33,7 @@ public class AmpShooting extends SequentialCommandGroup {
                 new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),
                 new InstantCommand(() -> io.shooter.helperVoltage(6)))),
                 new WaitCommand(0.3),
-                new InstantCommand(() -> profiledShoot.stop()),
+                new InstantCommand(() -> profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
                 new InstantCommand(() -> io.intake.speed(0)),
                 new InstantCommand(() -> io.shooter.flywheelVoltage(0)),
                 new InstantCommand(() -> io.shooter.helperVoltage(0)));

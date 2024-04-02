@@ -53,7 +53,7 @@ public class IO extends SubsystemBase {
                 driveController.x().onTrue(new InstantCommand(profiledShoot::stop));
                 
                 driveController.y().onTrue(new InstantCommand(() -> {
-                        profiledShoot.setAngle(190.0);
+                        profiledShoot.setAngle(115.0);
                         climber.setHangPos(Climber.HANG_UP_POS);
                 }));;
                 driveController.a().onTrue(new InstantCommand(() -> {
@@ -88,8 +88,7 @@ public class IO extends SubsystemBase {
         }
 
         public void configManual() {
-                mechController.leftBumper().onTrue(new InstantCommand(() -> intake.speed(-.5
-                )))
+                mechController.leftBumper().onTrue(new InstantCommand(() -> intake.speed(-.5)))
                                 .onFalse(new InstantCommand(() -> {
                                         intake.speed(0);
                                         profiledShoot.stop();
@@ -108,7 +107,7 @@ public class IO extends SubsystemBase {
                 mechController.a().onTrue(new PassOff(this, false));
                 mechController.b().onTrue(new InstantCommand(() -> {
                         profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE);
-                        shooter.flywheelVoltage(-12.0);
+                        shooter.flywheelVoltage(-14.0);
                         shooter.helperVoltage(4.0); // TESTING using smaller voltages for the helper
                 })).onFalse(new InstantCommand(() -> {
                         intake.speed(0);
@@ -116,11 +115,14 @@ public class IO extends SubsystemBase {
                         shooter.helperVoltage(0);
                 }));
 
-                mechController.povRight().onTrue(new InstantCommand(() -> {}));
-                mechController.povLeft().onTrue(new InstantCommand(() -> {}));
-                mechController.povUp().onTrue(new InstantCommand(() -> {}));
-                mechController.povDown().onTrue(new InstantCommand(() -> {}));
-        }
+                mechController.povDown().onTrue(new ToggleIntake(this));
+                mechController.povUp().onTrue(new InstantCommand(profiledShoot::stop));
+                mechController.povLeft().onTrue(new InstantCommand(() -> intake.speed(-0.5))).onFalse(new InstantCommand(() -> {
+                        intake.speed(0);
+                        profiledShoot.stop();
+                }));
+                mechController.povRight().onTrue(new InstantCommand(() -> profiledShoot.setAngle( (double) DebugTable.get("Test Angle", 75.0))));      
+          }
 
         public void configTesting() {
                 mechController.leftTrigger().onTrue(new InstantCommand(() -> chassis.setOdometry(new Pose2d(1.2, 5.53, new Rotation2d()))));
