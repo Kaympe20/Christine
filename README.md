@@ -1,4 +1,4 @@
-# 2024 Crescendo
+# Christine
 
 This is [The Metal Jackets](https://www.metaljackets.org/) robot code for the 2024 FIRST Robotics Competition, Crescendo.
 
