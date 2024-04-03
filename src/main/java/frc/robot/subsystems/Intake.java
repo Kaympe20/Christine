@@ -20,12 +20,12 @@ public class Intake extends SubsystemBase {
   public DutyCycleEncoder encoder = new DutyCycleEncoder(2);
   public boolean closed;
 
-  public final double closedAngle = 80.0;
+  public final double closedAngle = 150.0;
 
   public Intake() {
     pivot.setIdleMode(IdleMode.kCoast);
     pivot.setSmartCurrentLimit(20);
-    closed = (angle() < closedAngle);
+    closed = (angle() > closedAngle);
   }
 
   public void speed(double speed) {

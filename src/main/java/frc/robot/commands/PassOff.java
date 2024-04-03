@@ -22,7 +22,7 @@ public class PassOff extends SequentialCommandGroup {
                     new SequentialCommandGroup(
                             new IntakeNote(io, auton),
                             new ToggleIntake(io)),
-                    () -> io.intake.closed),
+                    () -> !io.intake.closed),
             new InstantCommand(io.profiledShoot::stop));
     }
 

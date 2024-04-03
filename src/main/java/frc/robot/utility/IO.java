@@ -79,8 +79,7 @@ public class IO extends SubsystemBase {
                 driveController.povDown().onTrue(new InstantCommand(() -> climber.setHangVolts(-6)))
                                 .onFalse(new InstantCommand(() -> climber.setHangVolts(0)));
 
-                // driveController.povDownLeft().onTrue(new
-                // InstantCommand(chassis::resetAbsolute));
+                // driveController.povDownLeft().onTrue(new InstantCommand(chassis::resetAbsolute));
                 // driveController.povUpLeft().onTrue(new InstantCommand(chassis::disable));
                 // driveController.povDownRight().onTrue(new InstantCommand(chassis::enable));
 
@@ -127,10 +126,12 @@ public class IO extends SubsystemBase {
         public void configTesting() {
                 mechController.leftTrigger().onTrue(new InstantCommand(() -> chassis.setOdometry(new Pose2d(1.2, 5.53, new Rotation2d()))));
                 mechController.rightTrigger().onTrue(new InstantCommand(scheduler::cancelAll));
-                mechController.leftBumper().onTrue(new InstantCommand(() -> shooter.helperVoltage(12)))
-                                .onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
-                mechController.rightBumper().onTrue(new InstantCommand(() -> shooter.flywheelVoltage(-16)))
-                                .onFalse(new InstantCommand(() -> shooter.flywheelVoltage(0)));
+
+                mechController.leftBumper().onTrue(new InstantCommand(() -> intake.pivotVoltage(2)))
+                                .onFalse(new InstantCommand(() -> intake.pivotVoltage(0)));
+                mechController.rightBumper().onTrue(new InstantCommand(() -> intake.pivotVoltage(-2)))
+                                .onFalse(new InstantCommand(() -> intake.pivotVoltage(0)));
+                                
                 mechController.b().onTrue(new InstantCommand(() -> shooter.helperVoltage(4)))
                                 .onFalse(new InstantCommand(() -> shooter.helperVoltage(0)));
                 mechController.a().onTrue(new InstantCommand(() -> profiledShoot

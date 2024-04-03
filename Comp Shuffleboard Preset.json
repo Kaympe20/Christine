@@ -444,6 +444,73 @@
               "imageWidth": -1,
               "imageHeight": -1
             }
+          },
+          "11,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Command",
+              "_source0": "network_table:///SmartDashboard/Autonomous",
+              "_title": "Autonomous",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "12,3": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Limelight Distance",
+              "_title": "Limelight Distance",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "6,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Boolean Box",
+              "_source0": "network_table:///SmartDashboard/Flywheel Active",
+              "_title": "Flywheel Active",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Colors/Color when true": "#7CFC00FF",
+              "Colors/Color when false": "#8B0000FF"
+            }
+          },
+          "7,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Hang Pos",
+              "_title": "Hang Pos",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "8,4": {
+            "size": [
+              1,
+              1
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/Elevator Pos",
+              "_title": "Elevator Pos",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
           }
         }
       }
@@ -476,9 +543,9 @@
     }
   ],
   "windowGeometry": {
-    "x": -8.0,
-    "y": -8.0,
-    "width": 1936.0,
-    "height": 1048.0
+    "x": -8.150943756103516,
+    "y": -8.150943756103516,
+    "width": 1936.302001953125,
+    "height": 1048.7547607421875
   }
 }
