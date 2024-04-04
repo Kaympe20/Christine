@@ -140,24 +140,18 @@
                   "_title": "Position Error",
                   "_glyph": 148,
                   "_showGlyph": false
+                },
+                {
+                  "_type": "ComboBox Chooser",
+                  "_source0": "network_table:///SmartDashboard/Autos",
+                  "_title": "Autos",
+                  "_glyph": 148,
+                  "_showGlyph": false
                 }
               ]
             }
           },
           "4,3": {
-            "size": [
-              2,
-              1
-            ],
-            "content": {
-              "_type": "ComboBox Chooser",
-              "_source0": "network_table:///SmartDashboard/Autos",
-              "_title": "Autos",
-              "_glyph": 148,
-              "_showGlyph": false
-            }
-          },
-          "4,4": {
             "size": [
               2,
               1

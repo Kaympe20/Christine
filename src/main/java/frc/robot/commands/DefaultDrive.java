@@ -45,26 +45,26 @@ public class DefaultDrive extends Command {
     @Override
     public void execute() {
         double scale = (double) DebugTable.get("Translation Scale", 1.0);
-        double rot_scale = (double) DebugTable.get("Rotation Scale", 0.6);
+        double rot_scale = (double) DebugTable.get("Rotation Scale", 0.8);
 
         switch(io.chassis.SPEED_TYPE){
             case DriveConstants.TURBO:
             scale = 1.25;
-            rot_scale = (double) DebugTable.get("Rotation Scale", 0.6);
+            rot_scale = (double) DebugTable.get("Rotation Scale", 0.8);
             break;
             
-            case DriveConstants.SLOW:
-            scale = 1.0;
-            rot_scale = .25;
-            break;
+            // case DriveConstants.SLOW:
+            // scale = 1.0;
+            // rot_scale = .25;
+            // break;
         }
 
         // double xSpeed = x_supplier.getAsDouble() * scale;
         // double ySpeed = y_supplier.getAsDouble() * scale;
         // double rotationSpeed = rotation_supplier.getAsDouble() * rot_scale;
 
-        double xSpeed = Math.pow(x_supplier.getAsDouble() * scale, 1.0);
-        double ySpeed = Math.pow(y_supplier.getAsDouble() * scale, 1.0);
+        double xSpeed = Math.pow(x_supplier.getAsDouble() * scale, 3.0);
+        double ySpeed = Math.pow(y_supplier.getAsDouble() * scale, 3.0);
         double rotationSpeed = Math.pow(rotation_supplier.getAsDouble() * rot_scale, 1.0);
 
         
