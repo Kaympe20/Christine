@@ -45,7 +45,7 @@ public class DefaultDrive extends Command {
     @Override
     public void execute() {
         double scale = (double) DebugTable.get("Translation Scale", 1.0);
-        double rot_scale = (double) DebugTable.get("Rotation Scale", 0.8);
+        double rot_scale = (double) DebugTable.get("Rotation Scale", 1.0);
 
         switch(io.chassis.SPEED_TYPE){
             case DriveConstants.TURBO:
@@ -65,7 +65,7 @@ public class DefaultDrive extends Command {
 
         double xSpeed = Math.pow(x_supplier.getAsDouble() * scale, 3.0);
         double ySpeed = Math.pow(y_supplier.getAsDouble() * scale, 3.0);
-        double rotationSpeed = Math.pow(rotation_supplier.getAsDouble() * rot_scale, 1.0);
+        double rotationSpeed = Math.pow(rotation_supplier.getAsDouble() * rot_scale, 3.0);
 
         
         ChassisSpeeds output = new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed);

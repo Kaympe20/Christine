@@ -18,7 +18,7 @@ public class IO extends SubsystemBase {
         final CommandXboxController mechController = new CommandXboxController(1);
 
         public final Swerve chassis = new Swerve();
-        // public final LEDs leds = n ew LEDs();
+        // public final LEDs leds = new LEDs();
         public final Intake intake = new Intake();
         public final Limelight shooter_light = new Limelight("shooter");
         public final Limelight intake_light = new Limelight("intake");

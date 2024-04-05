@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Swerve extends SubsystemBase {
 
-    public static double MAX_VOLTAGE = 12;
+    public static double MAX_VOLTAGE = 16;
     public final double MAX_VELOCITY = 20;
     public int DRIVE_MODE = 0;
     public int SPEED_TYPE = 0;
@@ -191,8 +191,9 @@ public class Swerve extends SubsystemBase {
     }
 
     public void setModuleStates(SwerveModuleState[] states) {
+        SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY);
         for (int i = 0; i < modules.length; i++){
-            modules[i].set((states[i].speedMetersPerSecond / MAX_VELOCITY) * MAX_VOLTAGE, states[i].angle.getRadians());
+            modules[i].set((states[i].speedMetersPerSecond / MAX_VELOCITY), states[i].angle.getRadians());
         }
     }
 
