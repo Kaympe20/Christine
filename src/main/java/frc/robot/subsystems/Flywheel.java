@@ -21,6 +21,7 @@ public class Flywheel extends SubsystemBase {
 
   public static final double PASS_OFF_ANGLE = 55.0; //75
   public static final double AMP = 135.0; //163
+  public static final double PASSING = 75;
 
   public Flywheel() {
     helper.setSmartCurrentLimit(20);

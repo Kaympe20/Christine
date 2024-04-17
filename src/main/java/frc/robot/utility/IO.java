@@ -102,7 +102,8 @@ public class IO extends SubsystemBase {
                 // mechController.start().onTrue(new InstantCommand(climber::resetEncoders));
 
                 mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)));
-                mechController.x().onTrue(new InstantCommand(() -> profiledShoot.setAngle(115.0))); // distance
+                //mechController.x().onTrue(new InstantCommand(() -> profiledShoot.setAngle(115.0))); // distance
+                mechController.x().onTrue(new CloseUpShooting(this, profiledShoot, Flywheel.PASSING)); //passing across field
                 mechController.a().onTrue(new PassOff(this, false));
                 mechController.b().onTrue(new InstantCommand(() -> {
                         profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE);
