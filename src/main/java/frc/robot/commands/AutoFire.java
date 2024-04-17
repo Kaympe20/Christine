@@ -29,9 +29,9 @@ public class AutoFire extends SequentialCommandGroup {
                 new InstantCommand(() -> io.shooter.flywheelVoltage(-16)),
 
                 new WaitUntilCommand(() -> io.chassis.distance(io.shooter_light.tagPose()) < (double) DebugTable.get("Angle Setting Distance", 1.5)), // REPLACE: 2.0
-                new InstantCommand(() -> profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)),
+                new InstantCommand(() -> profiledShoot.setAngle(65)),
 
-                new WaitUntilCommand(() -> io.chassis.distance(io.shooter_light.tagPose()) < (double) DebugTable.get("Shooting Distance", 1.0)), // REPLACE: 1.5
+                new WaitUntilCommand(() -> io.chassis.distance(io.shooter_light.tagPose()) < (double) DebugTable.get("Shooting Distance", 1.3)), // REPLACE: 1.5
                 
                 // Shooting
                 new InstantCommand(() -> io.shooter.helperVoltage(12)),
@@ -45,6 +45,7 @@ public class AutoFire extends SequentialCommandGroup {
 
                   io.shooter.helperVoltage(0.0);
                   io.intake.speed(0.0);
-                })))));
+                })
+                ))));
   }
 }

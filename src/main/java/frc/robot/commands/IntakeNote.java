@@ -29,7 +29,7 @@ public class IntakeNote extends Command {
   @Override
   public void end(boolean interrupted) {
     if (auton)
-    new WaitCommand(.025).andThen(new InstantCommand(() -> io.intake.speed(0))).schedule();
+    new WaitCommand(.03).andThen(new InstantCommand(() -> io.intake.speed(0))).schedule();
     else io.intake.speed(0);
   }
 

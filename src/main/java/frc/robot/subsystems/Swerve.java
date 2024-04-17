@@ -257,7 +257,7 @@ public class Swerve extends SubsystemBase {
 
     public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = 0.25;
-        public static final double kPXController = 20.0;
-        public static final double kPThetaController = 10;
+        public static final double kPXController = 24.0;
+        public static final double kPThetaController = 20.0;
     }
 }
