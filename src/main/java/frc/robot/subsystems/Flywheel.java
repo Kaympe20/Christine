@@ -3,10 +3,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.utility.DebugTable;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class Flywheel extends SubsystemBase {
@@ -15,17 +18,19 @@ public class Flywheel extends SubsystemBase {
   public TalonFX flywheel = new TalonFX(15, "rio");
   public DutyCycleEncoder encoder = new DutyCycleEncoder(4);
   public CANSparkMax helper = new CANSparkMax(12, MotorType.kBrushless);
+  public boolean active;
 
-  public final double PASS_OFF_ANGLE = 67.0; //75
-  public final double AMP = 152.0; //163
+  public static final double PASS_OFF_ANGLE = 55.0; //75
+  public static final double AMP = 135.0; //163
+  public static final double PASSING = (double) DebugTable.get("Passing  Angle", 75.0);
 
   public Flywheel() {
     helper.setSmartCurrentLimit(20);
+    helper.setIdleMode(IdleMode.kCoast);
+    helper.setInverted(true);
     TalonFXConfiguration configs = new TalonFXConfiguration();
-    configs.Slot0.kP = 0.3;
-    configs.Slot0.kI = 0;
-    configs.Slot0.kD = 0.01;
     flywheel.getConfigurator().apply(configs);
+    flywheel.setNeutralMode(NeutralModeValue.Coast);
   }
 
   public double angle() {
@@ -70,6 +75,9 @@ public class Flywheel extends SubsystemBase {
 
   @Override
   public void periodic() {
+    active = angle() != 0;
+    
+    SmartDashboard.putBoolean("Flywheel Active", active);
     SmartDashboard.putNumber("Flywheel Angle", angle());
     SmartDashboard.putNumber("Flywheel RPM", flywheel.getVelocity().getValueAsDouble());
   }

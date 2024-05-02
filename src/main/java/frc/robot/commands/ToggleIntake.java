@@ -22,23 +22,25 @@ public class ToggleIntake extends Command {
 
   @Override
   public void initialize() {
-        origin = (io.intake.angle() < io.intake.closedAngle);
-    io.intake.pivot.setVoltage( MAX_VOLTS * ( origin ? -1 : 1) );
+    origin = (io.intake.angle() > io.intake.closedAngle);
+    io.intake.pivot.setVoltage( MAX_VOLTS * ( origin ? 1 : -1) );
 
   }
 
   @Override
   public void execute() {
-    io.intake.closed = (io.intake.angle() < io.intake.closedAngle);
+    io.intake.closed = (io.intake.angle() > io.intake.closedAngle);
   }
 
   @Override
   public void end(boolean interrupted) {
+    // new WaitCommand(0.1).andThen(new InstantCommand( () -> io.intake.pivotVoltage(0)));
     io.intake.pivotVoltage(0);
   }
 
   @Override
   public boolean isFinished() {
+    // return false;
     return origin != io.intake.closed;
   }
 }

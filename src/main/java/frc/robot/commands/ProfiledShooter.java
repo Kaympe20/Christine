@@ -15,7 +15,7 @@ import frc.robot.utility.IO;
 
 public class ProfiledShooter extends Command {
   public PIDController controller = new PIDController(.1, 0, 0);
-  Constraints constraints = new Constraints(100, 70);
+  Constraints constraints = new Constraints(100, 500);
   TrapezoidProfile profile = new TrapezoidProfile(constraints);
   Timer time = new Timer();
   double targetAngle;
@@ -27,7 +27,7 @@ public class ProfiledShooter extends Command {
     this.io = io;
     targetAngle = init_angle;
     controller.reset();
-    addRequirements(io.shooter);
+    addRequirements();
   }
 
   public void setAngle(double angle) {
@@ -48,7 +48,7 @@ public class ProfiledShooter extends Command {
       State out = profile.calculate(time.get(), new State(io.shooter.angle(), 0.0), new State(targetAngle, 0));
       double output = controller.calculate(io.shooter.angle(), out.position);
 
-    if (!stopped || Math.abs(controller.getPositionError()) < 0.5) {
+    if (!stopped && Math.abs(controller.getPositionError()) > 0.5 && io.shooter.active) {
       SmartDashboard.putNumber("Expected Profile Angle", out.position);
       SmartDashboard.putNumber("Target Shooter Angle", targetAngle);
       SmartDashboard.putNumber("Angle Voltage", output);

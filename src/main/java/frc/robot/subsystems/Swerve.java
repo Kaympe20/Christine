@@ -19,7 +19,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import frc.robot.modules.KrakenSwerveModule;
-import frc.robot.utility.DebugTable;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -29,7 +28,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Swerve extends SubsystemBase {
 
-    public static double MAX_VOLTAGE = (double) DebugTable.get("Max Voltage", 12.0);
+    public static double MAX_VOLTAGE = 16;
     public final double MAX_VELOCITY = 20;
     public int DRIVE_MODE = 0;
     public int SPEED_TYPE = 0;
@@ -101,7 +100,9 @@ public class Swerve extends SubsystemBase {
     }
 
     public double absoluteRotation() {
-        return Math.toRadians(pigeon2.getYaw().getValueAsDouble() % 360);
+        double rotation = pigeon2.getYaw().getValueAsDouble() % 360;
+        rotation += (rotation < 0) ? 360 : 0;
+        return Math.toRadians( rotation);
     }
 
     public void drive(ChassisSpeeds chassisSpeeds) {
@@ -114,6 +115,12 @@ public class Swerve extends SubsystemBase {
 
     public double distance(Pose2d reference_point) {
         Transform2d dist = odometry.getPoseMeters().minus(reference_point);
+        return Math.sqrt((dist.getX() * dist.getX()) + (dist.getY() * dist.getY()));
+    }
+
+    public double distance(double[] reference_point) {
+        var reference_pose = new Pose2d(reference_point[0], reference_point[2], new Rotation2d(reference_point[3]));
+        Transform2d dist = odometry.getPoseMeters().minus(reference_pose);
         return Math.sqrt((dist.getX() * dist.getX()) + (dist.getY() * dist.getY()));
     }
 
@@ -148,7 +155,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
-        pigeon2.setYaw(180);
+        pigeon2.setYaw(0);
         resetPosition();
 
         odometry.resetPosition(rotation(), modulePositions(), pose);
@@ -184,8 +191,9 @@ public class Swerve extends SubsystemBase {
     }
 
     public void setModuleStates(SwerveModuleState[] states) {
+        SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY);
         for (int i = 0; i < modules.length; i++){
-            modules[i].set((states[i].speedMetersPerSecond / MAX_VELOCITY) * MAX_VOLTAGE, states[i].angle.getRadians());
+            modules[i].set((states[i].speedMetersPerSecond / MAX_VELOCITY), states[i].angle.getRadians());
         }
     }
 
@@ -193,11 +201,11 @@ public class Swerve extends SubsystemBase {
         return chassisSpeeds;
     }
 
-    public void activeChassis() {
+    public void enable() {
         active = true;
     }
 
-    public void disableChassis() {
+    public void disable() {
         active = false;
 
         for (KrakenSwerveModule mod : modules)
@@ -206,7 +214,7 @@ public class Swerve extends SubsystemBase {
 
     public void periodic() {
         SwerveModuleState[] states = kinematics.toSwerveModuleStates(chassisSpeeds);
-        if (active)
+        if (active && chassisSpeeds != new ChassisSpeeds())
             setModuleStates(states);
         current_states.set(moduleStates(modules));
         target_states.set(states);
@@ -249,7 +257,7 @@ public class Swerve extends SubsystemBase {
 
     public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = 0.25;
-        public static final double kPXController = 22.0;
-        public static final double kPThetaController = 22.0;
+        public static final double kPXController = 24.0;
+        public static final double kPThetaController = 20.0;
     }
 }

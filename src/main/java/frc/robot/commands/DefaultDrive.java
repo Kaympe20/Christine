@@ -24,9 +24,9 @@ public class DefaultDrive extends Command {
     }
 
     public DefaultDrive(IO io, CommandXboxController controller) {
-        this(io, () -> -modifyAxis(controller.getLeftY()) * io.chassis.MAX_VELOCITY,
-        () -> -modifyAxis(controller.getLeftX()) * io.chassis.MAX_VELOCITY,
-        () -> -modifyAxis(controller.getRightX()) * io.chassis.MAX_VELOCITY);
+        this(io, () -> modifyAxis(controller.getLeftY()) * io.chassis.MAX_VELOCITY,
+        () -> modifyAxis(controller.getLeftX()) * io.chassis.MAX_VELOCITY,
+        () -> modifyAxis(controller.getRightX()) * io.chassis.MAX_VELOCITY);
     }
   
     public DefaultDrive(IO io,
@@ -45,21 +45,28 @@ public class DefaultDrive extends Command {
     @Override
     public void execute() {
         double scale = (double) DebugTable.get("Translation Scale", 1.0);
-        double rot_scale = (double) DebugTable.get("Rotation Scale", 0.6);
+        double rot_scale = (double) DebugTable.get("Rotation Scale", 0.6); //0.65 for Shaan. 0.75 for Tristan.
 
         switch(io.chassis.SPEED_TYPE){
             case DriveConstants.TURBO:
-            scale = 1.0;
+            scale = 1.25;
+            rot_scale = (double) DebugTable.get("Rotation Scale", 0.8);
             break;
             
-            case DriveConstants.SLOW:
-            scale = .25;
-            break;
+            // case DriveConstants.SLOW:
+            // scale = 1.0;
+            // rot_scale = .25;
+            // break;
         }
 
-        double xSpeed = x_supplier.getAsDouble() * scale;
-        double ySpeed = y_supplier.getAsDouble() * scale;
-        double rotationSpeed = rotation_supplier.getAsDouble() * rot_scale;
+        // double xSpeed = x_supplier.getAsDouble() * scale;
+        // double ySpeed = y_supplier.getAsDouble() * scale;
+        // double rotationSpeed = rotation_supplier.getAsDouble() * rot_scale;
+
+        double xSpeed = Math.pow(x_supplier.getAsDouble() * scale, 3.0);
+        double ySpeed = Math.pow(y_supplier.getAsDouble() * scale, 3.0);
+        double rotationSpeed = Math.pow(rotation_supplier.getAsDouble() * rot_scale, 3.0);
+
         
         ChassisSpeeds output = new ChassisSpeeds(xSpeed, ySpeed, rotationSpeed);
 
@@ -72,14 +79,14 @@ public class DefaultDrive extends Command {
             break;
             
             case 2: // Fixed-Point Tracking
-            adjustmentAngle = io.chassis.pose().getRotation().plus(new Rotation2d(io.limelight.targetData().horizontalOffset));
+            adjustmentAngle = io.chassis.pose().getRotation().plus(new Rotation2d(io.shooter_light.targetData().horizontalOffset));
             tr = new Translation2d(xSpeed, ySpeed).rotateBy(adjustmentAngle.unaryMinus());
             output = new ChassisSpeeds(tr.getX(), tr.getY(), rotationSpeed);
             break;
 
             case 3: // Fixed Alignment
             Pose2d pose = io.chassis.pose();
-            adjustmentAngle = pose.getRotation().plus(new Rotation2d(io.limelight.targetData().horizontalOffset));
+            adjustmentAngle = pose.getRotation().plus(new Rotation2d(io.shooter_light.targetData().horizontalOffset));
             tr = new Translation2d(0, xSpeed).rotateBy(adjustmentAngle.unaryMinus());
             output = new ChassisSpeeds(tr.getX(), tr.getY(), 0);
             break;
@@ -100,7 +107,7 @@ public class DefaultDrive extends Command {
     }
 
     private static double modifyAxis(double value) {
-        value = deadband(value, 0.1); // Deadband
+        value = deadband(value, 0.0); // Deadband
         value = Math.copySign(value * value, value); // Square the axis
         return value;
     }

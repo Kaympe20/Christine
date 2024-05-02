@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2,
-      "y": 5.533460371111301
+      "x": 1.35,
+      "y": 5.53
     },
     "rotation": 180.0
   },
@@ -22,24 +22,37 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "pickup"
-                }
-              },
-              {
                 "type": "path",
                 "data": {
                   "pathName": "Naz 2.0"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ramped pickup"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "score"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Naz Pt2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "pickup"
+                }
+              }
+            ]
           }
         }
       ]

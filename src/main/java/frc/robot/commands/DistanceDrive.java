@@ -16,7 +16,7 @@ public class DistanceDrive extends Command {
   public DistanceDrive(IO io, double distance) {
     this.io = io;
     this.distance = distance;
-    addRequirements(io.chassis, io.limelight);
+    addRequirements(io.chassis, io.shooter_light);
   }
 
   @Override
@@ -34,6 +34,6 @@ public class DistanceDrive extends Command {
 
   @Override
   public boolean isFinished() {
-    return io.limelight.distance() < distance;
+    return io.shooter_light.distance() < distance;
   }
 }

@@ -11,29 +11,32 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 public class Aimbot extends PIDCommand {
   
-  public static double AimbotSpeed = 0.5; // TODO: PLACEHOLDER
+  public static double aimbotSpeed = 0.5; // TODO: PLACEHOLDER
   public static double minimumAdjustment = 2.5; // TODO: PLACEHOLDER
 
   public static final double DRIVE_MAX_VELOCITY_METERS_PER_SECOND = 0.5;
-  public static final double DRIVE_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = 0.2;
 
   IO io;
 
-  public Aimbot(IO io) {
+  public Aimbot(IO io, boolean translational) {
     super(
         new PIDController(1, 0, 0), // TODO: PLACEHOLDER
-        () -> io.limelight.targetData().horizontalOffset,
+        () -> io.shooter_light.targetData().horizontalOffset,
         () -> 0,
         output -> {
-          io.chassis.drive(new ChassisSpeeds(0, 0, output * AimbotSpeed * DRIVE_MAX_VELOCITY_METERS_PER_SECOND));
+          if (translational) {
+            io.chassis.drive(new ChassisSpeeds(0, output * aimbotSpeed * DRIVE_MAX_VELOCITY_METERS_PER_SECOND, 0));
+          } else {
+            io.chassis.drive(new ChassisSpeeds(0, 0, output * aimbotSpeed * DRIVE_MAX_VELOCITY_METERS_PER_SECOND));
+          }
         });
         this.io = io;
-        addRequirements(io.chassis, io.limelight);
+        addRequirements(io.chassis, io.shooter_light);
   }
 
   @Override
   public boolean isFinished() {
-    return Math.abs(getController().getPositionError()) < minimumAdjustment || io.limelight.targetData().hasTargets;
+    return Math.abs(getController().getPositionError()) < minimumAdjustment || io.shooter_light.targetData().hasTargets;
   }
 
   @Override

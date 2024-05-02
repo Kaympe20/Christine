@@ -11,7 +11,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+// import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,12 +22,17 @@ public class Limelight extends SubsystemBase {
   public final static double LIMELIGHT_ANGLE = 28; // TODO: Measure and note the angle in degrees
 
   public ShuffleboardTab tab = Shuffleboard.getTab("Targeting");
+    public NetworkTable table;
 
-  public Limelight() {
+    public String host;
+
+  public Limelight(String host) {
+    this.host = host;
+    table = NetworkTableInstance.getDefault().getTable("limelight-" + host);
     setLedMode(0);
     setStreamMode(0);
-    tab.addDouble("Distance", this::distance);
-    tab.addDouble("Vertical Offset", () -> targetData.verticalOffset);
+    tab.addDouble(host+" Distance", this::distance);
+    tab.addDouble(host+ " Vertical Offset", () -> targetData.verticalOffset);
   }
 
   public class TargetData {
@@ -45,17 +50,17 @@ public class Limelight extends SubsystemBase {
 
   private TargetData targetData = new TargetData();
 
-  public NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   StructPublisher<Pose2d> posePublisher = NetworkTableInstance.getDefault().getTable("Simulating").getStructTopic("EstimatedPose", Pose2d.struct).publish();
 
   @Override
   public void periodic() {
-    SmartDashboard.putString("Stream Mode", (streamMode() == 0) ? "Main" : "Secondary");
+    SmartDashboard.putString(host + "Stream Mode", (streamMode() == 0) ? "Main" : "Secondary");
     updateTargetData(table);
     
     posePublisher.set(poseEstimation(new Rotation2d(0)));
     
-    SmartDashboard.putNumberArray("TargetPose", tagPose());
+    SmartDashboard.putNumberArray(host+ " TargetPose", tagPose());
+    SmartDashboard.putNumber("Limelight Distance", distance());
   }
 
   private void updateTargetData(NetworkTable table) {
@@ -133,10 +138,6 @@ public class Limelight extends SubsystemBase {
 
   public int streamMode() {
     return (int) table.getEntry("stream").getDouble(0.0);
-  }
-
-  public double[] botpose() {
-    return table.getEntry("stream").getDoubleArray(new double[] {-1,-1,-1, -1,-1,-1});
   }
 
   public int tagID() {
