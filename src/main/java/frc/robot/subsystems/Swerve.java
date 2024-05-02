@@ -155,7 +155,7 @@ public class Swerve extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
-        pigeon2.setYaw(180);
+        pigeon2.setYaw(0);
         resetPosition();
 
         odometry.resetPosition(rotation(), modulePositions(), pose);

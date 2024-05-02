@@ -24,9 +24,9 @@ public class DefaultDrive extends Command {
     }
 
     public DefaultDrive(IO io, CommandXboxController controller) {
-        this(io, () -> -modifyAxis(controller.getLeftY()) * io.chassis.MAX_VELOCITY,
-        () -> -modifyAxis(controller.getLeftX()) * io.chassis.MAX_VELOCITY,
-        () -> -modifyAxis(controller.getRightX()) * io.chassis.MAX_VELOCITY);
+        this(io, () -> modifyAxis(controller.getLeftY()) * io.chassis.MAX_VELOCITY,
+        () -> modifyAxis(controller.getLeftX()) * io.chassis.MAX_VELOCITY,
+        () -> modifyAxis(controller.getRightX()) * io.chassis.MAX_VELOCITY);
     }
   
     public DefaultDrive(IO io,
@@ -45,7 +45,7 @@ public class DefaultDrive extends Command {
     @Override
     public void execute() {
         double scale = (double) DebugTable.get("Translation Scale", 1.0);
-        double rot_scale = (double) DebugTable.get("Rotation Scale", 1.0);
+        double rot_scale = (double) DebugTable.get("Rotation Scale", 0.6); //0.65 for Shaan. 0.75 for Tristan.
 
         switch(io.chassis.SPEED_TYPE){
             case DriveConstants.TURBO:

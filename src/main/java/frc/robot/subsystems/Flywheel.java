@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.utility.DebugTable;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -21,7 +22,7 @@ public class Flywheel extends SubsystemBase {
 
   public static final double PASS_OFF_ANGLE = 55.0; //75
   public static final double AMP = 135.0; //163
-  public static final double PASSING = 75;
+  public static final double PASSING = (double) DebugTable.get("Passing  Angle", 75.0);
 
   public Flywheel() {
     helper.setSmartCurrentLimit(20);

@@ -21,7 +21,6 @@ public class IO extends SubsystemBase {
         // public final LEDs leds = new LEDs();
         public final Intake intake = new Intake();
         public final Limelight shooter_light = new Limelight("shooter");
-        public final Limelight intake_light = new Limelight("intake");
         public final Flywheel shooter = new Flywheel();
         public final Climber climber = new Climber();
         public final ProfiledShooter profiledShoot = new ProfiledShooter(this, 64);
@@ -102,10 +101,20 @@ public class IO extends SubsystemBase {
                 // mechController.start().onTrue(new InstantCommand(climber::resetEncoders));
 
                 mechController.y().onTrue(new InstantCommand(() -> profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE)));
-                //mechController.x().onTrue(new InstantCommand(() -> profiledShoot.setAngle(115.0))); // distance
-                mechController.x().onTrue(new CloseUpShooting(this, profiledShoot, Flywheel.PASSING)); //passing across field
+
+                mechController.x().onTrue(new InstantCommand(() -> { //passing
+                        profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE);
+                        shooter.flywheelVoltage(-16.0);
+                        shooter.helperVoltage(12.0);
+                })).onFalse(new InstantCommand(() -> {
+                        intake.speed(0);
+                        shooter.flywheelVoltage(0);
+                        shooter.helperVoltage(0);
+                }));
+
                 mechController.a().onTrue(new PassOff(this, false));
-                mechController.b().onTrue(new InstantCommand(() -> {
+                
+                mechController.b().onTrue(new InstantCommand(() -> { //shooting
                         profiledShoot.setAngle(Flywheel.PASS_OFF_ANGLE);
                         shooter.flywheelVoltage(-14.0);
                         shooter.helperVoltage(4.0); // TESTING using smaller voltages for the helper

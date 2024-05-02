@@ -37,12 +37,12 @@ public class AdaptivePath extends Command {
     paths[0].schedule();
 
     for (int i = 1; i <= paths.length; i = i + 1) {
-      if (io.intake_light.targetData().hasTargets) {
-        paths[i].schedule();
-      }
-      else {
-        skipPaths[i-1].schedule();
-      }
+      // if (io.intake_light.targetData().hasTargets) {
+      //   paths[i].schedule();
+      // }
+      // else {
+      //   skipPaths[i-1].schedule();
+      // }
     }
   }
 
