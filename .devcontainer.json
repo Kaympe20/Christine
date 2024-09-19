@@ -13,6 +13,15 @@
 		},
 		"ghcr.io/devcontainers/features/git-lfs:1": {},
 		"ghcr.io/devcontainers/features/github-cli:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"vscjava.vscode-java-pack",
+				"vscode-icons-team.vscode-icons",
+				"wpilibsuite.vscode-wpilib"
+			]
+		}
 	}
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
